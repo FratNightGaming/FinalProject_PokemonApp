@@ -4,7 +4,7 @@
 <br><br>
 
 
-<button (click)="GetPokemonDetails(pokemonID)">Click for Pokemon Details</button>
+<button (click)="GetPokemonDetails(pokemonID); GetPokemonGenerationID(pokemonID)">Click for Pokemon Details</button>
 
 <div>
     <p>Pokemon Name: {{currentPokemon.name}}</p>
@@ -19,8 +19,7 @@
 
     <p>Pokemon Original Game: {{currentPokemon.game_indices[0].version.name}}</p>
 
-    <!-- <p>Pokemon Generation: {{currentPokemon.name}}</p>
-    <p>Pokemon Image: {{currentPokemon.name}}</p> -->
+    <p>Pokemon Generation: {{pokemonGenerationID}}</p>
 
     <p>Pokemon Image: 
         <img src={{currentPokemon.sprites.front_default}} alt="">

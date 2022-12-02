@@ -14,16 +14,6 @@
         public string url { get; set; }
     }
 
-
-
-    /*public class Result
-    {
-        public int count { get; set; }
-        public string next { get; set; }
-        public object previous { get; set; }
-        public Pokemon[] results { get; set; }
-    }*/
-
     public class PokemonDetails
     {
         public string url { get; set; }
