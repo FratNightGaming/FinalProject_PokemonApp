@@ -1,0 +1,20 @@
+import { HttpClient } from '@angular/common/http';
+import { Inject, inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { PokemonDetails } from './PokemonDetails';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class PokemonDetailsService {
+
+  baseURL: string = "";
+
+  constructor(private http:HttpClient, @Inject ("BASE_URL") private url:string) { }
+
+  GetPokemonDetails(index: number):Observable<PokemonDetails>
+  {
+    console.log(`The base URL is: ${this.baseURL}`);
+    return this.http.get<PokemonDetails>(`${this.baseURL}api/Pokemon/${index}`);
+  }
+}

@@ -1,0 +1,21 @@
+<p>user works!</p>
+
+
+<p>HELLLOOO</p>
+<button (click)="GetAllUsers()">Click for all users</button>
+<br>
+
+<div *ngFor="let u of users">
+    <p>Id: {{u.id}}</p>
+    <p>Username: {{u.userName}}</p>
+</div>
+
+<br>
+
+<button (click)="GetCurrentUser(1)">Click for current user</button>
+<br>
+
+<div>
+    <p>Id: {{currentUser.id}}</p>
+    <p>Username: {{currentUser.userName}}</p>
+</div>
