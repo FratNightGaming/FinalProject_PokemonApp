@@ -1,7 +1,32 @@
 ﻿namespace FinalProject.Models
 {
+    public class Results
+    {
+        public int count { get; set; }
+        //public string next { get; set; }
+        //public object previous { get; set; }
+        public Pokemon[] results { get; set; }
+    }
+
     public class Pokemon
     {
+        public string name { get; set; }
+        public string url { get; set; }
+    }
+
+
+
+    /*public class Result
+    {
+        public int count { get; set; }
+        public string next { get; set; }
+        public object previous { get; set; }
+        public Pokemon[] results { get; set; }
+    }*/
+
+    public class PokemonDetails
+    {
+        public string url { get; set; }
         public Ability[] abilities { get; set; }
         public int base_experience { get; set; }
         public Form[] forms { get; set; }

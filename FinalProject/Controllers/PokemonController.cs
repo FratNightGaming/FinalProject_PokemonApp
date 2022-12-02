@@ -10,39 +10,23 @@ namespace FinalProject.Controllers
     public class PokemonController : ControllerBase
     {
         PokemonDAL pokeDAL = new PokemonDAL();
-        
-        // GET: api/<PokemonController>
-        [HttpGet]
-        /*public Pokemon GetPokemon(string name)
-        {
-            //return new string[] { "value1", "value2" };
-        }*/
 
-        // GET api/<PokemonController>/5
-        [HttpGet("{name}")]
-        public Pokemon GetPokemonByName(string name)
+        // GET: api/<PokemonController>
+        [HttpGet()]
+        public Pokemon [] GetAllPokemon()
         {
-            Pokemon pokemon = pokeDAL.GetPokemon(name);
-            Console.WriteLine(pokemon.name);
+            Pokemon [] pokemon = pokeDAL.GetAllPokemon();
             return pokemon;
         }
 
-        // POST api/<PokemonController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        // GET api/<PokemonController>/5
+        [HttpGet("{id}")]
+        public PokemonDetails GetPokemonByID(int id)
         {
+            PokemonDetails pokemonDetails = pokeDAL.GetPokemonDetails(id);
+            return pokemonDetails;
         }
 
-        // PUT api/<PokemonController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<PokemonController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        
     }
 }
