@@ -16,7 +16,6 @@
 
     public class PokemonDetails
     {
-        public string url { get; set; }
         public Ability[] abilities { get; set; }
         public int base_experience { get; set; }
         public Form[] forms { get; set; }

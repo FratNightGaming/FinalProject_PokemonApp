@@ -27,6 +27,27 @@ namespace FinalProject.Controllers
             return await _context.PokemonRankings.ToListAsync();
         }
 
+
+        //CHANGE TO USERID, but we can test first with just user
+        //How to do this logic with a for loop and no linq?
+
+        // GET: api/PokemonRankings/user
+        [HttpGet("{user}")]
+        public async Task<ActionResult<IEnumerable<PokemonRanking>>> GetPokemonRankingsByUser(User user)
+        {
+            List<PokemonRanking> pokemonRankingsByUser = _context.PokemonRankings.Where(ranking => ranking.UserId == user.Id).ToList();
+            return pokemonRankingsByUser;
+        }
+
+        // GET: api/PokemonRankings/user/type
+        [HttpGet("{user}")]
+        public async Task<ActionResult<IEnumerable<PokemonRanking>>> GetPokemonRankingsByUser(User user, string type)
+        {
+            List<PokemonRanking> pokemonRankingsByUser = _context.PokemonRankings.Where(ranking => ranking.UserId == user.Id).ToList();
+            return pokemonRankingsByUser;
+        }
+
+
         // GET: api/PokemonRankings/5
         [HttpGet("{id}")]
         public async Task<ActionResult<PokemonRanking>> GetPokemonRanking(int id)
@@ -42,7 +63,6 @@ namespace FinalProject.Controllers
         }
 
         // PUT: api/PokemonRankings/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPokemonRanking(int id, PokemonRanking pokemonRanking)
         {
@@ -73,7 +93,6 @@ namespace FinalProject.Controllers
         }
 
         // POST: api/PokemonRankings
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<PokemonRanking>> PostPokemonRanking(PokemonRanking pokemonRanking)
         {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { PokemonDetailsService } from '../pokemon-details.service';
-import { PokemonDetails } from '../PokemonDetails';
+import { PokemonDetailsService } from '../Services/pokemon-details.service';
+import { PokemonDetails } from '../Models/PokemonDetails';
 
 @Component({
   selector: 'app-pokemon-details',
@@ -26,7 +26,8 @@ export class PokemonDetailsComponent implements OnInit {
     this.pokemonDetailsService.GetPokemonDetails(index).subscribe((result: PokemonDetails) =>
     {
       this.currentPokemon = result;
-      console.log(result)
+      console.log(result);
+      console.log(this.currentPokemon.sprites.front_default);
     });
   }
 

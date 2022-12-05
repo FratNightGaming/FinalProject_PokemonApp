@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PokemonDetails } from './PokemonDetails';
+import { PokemonDetails } from '../Models/PokemonDetails';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,10 @@ export class PokemonDetailsService {
 
   baseURL: string = "";
 
-  constructor(private http:HttpClient, @Inject ("BASE_URL") private url:string) { }
+  constructor(private http:HttpClient, @Inject ("BASE_URL") private url:string) 
+  {
+    this.baseURL = url;
+  }
 
   GetPokemonDetails(index: number):Observable<PokemonDetails>
   {

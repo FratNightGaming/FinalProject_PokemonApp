@@ -14,13 +14,17 @@
     <p>Pokemon ID: {{currentPokemon.id}}</p>
 
     <!-- for loop for types -->
-    <p>Pokemon Type/Types: {{currentPokemon.types[0].type.name}}</p>
+    <p>Pokemon Type 1: {{currentPokemon.types[0].type.name}}</p>
+    <p *ngIf="currentPokemon.types.length === 2">Pokemon Type 2: {{currentPokemon.types[1].type.name}}</p>
+
     <br>
 
-    <p>Pokemon Original Game: {{currentPokemon.game_indices[0].version.name}}</p>
-
+    <div *ngIf="currentPokemon.game_indices.length > 0 ">
+        <p >Pokemon Original Game: {{currentPokemon.game_indices[0].version.name}}</p>
+    </div>
+    
     <p>Pokemon Generation: {{pokemonGenerationID}}</p>
-
+    
     <p>Pokemon Image: 
         <img src={{currentPokemon.sprites.front_default}} alt="">
     </p>
