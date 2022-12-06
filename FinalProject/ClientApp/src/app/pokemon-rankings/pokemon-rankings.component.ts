@@ -11,6 +11,16 @@ import { PokemonRankingsService } from '../Services/pokemon-rankings.service';
 export class PokemonRankingsComponent implements OnInit {
 
   pokemonRankings: PokemonRanking[] =[];
+  pokemonRankingsByCurrentUser: PokemonRanking[] =[];
+  pokemonRankingsByType: PokemonRanking[] =[];
+
+  filteredByType: string = "";
+  filteredByGeneration: number = 0;
+  filteredByCriteria: string = "";
+
+
+  userID : number = 0;
+
   currentUser : User = {} as User;
 
   constructor(private pokemonRankingsService:PokemonRankingsService) { }
@@ -30,11 +40,23 @@ export class PokemonRankingsComponent implements OnInit {
   }
 
   
-  GetUserForEachRanking(rankings: PokemonRanking[]):void
+  GetPokemonRankingsByUser(id : number):void
   {
-    for (let i = 0; i < rankings.length; i++)
+    this.pokemonRankingsService.GetPokemonRankingsByUser(id).subscribe((results : PokemonRanking[]) =>
     {
-
+      console.log(results);
+      this.pokemonRankingsByCurrentUser = results;
     }
+    )
+  }
+
+  GetPokemonRankingsByType(id: number, type:string):void
+  {
+    this.pokemonRankingsService.GetPokemonRankingsByType(id, type).subscribe((results : PokemonRanking[]) =>
+    {
+      console.log(results);
+      this.pokemonRankingsByType = results;
+    }
+    )
   }
 }

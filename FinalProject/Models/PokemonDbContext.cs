@@ -34,7 +34,7 @@ public partial class PokemonDbContext : DbContext
             entity.HasKey(e => e.Id).HasName("PK__PokemonR__3214EC07AAA1B012");
 
             entity.Property(e => e.Criteria).HasMaxLength(25);
-            entity.Property(e => e.PokemonApiid).HasColumnName("PokemonAPIID");
+            entity.Property(e => e.PokemonApiId).HasColumnName("PokemonAPIID");
 
             entity.HasOne(d => d.User).WithMany(p => p.PokemonRankings)
                 .HasForeignKey(d => d.UserId)

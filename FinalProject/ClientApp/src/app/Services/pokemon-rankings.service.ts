@@ -18,4 +18,14 @@ export class PokemonRankingsService {
     console.log(`The base url is: ${this.baseURL}`)
     return this.http.get<PokemonRanking[]>(this.baseURL + `api/PokemonRankings`);
   }
+
+  GetPokemonRankingsByUser(id : number): Observable<PokemonRanking[]>
+  {
+    return this.http.get<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/User/${id}`);
+  }
+
+  GetPokemonRankingsByType(userID:number, type: string): Observable<PokemonRanking[]>
+  {
+    return this.http.get<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/User/${userID}/Type/${type}`);
+  }
 }
