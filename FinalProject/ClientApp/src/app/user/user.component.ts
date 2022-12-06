@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../user';
-import { UserService } from '../user.service';
+import { User } from '../Models/user';
+import { UserService } from '../Services/user.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
