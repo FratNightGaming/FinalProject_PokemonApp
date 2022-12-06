@@ -10,6 +10,7 @@ namespace FinalProject.Controllers
     {
         private readonly PokemonDbContext _context;
         PokemonDAL pokeDAL = new PokemonDAL();
+        HelperMethods helperMethods = new HelperMethods();
 
         public List<PokemonRanking> AllPokemonRankingsList;
         public List<User> AllUsersList;
@@ -29,9 +30,13 @@ namespace FinalProject.Controllers
 
         // GET: api/PokemonRankings
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PokemonRanking>>> GetPokemonRankings()
+        public ActionResult<IEnumerable<PokemonRanking>> GetPokemonRankings()
         {
-            return await _context.PokemonRankings.ToListAsync();
+            return helperMethods.FilteredByRank(AllPokemonRankingsList);
+
+
+
+            //return await _context.PokemonRankings.ToListAsync();
         }
 
 
@@ -43,7 +48,8 @@ namespace FinalProject.Controllers
         public List<PokemonRanking> GetPokemonRankingsByUser(int id)
         {
             List<PokemonRanking> pokemonRankingsByUser = AllPokemonRankingsList.Where(ranking => ranking.UserId == id).ToList();
-            return pokemonRankingsByUser;
+            
+            return helperMethods.FilteredByRank(pokemonRankingsByUser);
         }
 
         //GET: api/PokemonRankings/user/type
@@ -57,7 +63,7 @@ namespace FinalProject.Controllers
 
             for (int i = 0; i < pokemonRankingsByUser.Count; i++)
             {
-                PokemonDetails pokeDetails = pokeDAL.GetPokemonDetails((int)pokemonRankingsByUser[i].PokemonApiId);
+                PokemonDetails pokeDetails = pokeDAL.GetPokemonDetails((int)pokemonRankingsByUser[i].PokemonApiid);
 
                 if (pokeDetails.types.Length == 1)
                 {
@@ -98,9 +104,9 @@ namespace FinalProject.Controllers
 
             for (int i = 0; i < pokemonRankingsByUser.Count; i++)
             {
-                PokemonDetails pokeDetails = pokeDAL.GetPokemonDetails((int)pokemonRankingsByUser[i].PokemonApiId);
+                PokemonDetails pokeDetails = pokeDAL.GetPokemonDetails((int)pokemonRankingsByUser[i].PokemonApiid);
 
-                if (pokeDetails.GetPokemonGenerationID((int)pokemonRankingsByUser[i].PokemonApiId) == generationID)
+                if (helperMethods.GetPokemonGenerationID((int)pokemonRankingsByUser[i].PokemonApiid) == generationID)
                 {
                     pokemonRankingsByGeneration.Add(pokemonRankingsByUser[i]);
                 }

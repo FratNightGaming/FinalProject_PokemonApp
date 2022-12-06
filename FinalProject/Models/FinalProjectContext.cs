@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FinalProject.Models;
 
-public partial class PokemonDbContext : DbContext
+public partial class FinalProjectContext : DbContext
 {
-    public PokemonDbContext()
+    public FinalProjectContext()
     {
     }
 
-    public PokemonDbContext(DbContextOptions<PokemonDbContext> options)
+    public FinalProjectContext(DbContextOptions<FinalProjectContext> options)
         : base(options)
     {
     }
@@ -20,29 +20,25 @@ public partial class PokemonDbContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer
-
-        ("Server = tcp:finalproject2022.database.windows.net, 1433; Initial Catalog = FinalProject; Persist Security Info=False;User ID = FinalProject; Password=Pokemon2022!; MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout = 30;");
-        //("Server=.\\SQLExpress;Database=PokemonDB;Trusted_Connection=True;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Server = tcp:finalproject2022.database.windows.net, 1433; Initial Catalog = FinalProject; Persist Security Info=False;User ID = FinalProject; Password=Pokemon2022!; MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout = 30;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<PokemonRanking>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__PokemonR__3214EC07AAA1B012");
+            entity.HasKey(e => e.Id).HasName("PK__PokemonR__3214EC07FFFB191C");
 
             entity.Property(e => e.PokemonApiid).HasColumnName("PokemonAPIID");
 
             entity.HasOne(d => d.User).WithMany(p => p.PokemonRankings)
                 .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK__PokemonRa__UserI__38996AB5");
+                .HasConstraintName("FK__PokemonRa__UserI__5EBF139D");
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Users__3214EC274D57017D");
+            entity.HasKey(e => e.Id).HasName("PK__Users__3214EC27577D9028");
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.UserName).HasMaxLength(30);
