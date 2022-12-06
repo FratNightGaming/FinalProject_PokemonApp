@@ -43,7 +43,7 @@ export class PokemonRankingsComponent implements OnInit {
 
       for (let i = 0; i < this.pokemonRankings.length; i++)
       {
-        this.pokemonService.GetPokemonDetails(this.pokemonRankings[i].pokemonApiId).subscribe((result:PokemonDetails) =>
+        this.pokemonService.GetPokemonDetails(this.pokemonRankings[i].pokemonApiid).subscribe((result:PokemonDetails) =>
         {
           this.pokemonRankings[i].name = result.name;
         });
