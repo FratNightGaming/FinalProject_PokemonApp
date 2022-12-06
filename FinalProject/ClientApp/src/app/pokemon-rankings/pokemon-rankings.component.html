@@ -3,7 +3,8 @@
 <div *ngFor="let ranking of pokemonRankings">
     <p>User: {{ranking.user}}</p>
     <p>Ranking: {{ranking.userRank}}</p>
-    <p>PokemonID: {{ranking.pokemonApiId}}</p>
+    <p>Pokemon Name: {{ranking.name}}</p>
+    <p>PokemonID: {{ranking.pokemonApiid}}</p>
     <p>Criteria: {{ranking.criteria}}</p>
 </div>
 
@@ -19,7 +20,7 @@
 
 <div *ngFor="let ranking of pokemonRankingsByCurrentUser">
     <p>Ranking: {{ranking.userRank}}</p>
-    <p>PokemonID: {{ranking.pokemonApiId}}</p>
+    <p>PokemonID: {{ranking.pokemonApiid}}</p>
     <p>Criteria: {{ranking.criteria}}</p>
 </div>
 
@@ -55,7 +56,7 @@
 
 <div *ngFor="let ranking of pokemonRankingsByType">
     <p>Ranking: {{ranking.userRank}}</p>
-    <p>PokemonID: {{ranking.pokemonApiId}}</p>
+    <p>PokemonID: {{ranking.pokemonApiid}}</p>
     <p>Criteria: {{ranking.criteria}}</p>
 
 </div>

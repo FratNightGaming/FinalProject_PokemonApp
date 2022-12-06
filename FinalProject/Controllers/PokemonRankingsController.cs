@@ -10,12 +10,18 @@ namespace FinalProject.Controllers
     {
         private readonly PokemonDbContext _context;
         PokemonDAL pokeDAL = new PokemonDAL();
+        HelperMethods helperMethods = new HelperMethods();
 
-
+        public List<PokemonRanking> AllPokemonRankingsList;
+        public List<User> AllUsersList;
+        public List<Pokemon> allPokemonList;
 
         public PokemonRankingsController(PokemonDbContext context)
         {
             _context = context;
+            AllPokemonRankingsList = _context.PokemonRankings.ToList();
+            AllUsersList = _context.Users.ToList();
+            allPokemonList = pokeDAL.GetAllPokemon().ToList();
         }
         //why cant we access the variable _context?
         //list<pokemonranking> pokemonrankingsall = _context.pokemonrankings.tolist();
@@ -24,9 +30,13 @@ namespace FinalProject.Controllers
 
         // GET: api/PokemonRankings
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PokemonRanking>>> GetPokemonRankings()
+        public ActionResult<IEnumerable<PokemonRanking>> GetPokemonRankings()
         {
-            return await _context.PokemonRankings.ToListAsync();
+            return helperMethods.FilteredByRank(AllPokemonRankingsList);
+
+
+
+            //return await _context.PokemonRankings.ToListAsync();
         }
 
 
@@ -37,8 +47,9 @@ namespace FinalProject.Controllers
         [HttpGet("User/{id}")]
         public List<PokemonRanking> GetPokemonRankingsByUser(int id)
         {
-            List<PokemonRanking> pokemonRankingsByUser = _context.PokemonRankings.Where(ranking => ranking.UserId == id).ToList();
-            return pokemonRankingsByUser;
+            List<PokemonRanking> pokemonRankingsByUser = AllPokemonRankingsList.Where(ranking => ranking.UserId == id).ToList();
+            
+            return helperMethods.FilteredByRank(pokemonRankingsByUser);
         }
 
         //GET: api/PokemonRankings/user/type
@@ -52,7 +63,7 @@ namespace FinalProject.Controllers
 
             for (int i = 0; i < pokemonRankingsByUser.Count; i++)
             {
-                PokemonDetails pokeDetails = pokeDAL.GetPokemonDetails((int)pokemonRankingsByUser[i].PokemonApiId);
+                PokemonDetails pokeDetails = pokeDAL.GetPokemonDetails((int)pokemonRankingsByUser[i].PokemonApiid);
 
                 if (pokeDetails.types.Length == 1)
                 {
@@ -93,9 +104,9 @@ namespace FinalProject.Controllers
 
             for (int i = 0; i < pokemonRankingsByUser.Count; i++)
             {
-                PokemonDetails pokeDetails = pokeDAL.GetPokemonDetails((int)pokemonRankingsByUser[i].PokemonApiId);
+                PokemonDetails pokeDetails = pokeDAL.GetPokemonDetails((int)pokemonRankingsByUser[i].PokemonApiid);
 
-                if (pokeDetails.GetPokemonGenerationID((int)pokemonRankingsByUser[i].PokemonApiId) == generationID)
+                if (helperMethods.GetPokemonGenerationID((int)pokemonRankingsByUser[i].PokemonApiid) == generationID)
                 {
                     pokemonRankingsByGeneration.Add(pokemonRankingsByUser[i]);
                 }

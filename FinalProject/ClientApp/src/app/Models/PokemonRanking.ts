@@ -6,8 +6,9 @@ export interface PokemonRanking
     id:           number;
     userId:       number;
     userRank:     number;
-    pokemonApiId: number;
+    pokemonApiid: number;
     criteria:     string;
+    name: string;
     //why is user necessary if we have access to userID? At same time, how do I display user information?
     user:         User;
 

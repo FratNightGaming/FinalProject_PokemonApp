@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { PokemonDetails } from '../Models/PokemonDetails';
 import { PokemonRanking } from '../Models/PokemonRanking';
 import { User } from '../Models/user';
+import { PokemonDetailsService } from '../Services/pokemon-details.service';
 import { PokemonRankingsService } from '../Services/pokemon-rankings.service';
 
 @Component({
@@ -18,12 +20,14 @@ export class PokemonRankingsComponent implements OnInit {
   filteredByGeneration: number = 0;
   filteredByCriteria: string = "";
 
+  pokemonName:string ="";
+
 
   userID : number = 0;
 
   currentUser : User = {} as User;
 
-  constructor(private pokemonRankingsService:PokemonRankingsService) { }
+  constructor(private pokemonRankingsService:PokemonRankingsService, private pokemonService:PokemonDetailsService) { }
 
   ngOnInit(): void 
   {
@@ -36,6 +40,14 @@ export class PokemonRankingsComponent implements OnInit {
     {
       console.log(results);
       this.pokemonRankings = results;
+
+      for (let i = 0; i < this.pokemonRankings.length; i++)
+      {
+        this.pokemonService.GetPokemonDetails(this.pokemonRankings[i].pokemonApiid).subscribe((result:PokemonDetails) =>
+        {
+          this.pokemonRankings[i].name = result.name;
+        });
+      }
     });
   }
 
