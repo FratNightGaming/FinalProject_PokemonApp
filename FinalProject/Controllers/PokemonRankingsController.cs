@@ -11,11 +11,16 @@ namespace FinalProject.Controllers
         private readonly PokemonDbContext _context;
         PokemonDAL pokeDAL = new PokemonDAL();
 
-
+        public List<PokemonRanking> AllPokemonRankingsList;
+        public List<User> AllUsersList;
+        public List<Pokemon> allPokemonList;
 
         public PokemonRankingsController(PokemonDbContext context)
         {
             _context = context;
+            AllPokemonRankingsList = _context.PokemonRankings.ToList();
+            AllUsersList = _context.Users.ToList();
+            allPokemonList = pokeDAL.GetAllPokemon().ToList();
         }
         //why cant we access the variable _context?
         //list<pokemonranking> pokemonrankingsall = _context.pokemonrankings.tolist();
@@ -37,7 +42,7 @@ namespace FinalProject.Controllers
         [HttpGet("User/{id}")]
         public List<PokemonRanking> GetPokemonRankingsByUser(int id)
         {
-            List<PokemonRanking> pokemonRankingsByUser = _context.PokemonRankings.Where(ranking => ranking.UserId == id).ToList();
+            List<PokemonRanking> pokemonRankingsByUser = AllPokemonRankingsList.Where(ranking => ranking.UserId == id).ToList();
             return pokemonRankingsByUser;
         }
 
