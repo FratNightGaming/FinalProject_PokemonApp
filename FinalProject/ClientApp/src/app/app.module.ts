@@ -17,6 +17,7 @@ import { PokemonDetailsComponent } from './pokemon-details/pokemon-details.compo
 import { PokemonRankingsComponent } from './pokemon-rankings/pokemon-rankings.component';
 import { LoginComponent } from './login/login.component';
 import { Secret } from './Models/Secret';
+import { AddRankComponent } from './add-rank/add-rank.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { Secret } from './Models/Secret';
     UserComponent,
     PokemonDetailsComponent,
     PokemonRankingsComponent,
+    AddRankComponent,
     LoginComponent
   ],
   imports: [
@@ -43,6 +45,7 @@ import { Secret } from './Models/Secret';
       { path: 'PokemonDetails', component: PokemonDetailsComponent },
       { path: 'PokemonRankings', component: PokemonRankingsComponent },
       { path: 'Login', component: LoginComponent },
+      { path: 'AddRank', component: AddRankComponent},
       { path: 'fetch-data', component: FetchDataComponent },
 
     ])
