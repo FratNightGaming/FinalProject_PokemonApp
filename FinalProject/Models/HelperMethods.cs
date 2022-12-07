@@ -55,7 +55,7 @@
         {
             List<PokemonRanking> filteredRankings = new List<PokemonRanking>();
 
-            if(typeFilter != "" && genFilter==-1)
+            if (typeFilter != "" && genFilter == -1)
             {
                 for (int i = 0; i < allRankings.Count; i++)
                 {
@@ -77,15 +77,54 @@
                         }
                     }
                 }
-                return filteredRankings;
+                return filteredRankings.OrderBy(rank => rank.UserRank).ToList();
             }
             else if (typeFilter != "" && genFilter != -1)
             {
+                for (int i = 0; i < allRankings.Count; i++)
+                {
+                    PokemonDetails pokeDetails = pokeDAL.GetPokemonDetails((int)allRankings[i].PokemonApiid);
 
+                    if (pokeDetails.types.Length == 1)
+                    {
+                        if (pokeDetails.types[0].type.name.ToUpper() == typeFilter.ToUpper())
+                        {
+                            filteredRankings.Add(allRankings[i]);
+                        }
+                    }
+
+                    else if (pokeDetails.types.Length == 2)
+                    {
+                        if (pokeDetails.types[0].type.name.ToUpper() == typeFilter.ToUpper() || pokeDetails.types[1].type.name.ToUpper() == typeFilter.ToUpper())
+                        {
+                            filteredRankings.Add(allRankings[i]);
+                        }
+                    }
+
+                }
+                    for(int i = 0; i < filteredRankings.Count; i++)
+                    {
+                        int genID = GetPokemonGenerationID((int)filteredRankings[i].PokemonApiid);
+                        if(genID != genFilter) 
+                        { 
+                            filteredRankings.RemoveAt(i);
+                        }
+                    }
+
+                return filteredRankings;
             }
-            else if(genFilter != -1 && typeFilter == "")
-            {
 
+            else if (genFilter != -1 && typeFilter == "")
+            {
+                for(int i = 0; i < allRankings.Count; i++)
+                {
+                    int genID = GetPokemonGenerationID((int)allRankings[i].PokemonApiid);
+                    if(genID == genFilter)
+                    {
+                        filteredRankings.Add(allRankings[i]);
+                    }
+                }
+                return filteredRankings.OrderBy(rank => rank.UserRank).ToList();
             }
             
             return allRankings.OrderBy(rank => rank.UserRank).ToList();
