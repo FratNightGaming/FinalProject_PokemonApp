@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<PokemonDbContext>();
+builder.Services.AddDbContext<FinalProjectContext>();
 
 
 var app = builder.Build();

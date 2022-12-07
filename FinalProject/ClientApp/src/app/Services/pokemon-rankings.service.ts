@@ -7,7 +7,8 @@ import { PokemonRanking } from '../Models/PokemonRanking';
 @Injectable({
   providedIn: 'root'
 })
-export class PokemonRankingsService {
+export class PokemonRankingsService 
+{
 
   constructor(private http: HttpClient, @Inject ("BASE_URL") private baseURL:string) 
   { 
@@ -20,19 +21,27 @@ export class PokemonRankingsService {
     return this.http.get<PokemonRanking[]>(this.baseURL + `api/PokemonRankings`);
   }
 
-  GetPokemonRankingsByUser(id : number): Observable<PokemonRanking[]>
+  GetPokemonRankingsByUser(googleID : string): Observable<PokemonRanking[]>
   {
-    return this.http.get<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/User/${id}`);
+    return this.http.get<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/User/${googleID}`);
   }
 
-  GetPokemonRankingsByType(userID:number, type: string): Observable<PokemonRanking[]>
+  GetPokemonRankingsByType(googleID : string, type: string): Observable<PokemonRanking[]>
   {
-    return this.http.get<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/User/${userID}/Type/${type}`);
+    return this.http.get<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/User/${googleID}/Type/${type}`);
   }
 
-  AddRanking(userId:number, userRank:number, pokemonApiid:number, name:string):void{
+
+  GetPokemonRankingsByGeneration(googleID : string, generationID: number): Observable<PokemonRanking[]>
+  {
+    return this.http.get<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/User/${googleID}/Generation/${generationID}`);
+  }
+  
+  AddRanking(userID:number, userRank:number, pokemonApiid:number, name:string):Observable<PokemonRanking>
+  {
     console.log(name);
-    let newPokeRank:PokemonRanking = {userId:userId, userRank:userRank, pokemonApiid:pokemonApiid, name:name};
-    this.http.post<PokemonRanking>(this.baseURL + 'api/PokemonRankings', newPokeRank).subscribe(data => {});
+    let newPokeRank:PokemonRanking = {userId:userID, userRank:userRank, pokemonApiid:pokemonApiid, name:name};
+    return this.http.post<PokemonRanking>(this.baseURL + 'api/PokemonRankings', newPokeRank);
   }
+
 }

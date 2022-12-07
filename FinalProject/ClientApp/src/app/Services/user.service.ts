@@ -26,10 +26,10 @@ export class UserService
     return this.http.get<User[]>(`${this.baseURL}api/Users`);
   }
 
-  AddNewUser(username: string):Observable <User>
+  AddNewUser(username: string, googleID: string):Observable <User>
   {
     //why is id hardcoded at 0? Will EF know to increment its id?
-    let newUser : User = {id: 0, userName: username};
+    let newUser : User = {userName: username, googleID: googleID};
     return this.http.post<User>(`${this.baseURL}api/Users`, newUser);
   }
 }

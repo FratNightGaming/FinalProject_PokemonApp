@@ -5,8 +5,8 @@
 <button (click)="GetAllUsers()">Click for all users</button>
 <br>
 
-<div *ngFor="let u of users">
-    <p>Id: {{u.id}}</p>
+<div *ngFor="let u of users; index as i;">
+    <p>Id: {{i}}</p>
     <p>Username: {{u.userName}}</p>
 </div>
 
@@ -16,6 +16,21 @@
 <br>
 
 <div>
-    <p>Id: {{currentUser.id}}</p>
+    <!-- <p>Id: {{currentUser.id}}</p> -->
     <p>Username: {{currentUser.userName}}</p>
 </div>
+
+<div *ngIf="loggedIn">
+	<img src="{{ user.photoUrl }}">
+	<div>
+	<h4>{{ user.name }}</h4>
+	<p>{{ user.email }}</p>
+    <p>{{user.id}}</p>
+	</div>
+</div>
+
+<div *ngIf="!loggedIn">   
+	<p>Log in to see user info</p>
+</div>
+
+

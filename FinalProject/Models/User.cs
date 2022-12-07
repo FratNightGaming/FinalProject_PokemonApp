@@ -9,5 +9,8 @@ public partial class User
 
     public string? UserName { get; set; }
 
+    public string? GoogleId { get; set; }
+
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual ICollection<PokemonRanking> PokemonRankings { get; } = new List<PokemonRanking>();
 }

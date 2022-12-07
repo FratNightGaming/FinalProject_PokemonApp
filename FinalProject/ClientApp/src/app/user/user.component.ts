@@ -3,6 +3,7 @@ import { User } from '../Models/user';
 import { UserService } from '../Services/user.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 
 // import { CommonModule } from '@angular/common'
        
@@ -25,13 +26,22 @@ export class UserComponent implements OnInit {
   users: User[] = [];
   currentUser: User = {} as User;
   
-  constructor(private userService:UserService) 
+  user: SocialUser = {} as SocialUser;
+  loggedIn: boolean = false;
+
+
+  constructor(private userService:UserService, private socialService:SocialAuthService) 
   { 
 
   }
 
   ngOnInit(): void {
     //this.GetAllUsers();
+    this.socialService.authState.subscribe((user) => {
+      this.user = user;
+      this.loggedIn = (user != null);
+    });
+  
   }
 
   GetAllUsers():void
