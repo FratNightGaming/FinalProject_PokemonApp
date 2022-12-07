@@ -11,7 +11,7 @@
 <div>
     <label for="userRankings">Click For User Rankings</label>
     <input type="number" id="userRankings" [(ngModel)]="userID">
-    <button (click)="GetPokemonRankingsByUser(userID)">CLICK FOR USER RANKINGS</button>
+    <button (click)="GetPokemonRankingsByUser()">CLICK FOR USER RANKINGS</button>
 </div>
 
 <br><br>
@@ -74,7 +74,7 @@
         <option value="9">9</option>
     </select>
 
-    <button (click)="GetPokemonRankingsByGeneration(3, generationFilter)">Click to Filter By Generation</button>
+    <button (click)="GetPokemonRankingsByGeneration(generationFilter)">Click to Filter By Generation</button>
 
     <h3>Pokemon Rankings Filtered By Generation {{generationFilter}}</h3><br><br>
 

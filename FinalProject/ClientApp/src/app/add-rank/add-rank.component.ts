@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Console } from 'console';
+import { PokemonRanking } from '../Models/PokemonRanking';
 import { PokemonRankingsService } from '../Services/pokemon-rankings.service';
 
 @Component({
@@ -12,13 +14,18 @@ export class AddRankComponent implements OnInit {
   pokemonApiid:number = 0;
   name:string="";
 
-  constructor(private rankingsDB:PokemonRankingsService) { }
+  constructor(private pokemonRankingsService:PokemonRankingsService) { }
 
-  AddRanking(userId:number, userRank:number, pokemonApiid:number, name:string):void{
-    this.rankingsDB.AddRanking(userId, userRank, pokemonApiid, name);
+  ngOnInit(): void 
+  {
+
   }
-
-  ngOnInit(): void {
+  
+  AddRanking(userId:number, userRank:number, pokemonApiid:number, name:string):void
+  {
+    this.pokemonRankingsService.AddRanking(userId, userRank, pokemonApiid, name).subscribe((result:PokemonRanking)=>
+    {
+      console.log(result);
+    });
   }
-
 }

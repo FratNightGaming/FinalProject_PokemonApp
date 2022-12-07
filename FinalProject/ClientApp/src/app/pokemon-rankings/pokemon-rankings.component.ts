@@ -40,7 +40,6 @@ export class PokemonRankingsComponent implements OnInit {
       this.loggedIn = (user != null);
     });
     this.GetPokemonRankings();
-    
   }
 
   GetPokemonRankings():void
@@ -60,7 +59,7 @@ export class PokemonRankingsComponent implements OnInit {
     });
   }
   
-  GetPokemonRankingsByUser(id : number):void
+  GetPokemonRankingsByUser():void
   {
     if (this.loggedIn)
     {
@@ -84,7 +83,7 @@ export class PokemonRankingsComponent implements OnInit {
   {
     if (this.loggedIn)
     {
-      this.pokemonRankingsService.GetPokemonRankingsByType(3, type).subscribe((results : PokemonRanking[]) =>
+      this.pokemonRankingsService.GetPokemonRankingsByType(this.user.id, type).subscribe((results : PokemonRanking[]) =>
       {
         console.log(results);
         this.pokemonRankingsByType = results;
@@ -100,9 +99,9 @@ export class PokemonRankingsComponent implements OnInit {
     }
   }
 
-  GetPokemonRankingsByGeneration(userID: number, generationID: number):void
+  GetPokemonRankingsByGeneration(generationID: number):void
   {
-    this.pokemonRankingsService.GetPokemonRankingsByGeneration(userID, generationID).subscribe((results : PokemonRanking[]) =>
+    this.pokemonRankingsService.GetPokemonRankingsByGeneration(this.user.id, generationID).subscribe((results : PokemonRanking[]) =>
     {
       console.log(results);
       this.pokemonRankingsByGeneration = results;

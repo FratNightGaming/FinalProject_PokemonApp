@@ -42,17 +42,19 @@ namespace FinalProject.Controllers
         [HttpGet("User/{googleID}")]
         public List<PokemonRanking> GetPokemonRankingsByUser(string googleID)
         {
-            int id = (int)_context.Users.FirstOrDefault(user => user.GoogleId == googleID).Id;
+            int id = (int)AllUsersList.FirstOrDefault(user => user.GoogleId == googleID).Id;
 
             List<PokemonRanking> pokemonRankingsByUser = AllPokemonRankingsList.Where(ranking => ranking.UserId == id).ToList();
             
             return helperMethods.FilteredByRank(pokemonRankingsByUser);
         }
 
-        [HttpGet("User/{userID}/Type/{type}")]
-        public async Task<ActionResult<IEnumerable<PokemonRanking>>> GetPokemonRankingsByUser(int userID, string type)
+        [HttpGet("User/{googleID}/Type/{type}")]
+        public async Task<ActionResult<IEnumerable<PokemonRanking>>> GetPokemonRankingsByUser(string googleID, string type)
         {
-            List<PokemonRanking> pokemonRankingsByUser = _context.PokemonRankings.Where(ranking => ranking.UserId == userID).ToList();
+            int id = (int)AllUsersList.FirstOrDefault(user => user.GoogleId == googleID).Id;
+            
+            List<PokemonRanking> pokemonRankingsByUser = _context.PokemonRankings.Where(ranking => ranking.UserId == id).ToList();
 
             List<PokemonRanking> pokemonRankingsByType = new List<PokemonRanking>();
 
@@ -81,10 +83,12 @@ namespace FinalProject.Controllers
             return pokemonRankingsByType;
         }
 
-        [HttpGet("User/{userID}/Generation/{generationID}")]
-        public async Task<ActionResult<IEnumerable<PokemonRanking>>> GetPokemonRankingsByGeneration(int userID, int generationID)
+        [HttpGet("User/{googleID}/Generation/{generationID}")]
+        public async Task<ActionResult<IEnumerable<PokemonRanking>>> GetPokemonRankingsByGeneration(string googleID, int generationID)
         {
-            List<PokemonRanking> pokemonRankingsByUser = _context.PokemonRankings.Where(ranking => ranking.UserId == userID).ToList();
+            int id = (int)AllUsersList.FirstOrDefault(user => user.GoogleId == googleID).Id;
+
+            List<PokemonRanking> pokemonRankingsByUser = _context.PokemonRankings.Where(ranking => ranking.UserId == id).ToList();
 
             List<PokemonRanking> pokemonRankingsByGeneration = new List<PokemonRanking>();
 
@@ -117,7 +121,6 @@ namespace FinalProject.Controllers
             return pokemonRanking;
         }
 
-        // PUT: api/PokemonRankings/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPokemonRanking(int id, PokemonRanking pokemonRanking)
         {
