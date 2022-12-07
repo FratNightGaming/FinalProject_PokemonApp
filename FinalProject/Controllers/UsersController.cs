@@ -13,9 +13,9 @@ namespace FinalProject.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly PokemonDbContext _context;
+        private readonly FinalProjectContext _context;
 
-        public UsersController(PokemonDbContext context)
+        public UsersController(FinalProjectContext context)
         {
             _context = context;
         }

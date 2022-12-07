@@ -20,9 +20,9 @@ export class PokemonRankingsService {
     return this.http.get<PokemonRanking[]>(this.baseURL + `api/PokemonRankings`);
   }
 
-  GetPokemonRankingsByUser(id : number): Observable<PokemonRanking[]>
+  GetPokemonRankingsByUser(googleID : string): Observable<PokemonRanking[]>
   {
-    return this.http.get<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/User/${id}`);
+    return this.http.get<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/User/${googleID}`);
   }
 
   GetPokemonRankingsByType(userID:number, type: string): Observable<PokemonRanking[]>
@@ -30,9 +30,15 @@ export class PokemonRankingsService {
     return this.http.get<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/User/${userID}/Type/${type}`);
   }
 
+
+  GetPokemonRankingsByGeneration(userID:number, generationID: number): Observable<PokemonRanking[]>
+  {
+    return this.http.get<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/User/${userID}/Generation/${generationID}`);
+
   AddRanking(userId:number, userRank:number, pokemonApiid:number, name:string):void{
     console.log(name);
     let newPokeRank:PokemonRanking = {userId:userId, userRank:userRank, pokemonApiid:pokemonApiid, name:name};
     this.http.post<PokemonRanking>(this.baseURL + 'api/PokemonRankings', newPokeRank).subscribe(data => {});
+
   }
 }

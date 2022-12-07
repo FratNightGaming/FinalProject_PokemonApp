@@ -41,6 +41,9 @@ public partial class FinalProjectContext : DbContext
             entity.HasKey(e => e.Id).HasName("PK__Users__3214EC27577D9028");
 
             entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.GoogleId)
+                .HasMaxLength(60)
+                .HasColumnName("GoogleID");
             entity.Property(e => e.UserName).HasMaxLength(30);
         });
 

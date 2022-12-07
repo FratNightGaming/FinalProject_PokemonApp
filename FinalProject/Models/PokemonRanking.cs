@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace FinalProject.Models;
@@ -14,6 +13,5 @@ public partial class PokemonRanking
 
     public int? PokemonApiid { get; set; }
 
-    [System.Text.Json.Serialization.JsonIgnore]
     public virtual User? User { get; set; }
 }

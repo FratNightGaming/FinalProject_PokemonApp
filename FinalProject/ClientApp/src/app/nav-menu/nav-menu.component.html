@@ -46,11 +46,20 @@
             <a class="nav-link text-dark" [routerLink]="['/Login']"
               >Login</a>
           </li>
+          <li class="nav-item">
+            <asl-google-signin-button *ngIf="!loggedIn" type='icon' size='medium'></asl-google-signin-button>
+            <button class="btn btn-outline-dark" *ngIf="loggedIn"  (click)="signOut()">Sign Out
+            </button>
+            </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/AddRank']"
               >Add Rank</a>
           </li>
         </ul>
+
+
+
+
       </div>
     </div>
   </nav>
