@@ -19,13 +19,18 @@ export class PokemonRankingsService {
     return this.http.get<PokemonRanking[]>(this.baseURL + `api/PokemonRankings`);
   }
 
-  GetPokemonRankingsByUser(id : number): Observable<PokemonRanking[]>
+  GetPokemonRankingsByUser(googleID : string): Observable<PokemonRanking[]>
   {
-    return this.http.get<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/User/${id}`);
+    return this.http.get<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/User/${googleID}`);
   }
 
   GetPokemonRankingsByType(userID:number, type: string): Observable<PokemonRanking[]>
   {
     return this.http.get<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/User/${userID}/Type/${type}`);
+  }
+
+  GetPokemonRankingsByGeneration(userID:number, generationID: number): Observable<PokemonRanking[]>
+  {
+    return this.http.get<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/User/${userID}/Generation/${generationID}`);
   }
 }

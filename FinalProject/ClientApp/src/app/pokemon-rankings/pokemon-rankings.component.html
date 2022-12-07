@@ -1,11 +1,9 @@
 <h1>Pokemon Rankings</h1>
 
 <div *ngFor="let ranking of pokemonRankings">
-    <p>User: {{ranking.user}}</p>
     <p>Ranking: {{ranking.userRank}}</p>
     <p>Pokemon Name: {{ranking.name}}</p>
     <p>PokemonID: {{ranking.pokemonApiid}}</p>
-    <p>Criteria: {{ranking.criteria}}</p>
 </div>
 
 <hr>
@@ -21,13 +19,13 @@
 <div *ngFor="let ranking of pokemonRankingsByCurrentUser">
     <p>Ranking: {{ranking.userRank}}</p>
     <p>PokemonID: {{ranking.pokemonApiid}}</p>
-    <p>Criteria: {{ranking.criteria}}</p>
+    <p>Pokemon Name: {{ranking.name}}</p>
 </div>
 
 <hr>
 
 <div>
-    <select [(ngModel)]="filteredByType" id="#">
+    <select [(ngModel)]="typeFilter" id="#">
         <option selected="selected" value="Normal">Normal</option>
         <option value="Fire">Fire</option>
         <option value="Water">Water</option>
@@ -46,17 +44,45 @@
         <option value="Dragon">Dragon</option>
         <option value="Steel">Steel</option>
         <option value="Fairy">Fairy</option>
-
     </select>
 
-    <button (click)="GetPokemonRankingsByType(this.userID, filteredByType)">Filter By Type</button>
+    <button (click)="GetPokemonRankingsByType(typeFilter)">Filter By Type</button>
 </div>
+
 <h3>Current User: {{currentUser}}</h3>
-<h3>Pokemon rankings filterd by Type: {{filteredByType}}</h3>
+<h3>Pokemon rankings filterd by Type: {{typeFilter}}</h3>
 
 <div *ngFor="let ranking of pokemonRankingsByType">
     <p>Ranking: {{ranking.userRank}}</p>
     <p>PokemonID: {{ranking.pokemonApiid}}</p>
-    <p>Criteria: {{ranking.criteria}}</p>
+    <p>Pokemon Name: {{ranking.name}}</p>
 
 </div>
+
+<hr>
+
+<div>
+    <h3>{{currentUser.userName}}: Filter by Generation</h3>
+    <select [(ngModel)]="generationFilter" id="#">
+        <option selected="selected" value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+    </select>
+
+    <button (click)="GetPokemonRankingsByGeneration(3, generationFilter)">Click to Filter By Generation</button>
+
+    <h3>Pokemon Rankings Filtered By Generation {{generationFilter}}</h3><br><br>
+
+    <div *ngFor="let pokemon of pokemonRankingsByGeneration">
+        <p>Pokemon Rank: {{pokemon.userRank}}</p>
+        <p>Pokemon ID: {{pokemon.pokemonApiid}}</p>
+        <p>Pokemon Name: {{pokemon.name}}</p>
+    </div>
+</div>
+

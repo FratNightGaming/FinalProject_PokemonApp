@@ -8,7 +8,7 @@ namespace FinalProject.Controllers
     [ApiController]
     public class PokemonRankingsController : ControllerBase
     {
-        private readonly PokemonDbContext _context;
+        private readonly FinalProjectContext _context;
         PokemonDAL pokeDAL = new PokemonDAL();
         HelperMethods helperMethods = new HelperMethods();
 
@@ -16,7 +16,7 @@ namespace FinalProject.Controllers
         public List<User> AllUsersList;
         public List<Pokemon> allPokemonList;
 
-        public PokemonRankingsController(PokemonDbContext context)
+        public PokemonRankingsController(FinalProjectContext context)
         {
             _context = context;
             AllPokemonRankingsList = _context.PokemonRankings.ToList();
@@ -33,26 +33,22 @@ namespace FinalProject.Controllers
         public ActionResult<IEnumerable<PokemonRanking>> GetPokemonRankings()
         {
             return helperMethods.FilteredByRank(AllPokemonRankingsList);
-
-
-
-            //return await _context.PokemonRankings.ToListAsync();
         }
 
 
         //CHANGE TO USERID, but we can test first with just user
         //How to do this logic with a for loop and no linq?
 
-        // GET: api/PokemonRankings/user
-        [HttpGet("User/{id}")]
-        public List<PokemonRanking> GetPokemonRankingsByUser(int id)
+        [HttpGet("User/{googleID}")]
+        public List<PokemonRanking> GetPokemonRankingsByUser(string googleID)
         {
+            int id = (int)_context.Users.FirstOrDefault(user => user.GoogleId == googleID).Id;
+
             List<PokemonRanking> pokemonRankingsByUser = AllPokemonRankingsList.Where(ranking => ranking.UserId == id).ToList();
             
             return helperMethods.FilteredByRank(pokemonRankingsByUser);
         }
 
-        //GET: api/PokemonRankings/user/type
         [HttpGet("User/{userID}/Type/{type}")]
         public async Task<ActionResult<IEnumerable<PokemonRanking>>> GetPokemonRankingsByUser(int userID, string type)
         {
@@ -69,9 +65,7 @@ namespace FinalProject.Controllers
                 {
                     if (pokeDetails.types[0].type.name.ToUpper() == type.ToUpper())
                     {
-                        //int pokeID = pokeDetails.id;
                         pokemonRankingsByType.Add(pokemonRankingsByUser[i]);
-                        //pokemonRankingsByType = pokemonRankingsByUser.Where(ranking => ranking.PokemonApiId == pokeID).ToList();
                     }
                 }
 
@@ -79,21 +73,14 @@ namespace FinalProject.Controllers
                 {
                     if (pokeDetails.types[0].type.name.ToUpper() == type.ToUpper() || pokeDetails.types[1].type.name.ToUpper() == type.ToUpper())
                     {
-                        //int pokeID = pokeDetails.id;
                         pokemonRankingsByType.Add(pokemonRankingsByUser[i]);
-                        //pokemonRankingsByType = pokemonRankingsByUser.Where(ranking => ranking.PokemonApiId == pokeID).ToList();
                     }
                 }
             }
 
             return pokemonRankingsByType;
-
-            //pokemonRankingsByUser[i].PokemonApiId;
-
-            //convert the pokemon id to the actual pokemon
         }
 
-        //GET: api/PokemonRankings/User/userID/Generation/generationID
         [HttpGet("User/{userID}/Generation/{generationID}")]
         public async Task<ActionResult<IEnumerable<PokemonRanking>>> GetPokemonRankingsByGeneration(int userID, int generationID)
         {
@@ -112,10 +99,11 @@ namespace FinalProject.Controllers
                 }
             }
 
+            pokemonRankingsByGeneration = helperMethods.FilteredByRank(pokemonRankingsByGeneration);
+
             return pokemonRankingsByGeneration;
         }
 
-        // GET: api/PokemonRankings/5
         [HttpGet("{id}")]
         public async Task<ActionResult<PokemonRanking>> GetPokemonRanking(int id)
         {

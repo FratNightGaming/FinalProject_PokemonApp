@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
+
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -14,6 +16,7 @@ import { UserComponent } from './user/user.component';
 import { PokemonDetailsComponent } from './pokemon-details/pokemon-details.component';
 import { PokemonRankingsComponent } from './pokemon-rankings/pokemon-rankings.component';
 import { LoginComponent } from './login/login.component';
+import { Secret } from './Models/Secret';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,7 @@ import { LoginComponent } from './login/login.component';
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
+    SocialLoginModule,
     FormsModule,
     CommonModule,
     RouterModule.forRoot([
@@ -43,7 +47,21 @@ import { LoginComponent } from './login/login.component';
 
     ])
   ],
-  providers: [],
+  providers: [
+    {
+  	provide: 'SocialAuthServiceConfig',
+  	useValue: {
+    	autoLogin: false,
+    	providers: [
+      	{
+        	id: GoogleLoginProvider.PROVIDER_ID,
+        	provider: new GoogleLoginProvider(Secret.googleKey
+        	)
+      	}
+    	]
+  	} as SocialAuthServiceConfig,
+	  }
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

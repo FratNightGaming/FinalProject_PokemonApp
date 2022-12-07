@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../Models/user';
 import { UserService } from '../Services/user.service';
+import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 
 @Component({
   selector: 'app-login',
@@ -14,11 +15,18 @@ export class LoginComponent implements OnInit
   username: string = "";
   users: User[] = [];
 
-  constructor(private userService:UserService) { }
+  user: SocialUser = {} as SocialUser;
+  loggedIn: boolean = false;
+
+  constructor(private userService:UserService, private authService: SocialAuthService) { }
 
   ngOnInit(): void 
   {
     this.GetAllUsers();
+    this.authService.authState.subscribe((user) => {
+      this.user = user;
+      this.loggedIn = (user != null);
+    });
   }
 
   Login(username: string):void
@@ -44,7 +52,7 @@ export class LoginComponent implements OnInit
 
   Register():void
   {
-    this.userService.AddNewUser(this.username).subscribe((result:User)=>
+    this.userService.AddNewUser(this.username, this.user.id).subscribe((result:User)=>
     {
       for (let i = 0; i < this.users.length; i++)
       

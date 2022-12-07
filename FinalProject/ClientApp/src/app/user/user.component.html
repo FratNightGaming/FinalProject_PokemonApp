@@ -19,3 +19,18 @@
     <p>Id: {{currentUser.id}}</p>
     <p>Username: {{currentUser.userName}}</p>
 </div>
+
+<div *ngIf="loggedIn">
+	<img src="{{ user.photoUrl }}">
+	<div>
+	<h4>{{ user.name }}</h4>
+	<p>{{ user.email }}</p>
+    <p>{{user.id}}</p>
+	</div>
+</div>
+
+<div *ngIf="!loggedIn">   
+	<p>Log in to see user info</p>
+</div>
+
+
