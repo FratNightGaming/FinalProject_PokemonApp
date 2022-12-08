@@ -108,6 +108,18 @@ namespace FinalProject.Controllers
             return pokemonRankingsByGeneration;
         }
 
+        [HttpGet("User/{googleID}/Generation/{genFilter}/Type/{typeFilter}")]
+        public async Task<ActionResult<IEnumerable<PokemonRanking>>> GetPokemonRankingsByBoth(string googleID, int genFilter, string typeFilter)
+        {
+            int id = (int)AllUsersList.FirstOrDefault(user => user.GoogleId == googleID).Id;
+
+            List<PokemonRanking> pokemonRankingsByUser = _context.PokemonRankings.Where(ranking => ranking.UserId == id).ToList();
+
+            List<PokemonRanking> pokeRanksByBoth = helperMethods.FilteredByRank(pokemonRankingsByUser, typeFilter, genFilter);
+
+            return pokeRanksByBoth;
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<PokemonRanking>> GetPokemonRanking(int id)
         {

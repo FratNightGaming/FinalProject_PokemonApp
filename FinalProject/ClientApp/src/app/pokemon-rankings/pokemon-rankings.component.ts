@@ -17,6 +17,7 @@ export class PokemonRankingsComponent implements OnInit {
   pokemonRankingsByCurrentUser: PokemonRanking[] =[];
   pokemonRankingsByType: PokemonRanking[] =[];
   pokemonRankingsByGeneration: PokemonRanking[] =[];
+  pokemonRankingsByBoth: PokemonRanking[] = [];
 
   user: SocialUser = {} as SocialUser;
   loggedIn: boolean = false;
@@ -115,5 +116,23 @@ export class PokemonRankingsComponent implements OnInit {
       }
     }
     )
+  }
+
+  GetPokemonRankingsByBoth(typeFilter:string, genFilter:number):void
+  {
+    this.pokemonRankingsService.GetPokemonRankingsByBoth(this.user.id, typeFilter, genFilter).subscribe((results: PokemonRanking[])=>
+    {
+      console.log(results);
+      this.pokemonRankingsByBoth = results;
+
+      for(let i = 0; i < results.length; i++)
+      {
+        this.pokemonService.GetPokemonDetails(this.pokemonRankingsByBoth[i].pokemonApiid).subscribe((result:PokemonDetails)=>
+        {
+          this.pokemonRankingsByBoth[i].name = result.name;
+          console.log(result.name);
+        })
+      }
+    })
   }
 }

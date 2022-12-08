@@ -88,3 +88,14 @@
     </div>
 </div>
 
+<button (click)="GetPokemonRankingsByBoth(typeFilter, generationFilter)">Click to filter by both Generation and Type</button>
+
+<h3>Pokemon Rankings Filtered By Gen {{generationFilter}} and by {{typeFilter}} Type</h3>
+
+<div *ngFor="let pokemon of pokemonRankingsByBoth; index as i;">
+    <p>Ranking: {{i + 1}}</p>
+    <p>Overall Rank: {{pokemon.userRank}}</p>
+    <p>PokeDex ID: {{pokemon.pokemonApiid}}</p>
+    <p>Pokemon Name: {{pokemon.name}}</p>
+</div>
+

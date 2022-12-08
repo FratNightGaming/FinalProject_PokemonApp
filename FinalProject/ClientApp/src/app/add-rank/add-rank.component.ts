@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Console } from 'console';
 import { PokemonRanking } from '../Models/PokemonRanking';
 import { PokemonRankingsService } from '../Services/pokemon-rankings.service';
+import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+
 
 @Component({
   selector: 'app-add-rank',
@@ -18,7 +20,9 @@ export class AddRankComponent implements OnInit {
   loggedIn:boolean = false;
 
 
+
   constructor(private pokemonRankingsService:PokemonRankingsService, private authService: SocialAuthService ) { }
+
 
   ngOnInit(): void 
   {
@@ -26,11 +30,14 @@ export class AddRankComponent implements OnInit {
       this.user = user;
       this.loggedIn = (user != null);
     });
+
   }
   
   AddRanking(userId:number, userRank:number, pokemonApiid:number, name:string):void
   {
+
     this.pokemonRankingsService.AddRanking(userId, userRank, pokemonApiid, name, this.user.id).subscribe((results:PokemonRanking[])=>
+
     {
       console.log(this.user.id);
       console.log(results);
