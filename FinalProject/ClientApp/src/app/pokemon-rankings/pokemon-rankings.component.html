@@ -11,7 +11,7 @@
 <div>
     <label for="userRankings">Click For User Rankings</label>
     <input type="number" id="userRankings" [(ngModel)]="userID">
-    <button (click)="GetPokemonRankingsByUser(userID)">CLICK FOR USER RANKINGS</button>
+    <button (click)="GetPokemonRankingsByUser()">CLICK FOR USER RANKINGS</button>
 </div>
 
 <br><br>
@@ -52,18 +52,20 @@
 <h3>Current User: {{currentUser}}</h3>
 <h3>Pokemon rankings filterd by Type: {{typeFilter}}</h3>
 
-<div *ngFor="let ranking of pokemonRankingsByType">
-    <p>Ranking: {{ranking.userRank}}</p>
+<div *ngFor="let ranking of pokemonRankingsByType; index as i;">
+    <p>Rank: {{i + 1}}</p>
+    <p>Overall Ranking: {{ranking.userRank}}</p>
     <p>PokemonID: {{ranking.pokemonApiid}}</p>
     <p>Pokemon Name: {{ranking.name}}</p>
 </div>
 
 <hr>
-
+<!--what does selected="selected mean?
+    what does id="#" mean?-->
 <div>
     <h3>{{currentUser.userName}}: Filter by Generation</h3>
     <select [(ngModel)]="generationFilter" id="#">
-        <option selected="selected" value="1">1</option>
+        <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
         <option value="4">4</option>
@@ -74,14 +76,26 @@
         <option value="9">9</option>
     </select>
 
-    <button (click)="GetPokemonRankingsByGeneration(3, generationFilter)">Click to Filter By Generation</button>
+    <button (click)="GetPokemonRankingsByGeneration(generationFilter)">Click to Filter By Generation</button>
 
     <h3>Pokemon Rankings Filtered By Generation {{generationFilter}}</h3><br><br>
 
-    <div *ngFor="let pokemon of pokemonRankingsByGeneration">
-        <p>Pokemon Rank: {{pokemon.userRank}}</p>
+    <div *ngFor="let pokemon of pokemonRankingsByGeneration; index as i;">
+        <p>Ranking: {{i + 1}}</p>
+        <p>Overall Rank: {{pokemon.userRank}}</p>
         <p>Pokemon ID: {{pokemon.pokemonApiid}}</p>
         <p>Pokemon Name: {{pokemon.name}}</p>
     </div>
+</div>
+
+<button (click)="GetPokemonRankingsByBoth(typeFilter, generationFilter)">Click to filter by both Generation and Type</button>
+
+<h3>Pokemon Rankings Filtered By Gen {{generationFilter}} and by {{typeFilter}} Type</h3>
+
+<div *ngFor="let pokemon of pokemonRankingsByBoth; index as i;">
+    <p>Ranking: {{i + 1}}</p>
+    <p>Overall Rank: {{pokemon.userRank}}</p>
+    <p>PokeDex ID: {{pokemon.pokemonApiid}}</p>
+    <p>Pokemon Name: {{pokemon.name}}</p>
 </div>
 

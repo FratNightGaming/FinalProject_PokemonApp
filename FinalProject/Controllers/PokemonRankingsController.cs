@@ -42,54 +42,58 @@ namespace FinalProject.Controllers
         [HttpGet("User/{googleID}")]
         public List<PokemonRanking> GetPokemonRankingsByUser(string googleID)
         {
-            int id = (int)_context.Users.FirstOrDefault(user => user.GoogleId == googleID).Id;
+            int id = (int)AllUsersList.FirstOrDefault(user => user.GoogleId == googleID).Id;
 
             List<PokemonRanking> pokemonRankingsByUser = AllPokemonRankingsList.Where(ranking => ranking.UserId == id).ToList();
-            
+
             return helperMethods.FilteredByRank(pokemonRankingsByUser);
         }
 
-        [HttpGet("User/{userID}/Type/{type}")]
-        public async Task<ActionResult<IEnumerable<PokemonRanking>>> GetPokemonRankingsByUser(int userID, string type)
+        [HttpGet("User/{googleID}/Type/{type}")]
+        public async Task<ActionResult<IEnumerable<PokemonRanking>>> GetPokemonRankingsByUser(string googleID, string type)
         {
-            List<PokemonRanking> pokemonRankingsByUser = _context.PokemonRankings.Where(ranking => ranking.UserId == userID).ToList();
+            int id = (int)AllUsersList.FirstOrDefault(user => user.GoogleId == googleID).Id;
 
-            List<PokemonRanking> pokemonRankingsByType = new List<PokemonRanking>();
+            List<PokemonRanking> pokemonRankingsByUser = _context.PokemonRankings.Where(ranking => ranking.UserId == id).ToList();
+
+            List<PokemonRanking> pokemonRankingsByType = helperMethods.FilteredByRank(pokemonRankingsByUser, type, -1);
 
 
-            for (int i = 0; i < pokemonRankingsByUser.Count; i++)
-            {
-                PokemonDetails pokeDetails = pokeDAL.GetPokemonDetails((int)pokemonRankingsByUser[i].PokemonApiid);
+            /* for (int i = 0; i < pokemonRankingsByUser.Count; i++)
+             {
+                 PokemonDetails pokeDetails = pokeDAL.GetPokemonDetails((int)pokemonRankingsByUser[i].PokemonApiid);
 
-                if (pokeDetails.types.Length == 1)
-                {
-                    if (pokeDetails.types[0].type.name.ToUpper() == type.ToUpper())
-                    {
-                        pokemonRankingsByType.Add(pokemonRankingsByUser[i]);
-                    }
-                }
+                 if (pokeDetails.types.Length == 1)
+                 {
+                     if (pokeDetails.types[0].type.name.ToUpper() == type.ToUpper())
+                     {
+                         pokemonRankingsByType.Add(pokemonRankingsByUser[i]);
+                     }
+                 }
 
-                else if (pokeDetails.types.Length == 2)
-                {
-                    if (pokeDetails.types[0].type.name.ToUpper() == type.ToUpper() || pokeDetails.types[1].type.name.ToUpper() == type.ToUpper())
-                    {
-                        pokemonRankingsByType.Add(pokemonRankingsByUser[i]);
-                    }
-                }
-            }
+                 else if (pokeDetails.types.Length == 2)
+                 {
+                     if (pokeDetails.types[0].type.name.ToUpper() == type.ToUpper() || pokeDetails.types[1].type.name.ToUpper() == type.ToUpper())
+                     {
+                         pokemonRankingsByType.Add(pokemonRankingsByUser[i]);
+                     }
+                 }
+             }*/
 
             return pokemonRankingsByType;
         }
 
-        [HttpGet("User/{userID}/Generation/{generationID}")]
-        public async Task<ActionResult<IEnumerable<PokemonRanking>>> GetPokemonRankingsByGeneration(int userID, int generationID)
+        [HttpGet("User/{googleID}/Generation/{generationID}")]
+        public async Task<ActionResult<IEnumerable<PokemonRanking>>> GetPokemonRankingsByGeneration(string googleID, int generationID)
         {
-            List<PokemonRanking> pokemonRankingsByUser = _context.PokemonRankings.Where(ranking => ranking.UserId == userID).ToList();
+            int id = (int)AllUsersList.FirstOrDefault(user => user.GoogleId == googleID).Id;
 
-            List<PokemonRanking> pokemonRankingsByGeneration = new List<PokemonRanking>();
+            List<PokemonRanking> pokemonRankingsByUser = _context.PokemonRankings.Where(ranking => ranking.UserId == id).ToList();
+
+            List<PokemonRanking> pokemonRankingsByGeneration = helperMethods.FilteredByRank(pokemonRankingsByUser, "", generationID);
 
 
-            for (int i = 0; i < pokemonRankingsByUser.Count; i++)
+            /*for (int i = 0; i < pokemonRankingsByUser.Count; i++)
             {
                 PokemonDetails pokeDetails = pokeDAL.GetPokemonDetails((int)pokemonRankingsByUser[i].PokemonApiid);
 
@@ -99,9 +103,21 @@ namespace FinalProject.Controllers
                 }
             }
 
-            pokemonRankingsByGeneration = helperMethods.FilteredByRank(pokemonRankingsByGeneration);
+            pokemonRankingsByGeneration = helperMethods.FilteredByRank(pokemonRankingsByGeneration);*/
 
             return pokemonRankingsByGeneration;
+        }
+
+        [HttpGet("User/{googleID}/Generation/{genFilter}/Type/{typeFilter}")]
+        public async Task<ActionResult<IEnumerable<PokemonRanking>>> GetPokemonRankingsByBoth(string googleID, int genFilter, string typeFilter)
+        {
+            int id = (int)AllUsersList.FirstOrDefault(user => user.GoogleId == googleID).Id;
+
+            List<PokemonRanking> pokemonRankingsByUser = _context.PokemonRankings.Where(ranking => ranking.UserId == id).ToList();
+
+            List<PokemonRanking> pokeRanksByBoth = helperMethods.FilteredByRank(pokemonRankingsByUser, typeFilter, genFilter);
+
+            return pokeRanksByBoth;
         }
 
         [HttpGet("{id}")]
@@ -117,7 +133,6 @@ namespace FinalProject.Controllers
             return pokemonRanking;
         }
 
-        // PUT: api/PokemonRankings/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPokemonRanking(int id, PokemonRanking pokemonRanking)
         {
@@ -148,13 +163,28 @@ namespace FinalProject.Controllers
         }
 
         // POST: api/PokemonRankings
-        [HttpPost]
-        public async Task<ActionResult<PokemonRanking>> PostPokemonRanking(PokemonRanking pokemonRanking)
+        [HttpPost("{googleID}")]
+        public List<PokemonRanking> PostPokemonRanking(PokemonRanking pokemonRanking, string googleID)
         {
-            _context.PokemonRankings.Add(pokemonRanking);
-            await _context.SaveChangesAsync();
+            //List<PokemonRanking> newPokemonRankings = AllPokemonRankingsList;
 
-            return CreatedAtAction("GetPokemonRanking", new { id = pokemonRanking.Id }, pokemonRanking);
+            for (int i = 0; i < AllPokemonRankingsList.Count; i++)
+            {
+                int id = (int)AllUsersList.FirstOrDefault(user => user.GoogleId == googleID).Id;
+
+                if (AllPokemonRankingsList[i].UserId == id)
+                {
+                    if (AllPokemonRankingsList[i].UserRank >= pokemonRanking.UserRank)
+                    {
+                        //AllPokemonRankingsList[i].UserRank += 1;
+                        _context.PokemonRankings.Find(AllPokemonRankingsList[i].Id).UserRank += 1;
+                    }
+                }
+            }
+
+            _context.PokemonRankings.Add(pokemonRanking);
+            _context.SaveChanges();
+            return _context.PokemonRankings.ToList();
         }
 
         // DELETE: api/PokemonRankings/5
