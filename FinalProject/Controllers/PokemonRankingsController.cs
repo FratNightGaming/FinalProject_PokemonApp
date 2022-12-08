@@ -45,7 +45,7 @@ namespace FinalProject.Controllers
             int id = (int)AllUsersList.FirstOrDefault(user => user.GoogleId == googleID).Id;
 
             List<PokemonRanking> pokemonRankingsByUser = AllPokemonRankingsList.Where(ranking => ranking.UserId == id).ToList();
-            
+
             return helperMethods.FilteredByRank(pokemonRankingsByUser);
         }
 
@@ -53,32 +53,32 @@ namespace FinalProject.Controllers
         public async Task<ActionResult<IEnumerable<PokemonRanking>>> GetPokemonRankingsByUser(string googleID, string type)
         {
             int id = (int)AllUsersList.FirstOrDefault(user => user.GoogleId == googleID).Id;
-            
+
             List<PokemonRanking> pokemonRankingsByUser = _context.PokemonRankings.Where(ranking => ranking.UserId == id).ToList();
 
             List<PokemonRanking> pokemonRankingsByType = helperMethods.FilteredByRank(pokemonRankingsByUser, type, -1);
 
 
-           /* for (int i = 0; i < pokemonRankingsByUser.Count; i++)
-            {
-                PokemonDetails pokeDetails = pokeDAL.GetPokemonDetails((int)pokemonRankingsByUser[i].PokemonApiid);
+            /* for (int i = 0; i < pokemonRankingsByUser.Count; i++)
+             {
+                 PokemonDetails pokeDetails = pokeDAL.GetPokemonDetails((int)pokemonRankingsByUser[i].PokemonApiid);
 
-                if (pokeDetails.types.Length == 1)
-                {
-                    if (pokeDetails.types[0].type.name.ToUpper() == type.ToUpper())
-                    {
-                        pokemonRankingsByType.Add(pokemonRankingsByUser[i]);
-                    }
-                }
+                 if (pokeDetails.types.Length == 1)
+                 {
+                     if (pokeDetails.types[0].type.name.ToUpper() == type.ToUpper())
+                     {
+                         pokemonRankingsByType.Add(pokemonRankingsByUser[i]);
+                     }
+                 }
 
-                else if (pokeDetails.types.Length == 2)
-                {
-                    if (pokeDetails.types[0].type.name.ToUpper() == type.ToUpper() || pokeDetails.types[1].type.name.ToUpper() == type.ToUpper())
-                    {
-                        pokemonRankingsByType.Add(pokemonRankingsByUser[i]);
-                    }
-                }
-            }*/
+                 else if (pokeDetails.types.Length == 2)
+                 {
+                     if (pokeDetails.types[0].type.name.ToUpper() == type.ToUpper() || pokeDetails.types[1].type.name.ToUpper() == type.ToUpper())
+                     {
+                         pokemonRankingsByType.Add(pokemonRankingsByUser[i]);
+                     }
+                 }
+             }*/
 
             return pokemonRankingsByType;
         }
@@ -90,7 +90,7 @@ namespace FinalProject.Controllers
 
             List<PokemonRanking> pokemonRankingsByUser = _context.PokemonRankings.Where(ranking => ranking.UserId == id).ToList();
 
-            List<PokemonRanking> pokemonRankingsByGeneration = helperMethods.FilteredByRank(pokemonRankingsByUser,"",generationID);
+            List<PokemonRanking> pokemonRankingsByGeneration = helperMethods.FilteredByRank(pokemonRankingsByUser, "", generationID);
 
 
             /*for (int i = 0; i < pokemonRankingsByUser.Count; i++)
