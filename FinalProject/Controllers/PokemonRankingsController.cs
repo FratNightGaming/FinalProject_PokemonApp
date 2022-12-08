@@ -108,6 +108,18 @@ namespace FinalProject.Controllers
             return pokemonRankingsByGeneration;
         }
 
+        [HttpGet("User/{googleID}/Generation/{genFilter}/Type/{typeFilter}")]
+        public async Task<ActionResult<IEnumerable<PokemonRanking>>> GetPokemonRankingsByBoth(string googleID, int genFilter, string typeFilter)
+        {
+            int id = (int)AllUsersList.FirstOrDefault(user => user.GoogleId == googleID).Id;
+
+            List<PokemonRanking> pokemonRankingsByUser = _context.PokemonRankings.Where(ranking => ranking.UserId == id).ToList();
+
+            List<PokemonRanking> pokeRanksByBoth = helperMethods.FilteredByRank(pokemonRankingsByUser, typeFilter, genFilter);
+
+            return pokeRanksByBoth;
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<PokemonRanking>> GetPokemonRanking(int id)
         {
@@ -151,13 +163,28 @@ namespace FinalProject.Controllers
         }
 
         // POST: api/PokemonRankings
-        [HttpPost]
-        public async Task<ActionResult<PokemonRanking>> PostPokemonRanking(PokemonRanking pokemonRanking)
+        [HttpPost("{googleID}")]
+        public List<PokemonRanking> PostPokemonRanking(PokemonRanking pokemonRanking, string googleID)
         {
-            _context.PokemonRankings.Add(pokemonRanking);
-            await _context.SaveChangesAsync();
+            //List<PokemonRanking> newPokemonRankings = AllPokemonRankingsList;
 
-            return CreatedAtAction("GetPokemonRanking", new { id = pokemonRanking.Id }, pokemonRanking);
+            for (int i = 0; i < AllPokemonRankingsList.Count; i++)
+            {
+                int id = (int)AllUsersList.FirstOrDefault(user => user.GoogleId == googleID).Id;
+
+                if (AllPokemonRankingsList[i].UserId == id)
+                {
+                    if (AllPokemonRankingsList[i].UserRank >= pokemonRanking.UserRank)
+                    {
+                        //AllPokemonRankingsList[i].UserRank += 1;
+                        _context.PokemonRankings.Find(AllPokemonRankingsList[i].Id).UserRank += 1;
+                    }
+                }
+            }
+
+            _context.PokemonRankings.Add(pokemonRanking);
+            _context.SaveChanges();
+            return _context.PokemonRankings.ToList();
         }
 
         // DELETE: api/PokemonRankings/5

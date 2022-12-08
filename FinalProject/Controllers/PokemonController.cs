@@ -27,6 +27,15 @@ namespace FinalProject.Controllers
             return pokemonDetails;
         }
 
+        // GET api/Pokemon/Name/<pikachu>
+        [HttpGet("Name/{name}")]
+        public PokemonDetails GetPokemonByName(string name)
+        {
+            PokemonDetails details = pokeDAL.GetPokemonDetailsByName(name);
+            return details;
+        }
+
+
         
     }
 }

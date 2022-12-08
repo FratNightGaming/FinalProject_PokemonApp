@@ -20,4 +20,10 @@ export class PokemonDetailsService {
     console.log(`The base URL is: ${this.baseURL}`);
     return this.http.get<PokemonDetails>(`${this.baseURL}api/Pokemon/${index}`);
   }
+
+  GetPokemonDetailsByName(name: string):Observable<PokemonDetails>
+  {
+    console.log(name);
+    return this.http.get<PokemonDetails>(`${this.baseURL}api/Pokemon/Name/${name}`);
+  }
 }
