@@ -2,10 +2,13 @@
 <br><br>
 
 <input type="text" [(ngModel)]="username">
-<button (click)="Login(username)">Login</button>
+<!--<button (click)="Login(username)">Login</button>-->
 
 <div>
-    <p>Currently Logged on as: {{username}}</p>
-    <p>{{currentUser.id}}</p>
+    <p>Currently Logged on as: {{currentUser.userName}}</p>
+    <!--<p>{{currentUser.id}}</p>-->
     <p>{{currentUser.userName}}</p>
 </div>
+
+
+<button (click)="Register()">Register</button>

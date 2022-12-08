@@ -56,10 +56,10 @@ namespace FinalProject.Controllers
             
             List<PokemonRanking> pokemonRankingsByUser = _context.PokemonRankings.Where(ranking => ranking.UserId == id).ToList();
 
-            List<PokemonRanking> pokemonRankingsByType = new List<PokemonRanking>();
+            List<PokemonRanking> pokemonRankingsByType = helperMethods.FilteredByRank(pokemonRankingsByUser, type, -1);
 
 
-            for (int i = 0; i < pokemonRankingsByUser.Count; i++)
+           /* for (int i = 0; i < pokemonRankingsByUser.Count; i++)
             {
                 PokemonDetails pokeDetails = pokeDAL.GetPokemonDetails((int)pokemonRankingsByUser[i].PokemonApiid);
 
@@ -78,7 +78,7 @@ namespace FinalProject.Controllers
                         pokemonRankingsByType.Add(pokemonRankingsByUser[i]);
                     }
                 }
-            }
+            }*/
 
             return pokemonRankingsByType;
         }
@@ -90,10 +90,10 @@ namespace FinalProject.Controllers
 
             List<PokemonRanking> pokemonRankingsByUser = _context.PokemonRankings.Where(ranking => ranking.UserId == id).ToList();
 
-            List<PokemonRanking> pokemonRankingsByGeneration = new List<PokemonRanking>();
+            List<PokemonRanking> pokemonRankingsByGeneration = helperMethods.FilteredByRank(pokemonRankingsByUser,"",generationID);
 
 
-            for (int i = 0; i < pokemonRankingsByUser.Count; i++)
+            /*for (int i = 0; i < pokemonRankingsByUser.Count; i++)
             {
                 PokemonDetails pokeDetails = pokeDAL.GetPokemonDetails((int)pokemonRankingsByUser[i].PokemonApiid);
 
@@ -103,7 +103,7 @@ namespace FinalProject.Controllers
                 }
             }
 
-            pokemonRankingsByGeneration = helperMethods.FilteredByRank(pokemonRankingsByGeneration);
+            pokemonRankingsByGeneration = helperMethods.FilteredByRank(pokemonRankingsByGeneration);*/
 
             return pokemonRankingsByGeneration;
         }

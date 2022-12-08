@@ -5,8 +5,8 @@
 <button (click)="GetAllUsers()">Click for all users</button>
 <br>
 
-<div *ngFor="let u of users">
-    <p>Id: {{u.id}}</p>
+<div *ngFor="let u of users; index as i;">
+    <p>Id: {{i}}</p>
     <p>Username: {{u.userName}}</p>
 </div>
 
@@ -16,7 +16,7 @@
 <br>
 
 <div>
-    <p>Id: {{currentUser.id}}</p>
+    <!-- <p>Id: {{currentUser.id}}</p> -->
     <p>Username: {{currentUser.userName}}</p>
 </div>
 
