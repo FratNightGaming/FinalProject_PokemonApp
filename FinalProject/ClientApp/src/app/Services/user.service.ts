@@ -32,4 +32,9 @@ export class UserService
     let newUser : User = {userName: username, googleID: googleID};
     return this.http.post<User>(`${this.baseURL}api/Users`, newUser);
   }
+
+  GetCurrentUserByGoogleID(googleID:string):Observable<User>
+  {
+    return this.http.get<User>(`${this.baseURL}api/Users/GoogleID/${googleID}`)
+  }
 }

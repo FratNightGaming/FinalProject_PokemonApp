@@ -41,6 +41,19 @@ namespace FinalProject.Controllers
             return user;
         }
 
+        [HttpGet("{googleID}")]
+        public async Task<ActionResult<User>> GetUserByGoogleID(string googleID)
+        {
+            var user = await _context.Users.FindAsync(googleID);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user;
+        }
+
         // PUT: api/Users/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(int id, User user)

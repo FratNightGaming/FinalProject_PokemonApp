@@ -49,4 +49,11 @@ export class PokemonRankingsService
     return this.http.post<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/${googleID}`, newPokeRank);
   }
 
+  RemovePokemonRanking(userID:number, userRank:number, pokemonApiid:number, name:string, googleID:string):void
+  {
+    console.log(name);
+    let removedPoke:PokemonRanking = {userId:userID, userRank:userRank, name:name, pokemonApiid:pokemonApiid};
+    this.http.delete<PokemonRanking>(this.baseURL + `api/PokemonRankings/${userRank}/${googleID}`).subscribe(data => {});
+  }
+
 }

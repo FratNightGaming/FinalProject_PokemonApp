@@ -188,19 +188,32 @@ namespace FinalProject.Controllers
         }
 
         // DELETE: api/PokemonRankings/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePokemonRanking(int id)
+        [HttpDelete("{userRank}/{googleID}")]
+        public List<PokemonRanking> DeletePokemonRanking(int userRank, string googleID)
         {
-            var pokemonRanking = await _context.PokemonRankings.FindAsync(id);
-            if (pokemonRanking == null)
+            //List<PokemonRanking> newPokemonRankings = AllPokemonRankingsList;
+            int id1 = (int)AllUsersList.FirstOrDefault(user => user.GoogleId == googleID).Id;
+            List<PokemonRanking> ranksByUser = (List<PokemonRanking>)AllPokemonRankingsList.Where(rank => rank.UserId == id1).ToList();
+            PokemonRanking pokemonRanking = new PokemonRanking();
+            pokemonRanking = (PokemonRanking)ranksByUser.FirstOrDefault(rank => rank.UserRank == userRank);
+
+            for (int i = 0; i < AllPokemonRankingsList.Count; i++)
             {
-                return NotFound();
+                int id = (int)AllUsersList.FirstOrDefault(user => user.GoogleId == googleID).Id;
+
+                if (AllPokemonRankingsList[i].UserId == id)
+                {
+                    if (AllPokemonRankingsList[i].UserRank >= pokemonRanking.UserRank)
+                    {
+                        //AllPokemonRankingsList[i].UserRank += 1;
+                        _context.PokemonRankings.Find(AllPokemonRankingsList[i].Id).UserRank -= 1;
+                    }
+                }
             }
 
             _context.PokemonRankings.Remove(pokemonRanking);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            _context.SaveChanges();
+            return _context.PokemonRankings.ToList();
         }
 
         private bool PokemonRankingExists(int id)
