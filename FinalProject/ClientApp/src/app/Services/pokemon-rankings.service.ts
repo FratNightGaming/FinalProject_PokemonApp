@@ -44,9 +44,9 @@ export class PokemonRankingsService
   
   AddRanking(userID:number, userRank:number, pokemonApiid:number, name:string, googleID:string):Observable<PokemonRanking[]>
   {
-    console.log(name);
-    let newPokeRank:PokemonRanking = {userId:userID, userRank:userRank, pokemonApiid:pokemonApiid, name:name};
-    return this.http.post<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/${googleID}`, newPokeRank);
+    console.log(googleID);
+    let newPokemonRanking:PokemonRanking = {userId:userID, userRank:userRank, pokemonApiid:pokemonApiid, name:name};
+    return this.http.post<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/${googleID}`, newPokemonRanking);
   }
 
   RemovePokemonRanking(userID:number, userRank:number, pokemonApiid:number, name:string, googleID:string):void
