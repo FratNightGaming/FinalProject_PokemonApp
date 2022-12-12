@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { Console } from 'console';
 import { PokemonRanking } from '../Models/PokemonRanking';
 import { PokemonRankingsService } from '../Services/pokemon-rankings.service';
-import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 
 
 @Component({
@@ -36,7 +35,7 @@ export class AddRankComponent implements OnInit {
   AddRanking(userId:number, userRank:number, pokemonApiid:number, name:string):void
   {
 
-    this.pokemonRankingsService.AddRanking(userId, userRank, pokemonApiid, name, this.user.id).subscribe((results:PokemonRanking[])=>
+    this.pokemonRankingsService.AddRanking(userId, userRank, pokemonApiid, this.user.id).subscribe((results:PokemonRanking[])=>
 
     {
       console.log(this.user.id);

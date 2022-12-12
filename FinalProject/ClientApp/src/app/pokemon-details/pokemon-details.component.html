@@ -1,7 +1,7 @@
 <h1>Pokemon Details</h1>
 <input type="text" [(ngModel)]="pokemonID">
 <br><br>
-<button (click)="GetPokemonDetails(pokemonID); GetPokemonGenerationID(pokemonID)">Click for Pokemon Details</button>
+<button (click)="GetPokemonDetailsByID(pokemonID); GetPokemonGenerationID(pokemonID)">Click for Pokemon Details</button>
 <div *ngIf="currentPokemon.name">
     <p>Name: {{currentPokemon.name}}</p>
     <!-- <p>Pokemon Name (getting through array): {{currentPokemon.forms[0].name}}</p> -->

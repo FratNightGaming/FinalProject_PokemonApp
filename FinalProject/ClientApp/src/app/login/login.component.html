@@ -1,14 +1,51 @@
-<h1>Login</h1>
-<br><br>
+<h1>PokeRanking App</h1>
 
-<input type="text" [(ngModel)]="username">
-<!--<button (click)="Login(username)">Login</button>-->
+<h4 *ngIf="loggedIn">Currently Logged on as: {{currentUser.name}} - {{currentUser.email}}</h4>
+<br>
 
-<div>
-    <p>Currently Logged on as: {{currentUser.userName}}</p>
-    <!--<p>{{currentUser.id}}</p>-->
-    <p>{{currentUser.userName}}</p>
+<div *ngIf="!loggedIn">
+    <p>You must log in to your Google account to proceed</p>
+</div>
+<br>
+
+<h3 *ngIf="loggedIn">Sign In</h3>
+
+<div *ngIf="loggedIn && !isSignedIn" >
+    
+
+    <label for="enterUsername">Hi {{currentUser.name}} - Please enter your username</label>
+    <br>
+
+    <input type="text" name="" id="enterUsername" [(ngModel)]="username" placeholder="enter username here">
+    <br>
+    <button (click)="SignIn(username)">Sign In As: <span *ngIf="username.length > 0">{{username}}</span></button>
+    <p>
+        <span *ngIf="loggedIn && !isSignedIn">{{currentUser.name}} - You must enter your username to sign in</span>
+        <br>
+        <span *ngIf="failureToSignIn">Username {{username}} does not exist on your profile</span>
+        <span *ngIf="loggedIn && isSignedIn">{{currentUser.name}} - Successfully logged in as {{username}}</span>
+        <span *ngIf="isSignedIn">Successfully logged in!</span>
+    </p>
 </div>
 
 
-<button (click)="Register()">Register</button>
+<h3 *ngIf="loggedIn">Register Here {{currentUser.name}}<h3>
+
+<div *ngIf="loggedIn">
+    <br>
+    <p>Note: Usernames must contain letters only and must be >= 3 characters in length</p>
+    <label for="newUsername">Username</label>
+    <br>
+
+    <input type="text" name="" id="newUsername" [(ngModel)]="registerUsername" placeholder="enter new username here">
+    <br>
+    <button (click)="Register()">Register Here</button>
+
+    <p>
+        <span *ngIf="isRegistered">Congratulations {{currentUser.name}} - you have successfully created a new account</span>
+        <span *ngIf="invalidUsername">Invalid username: Usernames must contain letters only and be >= 3 characters</span>
+        <span *ngIf="usernameTaken">{{registerUsername}} is already taken</span>
+    </p>
+</div>
+
+

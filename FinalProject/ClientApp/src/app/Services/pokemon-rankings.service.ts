@@ -42,10 +42,9 @@ export class PokemonRankingsService
     return this.http.get<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/User/${googleID}/Generation/${genFilter}/Type/${typeFilter}`);
   }
   
-  AddRanking(userID:number, userRank:number, pokemonApiid:number, name:string, googleID:string):Observable<PokemonRanking[]>
+  AddRanking(userID:number, userRank:number, pokemonApiid:number, googleID:string):Observable<PokemonRanking[]>
   {
-    console.log(googleID);
-    let newPokemonRanking:PokemonRanking = {userId:userID, userRank:userRank, pokemonApiid:pokemonApiid, name:name};
+    let newPokemonRanking:PokemonRanking = {id: 0, userId:userID, userRank:userRank, pokemonApiid:pokemonApiid};
     return this.http.post<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/${googleID}`, newPokemonRanking);
   }
 

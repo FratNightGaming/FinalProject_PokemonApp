@@ -11,6 +11,10 @@ export class PokemonDetailsComponent implements OnInit {
 
   currentPokemon: PokemonDetails = {} as PokemonDetails;
 
+  AllPokemonDetails: PokemonDetails[] = [];
+  
+
+
   pokemonID:number = -1;
   pokemonGenerationID: number = 0;
 
@@ -21,9 +25,19 @@ export class PokemonDetailsComponent implements OnInit {
 
   }
 
-  GetPokemonDetails(index: number) : void
+  GetPokemonDetailsByID(index: number) : void
   {
-    this.pokemonDetailsService.GetPokemonDetails(index).subscribe((result: PokemonDetails) =>
+    this.pokemonDetailsService.GetPokemonDetailsByID(index).subscribe((result: PokemonDetails) =>
+    {
+      this.currentPokemon = result;
+      console.log(result);
+      console.log(this.currentPokemon.sprites.front_default);
+    });
+  }
+
+  GetPokemonDetailsByName(name: string) : void
+  {
+    this.pokemonDetailsService.GetPokemonDetailsByName(name).subscribe((result: PokemonDetails) =>
     {
       this.currentPokemon = result;
       console.log(result);
@@ -80,5 +94,4 @@ export class PokemonDetailsComponent implements OnInit {
     
     return this.pokemonGenerationID;
   }
-
 }

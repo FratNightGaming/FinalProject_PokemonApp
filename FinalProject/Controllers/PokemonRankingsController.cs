@@ -164,9 +164,11 @@ namespace FinalProject.Controllers
 
         // POST: api/PokemonRankings
         [HttpPost("{googleID}")]
+        //I want to change first parameter, PokemonRanking pokemonRanking, to be an int "rank" instead
         public List<PokemonRanking> PostPokemonRanking(PokemonRanking pokemonRanking, string googleID)
         {
             //List<PokemonRanking> newPokemonRankings = AllPokemonRankingsList;
+            pokemonRanking.Id = null;
 
             for (int i = 0; i < AllPokemonRankingsList.Count; i++)
             {
