@@ -13,6 +13,7 @@ export class PokemonDetailsComponent implements OnInit {
 
   pokemonID:number = -1;
   pokemonGenerationID: number = 0;
+  pokeSprite:string ="";
 
   constructor(private pokemonDetailsService:PokemonDetailsService) { }
 

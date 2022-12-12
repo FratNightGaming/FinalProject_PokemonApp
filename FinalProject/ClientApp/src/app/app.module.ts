@@ -19,6 +19,7 @@ import { LoginComponent } from './login/login.component';
 import { Secret } from './Models/Secret';
 import { AddRankComponent } from './add-rank/add-rank.component';
 import { DeleteRankComponent } from './delete-rank/delete-rank.component';
+import { CommunityRankingsComponent } from './communityrankings/communityrankings.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { DeleteRankComponent } from './delete-rank/delete-rank.component';
     PokemonRankingsComponent,
     AddRankComponent,
     DeleteRankComponent,
+    CommunityRankingsComponent,
     LoginComponent
   ],
   imports: [
@@ -49,7 +51,8 @@ import { DeleteRankComponent } from './delete-rank/delete-rank.component';
       { path: 'Login', component: LoginComponent },
       { path: 'AddRank', component: AddRankComponent},
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'DeleteRank', component: DeleteRankComponent}
+      { path: 'DeleteRank', component: DeleteRankComponent},
+      { path: 'CommunityRankings', component: CommunityRankingsComponent}
     ])
   ],
   providers: [

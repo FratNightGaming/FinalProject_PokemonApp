@@ -5,7 +5,7 @@ namespace FinalProject.Models;
 
 public partial class PokemonRanking
 {
-    public int Id { get; set; }
+    public int? Id { get; set; }
 
     public int UserId { get; set; }
 

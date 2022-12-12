@@ -15,6 +15,7 @@ namespace FinalProject.Controllers
         public List<PokemonRanking> AllPokemonRankingsList;
         public List<User> AllUsersList;
         public List<Pokemon> allPokemonList;
+        public List<PokemonDetails> allPokemonDetails;
 
         public PokemonRankingsController(FinalProjectContext context)
         {
@@ -167,6 +168,7 @@ namespace FinalProject.Controllers
         public List<PokemonRanking> PostPokemonRanking(PokemonRanking pokemonRanking, string googleID)
         {
             //List<PokemonRanking> newPokemonRankings = AllPokemonRankingsList;
+            pokemonRanking.Id = null;
 
             for (int i = 0; i < AllPokemonRankingsList.Count; i++)
             {
@@ -219,6 +221,21 @@ namespace FinalProject.Controllers
         private bool PokemonRankingExists(int id)
         {
             return _context.PokemonRankings.Any(e => e.Id == id);
+        }
+
+        [HttpGet("CommunityRankings")]
+        public List<CommunityRanking> GetCommunityRankings()
+        {
+            List<CommunityRanking> communityRankingsList = new List<CommunityRanking>();
+            List<PokemonDetails> pokemonDetailsList = new List<PokemonDetails>();
+
+            for (int i = 0; i < allPokemonList.Count; i++)
+            {
+                PokemonDetails pokemonDetails = pokeDAL.GetPokemonDetailsByName(allPokemonList[i].name);
+                pokemonDetailsList.Add(pokemonDetails);
+            }
+
+            return helperMethods.FindCommunityRanks(AllPokemonRankingsList, pokemonDetailsList);
         }
     }
 }
