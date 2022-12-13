@@ -1,8 +1,11 @@
-﻿namespace FinalProject.Models
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace FinalProject.Models
 {
     public class HelperMethods
     {
         PokemonDAL pokeDAL = new PokemonDAL();
+        FinalProjectContext pokeContext = new FinalProjectContext();
         public int GetPokemonGenerationID(int id)
         {
             if (id > 0 && id <= 151)
@@ -129,6 +132,34 @@
             
             return allRankings.OrderBy(rank => rank.UserRank).ToList();
             //return pokemonRankings;
+        }
+
+        public List<CommunityRanking> FindCommunityRanks(List<PokemonRanking> allRanks, List<PokemonDetails> gen1s)
+        {
+            List<CommunityRanking> commRanks = new List<CommunityRanking>();
+
+            foreach (PokemonDetails p in gen1s)
+            {
+                List<PokemonRanking> preAdd = allRanks.Where(r => r.PokemonApiid == p.id).ToList();
+
+                float commRank = 0;
+
+                for (int i = 0; i < preAdd.Count; i++)
+                {
+                    commRank += (float)preAdd[i].UserRank;
+                }
+
+                commRank /= pokeContext.Users.ToList().Count;
+
+                //commRank /= (float)preAdd.Count;
+
+                if (commRank != 0)
+                {
+                    commRanks.Add(new CommunityRanking { name = p.name, rank = commRank });
+                }
+            }
+
+            return commRanks.OrderBy(cr => cr.rank).ToList();
         }
     }
 }

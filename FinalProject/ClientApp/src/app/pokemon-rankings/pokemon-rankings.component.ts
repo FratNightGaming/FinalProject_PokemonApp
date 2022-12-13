@@ -18,14 +18,16 @@ export class PokemonRankingsComponent implements OnInit {
   pokemonRankingsByType: PokemonRanking[] =[];
   pokemonRankingsByGeneration: PokemonRanking[] =[];
   pokemonRankingsByBoth: PokemonRanking[] = [];
-
+  
   user: SocialUser = {} as SocialUser;
   loggedIn: boolean = false;
-
+  
   typeFilter: string = "";
   generationFilter: number = 0;
-
+  
   pokemonName:string ="";
+  pokeSprite:string = "";
+  currentPokemon = {} as PokemonDetails;
 
 
   userID : number = 0;
@@ -55,6 +57,9 @@ export class PokemonRankingsComponent implements OnInit {
         this.pokemonService.GetPokemonDetails(this.pokemonRankings[i].pokemonApiid).subscribe((result:PokemonDetails) =>
         {
           this.pokemonRankings[i].name = result.name;
+          this.currentPokemon = result;
+          console.log(result.sprites.front_default);
+          
         });
       }
     });

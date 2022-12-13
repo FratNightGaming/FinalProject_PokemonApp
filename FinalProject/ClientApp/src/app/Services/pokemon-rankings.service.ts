@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CommunityRanking } from '../Models/CommunityRanking';
 
 import { PokemonRanking } from '../Models/PokemonRanking';
 
@@ -45,8 +46,20 @@ export class PokemonRankingsService
   AddRanking(userID:number, userRank:number, pokemonApiid:number, name:string, googleID:string):Observable<PokemonRanking[]>
   {
     console.log(googleID);
-    let newPokemonRanking:PokemonRanking = {userId:userID, userRank:userRank, pokemonApiid:pokemonApiid, name:name};
+    let newPokemonRanking:PokemonRanking = {id: 0,userId:userID, userRank:userRank, pokemonApiid:pokemonApiid, name:name};
     return this.http.post<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/${googleID}`, newPokemonRanking);
+  }
+
+  RemovePokemonRanking(userID:number, userRank:number, pokemonApiid:number, name:string, googleID:string):void
+  {
+    console.log(name);
+    let removedPoke:PokemonRanking = {id: 0, userId:userID, userRank:userRank, name:name, pokemonApiid:pokemonApiid};
+    this.http.delete<PokemonRanking>(this.baseURL + `api/PokemonRankings/${userRank}/${googleID}`).subscribe(data => {});
+  }
+
+  GetCommunityRankings():Observable<CommunityRanking[]>
+  {
+    return this.http.get<CommunityRanking[]>(this.baseURL + `api/PokemonRankings/CommunityRankings`);
   }
 
 }
