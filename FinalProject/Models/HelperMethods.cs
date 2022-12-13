@@ -149,7 +149,9 @@ namespace FinalProject.Models
                     commRank += (float)preAdd[i].UserRank;
                 }
 
-                commRank /= preAdd.Count;
+                commRank /= pokeContext.Users.ToList().Count;
+
+                //commRank /= (float)preAdd.Count;
 
                 if (commRank != 0)
                 {
