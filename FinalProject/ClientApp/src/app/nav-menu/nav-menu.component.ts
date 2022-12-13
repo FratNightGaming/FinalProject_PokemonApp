@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav-menu',
@@ -13,7 +14,7 @@ export class NavMenuComponent implements OnInit {
   loggedIn: boolean = false;
 
 
-  constructor(private authService: SocialAuthService) { }
+  constructor(private authService: SocialAuthService, private routerService: Router) { }
 
   ngOnInit(): void {
 
@@ -25,6 +26,7 @@ export class NavMenuComponent implements OnInit {
   
   signOut(): void {
     this.authService.signOut();
+    this.routerService.navigate(['']);
     }    
   
 
@@ -34,5 +36,10 @@ export class NavMenuComponent implements OnInit {
 
   toggle() {
     this.isExpanded = !this.isExpanded;
+  }
+
+  NavigateToPokemonRankings()
+  {
+    this.routerService.navigate(['/PokemonRankings']);
   }
 }

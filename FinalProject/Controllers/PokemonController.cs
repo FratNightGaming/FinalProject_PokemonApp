@@ -11,7 +11,7 @@ namespace FinalProject.Controllers
     {
         PokemonDAL pokeDAL = new PokemonDAL();
 
-        // GET: api/<PokemonController>
+        // GET: api/Pokemon
         [HttpGet()]
         public Pokemon [] GetAllPokemon()
         {
@@ -19,7 +19,7 @@ namespace FinalProject.Controllers
             return pokemon;
         }
 
-        // GET api/<PokemonController>/5
+        // GET api/Pokemon/5
         [HttpGet("{id}")]
         public PokemonDetails GetPokemonByID(int id)
         {
@@ -27,7 +27,7 @@ namespace FinalProject.Controllers
             return pokemonDetails;
         }
 
-        // GET api/Pokemon/Name/<pikachu>
+        // GET api/Pokemon/Name/{name}
         [HttpGet("Name/{name}")]
         public PokemonDetails GetPokemonByName(string name)
         {

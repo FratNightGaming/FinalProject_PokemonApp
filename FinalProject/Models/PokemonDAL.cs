@@ -34,8 +34,5 @@ namespace FinalProject.Models
 
             return pokemon;
         }
-
-
-
     }
 }

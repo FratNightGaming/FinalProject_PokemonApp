@@ -6,8 +6,6 @@ import { PokemonRanking } from '../Models/PokemonRanking';
 import { PokemonDetailsService } from '../Services/pokemon-details.service';
 import { PokemonRankingsService } from '../Services/pokemon-rankings.service';
 
-
-
 @Component({
   selector: 'app-add-rank',
   templateUrl: './add-rank.component.html',
@@ -26,10 +24,7 @@ export class AddRankComponent implements OnInit {
   user: SocialUser = {} as SocialUser;
   loggedIn:boolean = false;
 
-
-
   constructor(private pokemonRankingsService:PokemonRankingsService, private authService: SocialAuthService, private pokeDetailsService: PokemonDetailsService ) { }
-
 
   ngOnInit(): void 
   {
@@ -43,6 +38,7 @@ export class AddRankComponent implements OnInit {
   AddRanking(userId:number, userRank:number, name:string):void
   {
     this.pokeDetailsService.GetPokemonDetailsByName(name).subscribe((result) =>
+
     {
       this.currentPokeDetails = result;
 

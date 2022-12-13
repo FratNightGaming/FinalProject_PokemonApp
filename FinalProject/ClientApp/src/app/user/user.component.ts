@@ -5,30 +5,18 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 
-// import { CommonModule } from '@angular/common'
-       
-// @NgModule({
-//     imports: [
-//         CommonModule
-//     ]
-// })
-    
-// export class ProductModule { }
-
-
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
-export class UserComponent implements OnInit {
-  
+export class UserComponent implements OnInit 
+{
   users: User[] = [];
   currentUser: User = {} as User;
   
   user: SocialUser = {} as SocialUser;
   loggedIn: boolean = false;
-
 
   constructor(private userService:UserService, private socialService:SocialAuthService) 
   { 
@@ -41,7 +29,6 @@ export class UserComponent implements OnInit {
       this.user = user;
       this.loggedIn = (user != null);
     });
-  
   }
 
   GetAllUsers():void
