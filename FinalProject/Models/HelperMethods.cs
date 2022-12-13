@@ -111,7 +111,7 @@
                         }
                     }
 
-                return filteredRankings;
+                return filteredRankings.OrderBy(rank => rank.UserRank).ToList();
             }
 
             else if (genFilter != -1 && typeFilter == "")
