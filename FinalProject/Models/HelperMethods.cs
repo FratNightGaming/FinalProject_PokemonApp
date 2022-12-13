@@ -141,13 +141,16 @@ namespace FinalProject.Models
             foreach (PokemonDetails p in gen1s)
             {
                 List<PokemonRanking> preAdd = allRanks.Where(r => r.PokemonApiid == p.id).ToList();
+
                 float commRank = 0;
+
                 for (int i = 0; i < preAdd.Count; i++)
                 {
                     commRank += (float)preAdd[i].UserRank;
                 }
 
-                commRank /= pokeContext.Users.ToList().Count;
+                commRank /= preAdd.Count;
+
                 if (commRank != 0)
                 {
                     commRanks.Add(new CommunityRanking { name = p.name, rank = commRank });
