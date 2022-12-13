@@ -142,16 +142,22 @@ namespace FinalProject.Models
             {
                 List<PokemonRanking> preAdd = allRanks.Where(r => r.PokemonApiid == p.id).ToList();
 
-                float commRank = 0;
+                double commRank = 0;
 
                 for (int i = 0; i < preAdd.Count; i++)
                 {
-                    commRank += (float)preAdd[i].UserRank;
+                    commRank += (double)preAdd[i].UserRank;
                 }
 
-                commRank /= pokeContext.Users.ToList().Count;
-
-                //commRank /= (float)preAdd.Count;
+                //commRank /= pokeContext.Users.ToList().Count;
+                if(preAdd.Count != 0)
+                {
+                commRank /= preAdd.Count;
+                }
+                else
+                {
+                    continue;
+                }
 
                 if (commRank != 0)
                 {

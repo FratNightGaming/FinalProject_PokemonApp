@@ -21,7 +21,7 @@ public partial class FinalProjectContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server = tcp:finalproject2022.database.windows.net, 1433; Initial Catalog = FinalProject; Persist Security Info=False;User ID = FinalProject; Password=Pokemon2022!; MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout = 30;");
+        => optionsBuilder.UseSqlServer(Secret.connectionString);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -29,7 +29,19 @@ public partial class FinalProjectContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK__PokemonR__3214EC07FFFB191C");
 
+            entity.Property(e => e.Name)
+                .HasMaxLength(30)
+                .HasColumnName("name");
+            entity.Property(e => e.OriginalGame)
+                .HasMaxLength(20)
+                .HasColumnName("originalGame");
             entity.Property(e => e.PokemonApiid).HasColumnName("PokemonAPIID");
+            entity.Property(e => e.Sprite)
+                .HasMaxLength(200)
+                .HasColumnName("sprite");
+            entity.Property(e => e.Types)
+                .HasMaxLength(20)
+                .HasColumnName("types");
 
             entity.HasOne(d => d.User).WithMany(p => p.PokemonRankings)
                 .HasForeignKey(d => d.UserId)

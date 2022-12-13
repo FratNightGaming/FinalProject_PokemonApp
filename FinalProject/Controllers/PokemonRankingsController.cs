@@ -170,10 +170,12 @@ namespace FinalProject.Controllers
             //List<PokemonRanking> newPokemonRankings = AllPokemonRankingsList;
             pokemonRanking.Id = null;
 
+            int id = (int)AllUsersList.FirstOrDefault(user => user.GoogleId == googleID).Id;
+
+            pokemonRanking.UserId = id;
+
             for (int i = 0; i < AllPokemonRankingsList.Count; i++)
             {
-                int id = (int)AllUsersList.FirstOrDefault(user => user.GoogleId == googleID).Id;
-
                 if (AllPokemonRankingsList[i].UserId == id)
                 {
                     if (AllPokemonRankingsList[i].UserRank >= pokemonRanking.UserRank)
@@ -195,8 +197,11 @@ namespace FinalProject.Controllers
         {
             //List<PokemonRanking> newPokemonRankings = AllPokemonRankingsList;
             int id1 = (int)AllUsersList.FirstOrDefault(user => user.GoogleId == googleID).Id;
+
             List<PokemonRanking> ranksByUser = (List<PokemonRanking>)AllPokemonRankingsList.Where(rank => rank.UserId == id1).ToList();
+
             PokemonRanking pokemonRanking = new PokemonRanking();
+
             pokemonRanking = (PokemonRanking)ranksByUser.FirstOrDefault(rank => rank.UserRank == userRank);
 
             for (int i = 0; i < AllPokemonRankingsList.Count; i++)
@@ -238,4 +243,5 @@ namespace FinalProject.Controllers
             return helperMethods.FindCommunityRanks(AllPokemonRankingsList, pokemonDetailsList);
         }
     }
+
 }
