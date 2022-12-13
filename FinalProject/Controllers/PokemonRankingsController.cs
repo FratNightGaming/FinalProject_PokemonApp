@@ -15,6 +15,7 @@ namespace FinalProject.Controllers
         public List<PokemonRanking> AllPokemonRankingsList;
         public List<User> AllUsersList;
         public List<Pokemon> allPokemonList;
+        public List<PokemonDetails> allPokemonDetails;
 
         public PokemonRankingsController(FinalProjectContext context)
         {
@@ -170,10 +171,12 @@ namespace FinalProject.Controllers
             //List<PokemonRanking> newPokemonRankings = AllPokemonRankingsList;
             pokemonRanking.Id = null;
 
+            int id = (int)AllUsersList.FirstOrDefault(user => user.GoogleId == googleID).Id;
+
+            pokemonRanking.UserId = id;
+
             for (int i = 0; i < AllPokemonRankingsList.Count; i++)
             {
-                int id = (int)AllUsersList.FirstOrDefault(user => user.GoogleId == googleID).Id;
-
                 if (AllPokemonRankingsList[i].UserId == id)
                 {
                     if (AllPokemonRankingsList[i].UserRank >= pokemonRanking.UserRank)
@@ -190,24 +193,56 @@ namespace FinalProject.Controllers
         }
 
         // DELETE: api/PokemonRankings/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePokemonRanking(int id)
+        [HttpDelete("{userRank}/{googleID}")]
+        public List<PokemonRanking> DeletePokemonRanking(int userRank, string googleID)
         {
-            var pokemonRanking = await _context.PokemonRankings.FindAsync(id);
-            if (pokemonRanking == null)
+            //List<PokemonRanking> newPokemonRankings = AllPokemonRankingsList;
+            int id1 = (int)AllUsersList.FirstOrDefault(user => user.GoogleId == googleID).Id;
+
+            List<PokemonRanking> ranksByUser = (List<PokemonRanking>)AllPokemonRankingsList.Where(rank => rank.UserId == id1).ToList();
+
+            PokemonRanking pokemonRanking = new PokemonRanking();
+
+            pokemonRanking = (PokemonRanking)ranksByUser.FirstOrDefault(rank => rank.UserRank == userRank);
+
+            for (int i = 0; i < AllPokemonRankingsList.Count; i++)
             {
-                return NotFound();
+                int id = (int)AllUsersList.FirstOrDefault(user => user.GoogleId == googleID).Id;
+
+                if (AllPokemonRankingsList[i].UserId == id)
+                {
+                    if (AllPokemonRankingsList[i].UserRank >= pokemonRanking.UserRank)
+                    {
+                        //AllPokemonRankingsList[i].UserRank += 1;
+                        _context.PokemonRankings.Find(AllPokemonRankingsList[i].Id).UserRank -= 1;
+                    }
+                }
             }
 
             _context.PokemonRankings.Remove(pokemonRanking);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            _context.SaveChanges();
+            return _context.PokemonRankings.ToList();
         }
 
         private bool PokemonRankingExists(int id)
         {
             return _context.PokemonRankings.Any(e => e.Id == id);
         }
+
+        [HttpGet("CommunityRankings")]
+        public List<CommunityRanking> GetCommunityRankings()
+        {
+            List<CommunityRanking> communityRankingsList = new List<CommunityRanking>();
+            List<PokemonDetails> pokemonDetailsList = new List<PokemonDetails>();
+
+            for (int i = 0; i < allPokemonList.Count; i++)
+            {
+                PokemonDetails pokemonDetails = pokeDAL.GetPokemonDetailsByName(allPokemonList[i].name);
+                pokemonDetailsList.Add(pokemonDetails);
+            }
+
+            return helperMethods.FindCommunityRanks(AllPokemonRankingsList, pokemonDetailsList);
+        }
     }
+
 }

@@ -7,7 +7,12 @@
     
     
     <!-- <img [src]="allPokemonDetailsList[3].sprites.front_default" alt=""><img [src]="allPokemonDetailsList[4].sprites.front_default" alt=""><img [src]="allPokemonDetailsList[5].sprites.front_default" alt=""> -->
-
+    
+<div *ngFor="let ranking of pokemonRankings">
+    <p>Ranking: {{ranking.userRank}}</p>
+    <p>Pokemon Name: {{ranking.name}}</p>
+    <p>PokemonID: {{ranking.pokemonApiid}}</p>
+    <br>
 </div>
 
 <!-- Table for user's rankings -->
@@ -90,7 +95,6 @@
         </tr>
     </tbody>
 </table>
-
 
 
 <!-- Why was the line below included? what did this do? -->

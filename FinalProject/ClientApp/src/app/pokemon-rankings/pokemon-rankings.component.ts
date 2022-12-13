@@ -21,6 +21,7 @@ export class PokemonRankingsComponent implements OnInit {
   pokemonRankingsByGeneration: PokemonRanking[] = [];
   pokemonRankingsByBoth: PokemonRanking[] = [];
 
+
   //list of 151 pokemon details
   allPokemonDetailsList: PokemonDetails [] = [];
   //list of 151 pokemon names (and urls)
@@ -35,11 +36,13 @@ export class PokemonRankingsComponent implements OnInit {
   
   currentUser: SocialUser = {} as SocialUser;
   loggedIn: boolean = false;
-
+  
   typeFilter: string = "";
   generationFilter: number = 0;
-
+  
   pokemonName:string ="";
+  pokeSprite:string = "";
+  currentPokemon = {} as PokemonDetails;
 
   user : User = {} as User;
 
@@ -99,6 +102,7 @@ export class PokemonRankingsComponent implements OnInit {
         this.allPokemonDetailsList.push(result);
         if (i < totalPokemon)
         {
+
           this.GetAllPokemonDetails(i + 1, totalPokemon);
         }
 
@@ -108,13 +112,13 @@ export class PokemonRankingsComponent implements OnInit {
           console.log(this.allPokemonDetailsList.length);
           this.GetPokemonRankingsByUser();
         }
-        
+        });
+
       }
       );
     // }
   }
-  
-  
+ 
   // GetAllPokemonRankings():void
   // {
   //   this.pokemonRankingsService.GetPokemonRankings().subscribe((results: PokemonRanking[]) =>
