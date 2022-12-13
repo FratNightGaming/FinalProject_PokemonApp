@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { PokemonRankingsService } from '../Services/pokemon-rankings.service';
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { CommunityRanking } from '../Models/CommunityRanking';
+import { PokemonDetailsService } from '../Services/pokemon-details.service';
+import { PokemonDetails } from '../Models/PokemonDetails';
 
 @Component({
   selector: 'app-communityrankings',
@@ -10,9 +12,10 @@ import { CommunityRanking } from '../Models/CommunityRanking';
 })
 export class CommunityRankingsComponent implements OnInit {
 
-  constructor(private pokemonRankingsService:PokemonRankingsService, private authService:SocialAuthService) { }
-
-
+  constructor(private pokemonRankingsService:PokemonRankingsService, private authService:SocialAuthService, private pokeDetailsService:PokemonDetailsService) { }
+  
+  commRankDetails:PokemonDetails = {} as PokemonDetails;
+  commRankDetailsList:PokemonDetails[] = [];
   communityRankings:CommunityRanking[] = [];
   user: SocialUser = {} as SocialUser;
   loggedIn: boolean = false;
@@ -36,4 +39,23 @@ export class CommunityRankingsComponent implements OnInit {
     })
   }
 
-}
+  GetCommDetails(name:string):void{
+    this.pokeDetailsService.GetPokemonDetailsByName(name).subscribe((result) =>
+    {
+      this.commRankDetails = result;
+    })
+  }
+
+  // GetAllCommDetails(commRankDetails:CommunityRanking[]):PokemonDetails[]
+  // {
+  //   for(let i = 0; i < commRankDetails.length; i++)
+  //   {
+  //     this.GetCommDetails(commRankDetails[i].name);
+  //     this.commRankDetailsList.push(commRankDetails[i]);
+  //   }
+
+  
+
+  }
+
+

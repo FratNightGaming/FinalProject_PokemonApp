@@ -13,11 +13,11 @@
         <tr *ngFor="let ranking of communityRankings; index as i;">
             <td>{{i + 1}} </td>
             <td>{{communityRankings[i].name}}</td>
-            <!-- <td> <img [src]="pokemonDetails[i].sprites.front_default" alt=""></td>
+            <td> <img [src]="this.commRankDetailsList[i].sprites.front_default" alt=""></td>
             <td>
                 <button type="button" class="btn btn-light mr-1">See Full Details</button>
             </td>
-            <td *ngIf=""><app-pokemon-details></app-pokemon-details></td> -->
+            <td *ngIf=""><app-pokemon-details></app-pokemon-details></td>
         </tr>
     </tbody>
 </table>

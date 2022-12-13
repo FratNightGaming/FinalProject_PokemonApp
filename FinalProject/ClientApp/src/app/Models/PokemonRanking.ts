@@ -7,8 +7,37 @@ export interface PokemonRanking
     userId:       number;
     userRank:     number;
     pokemonApiid: number;
+    sprite:string;
     name: string;
+    types:string;
+    originalGame:string;
+    
+
+
     //why is user necessary if we have access to userID? At same time, how do I display user information?
     //user:         User;
 
 }
+
+
+
+
+
+
+
+// "types": [
+//     {
+//     "slot": 1,
+//     "type": {
+//     "name": "grass",
+//     "url": "https://pokeapi.co/api/v2/type/12/"
+//     }
+//     },
+//     {
+//     "slot": 2,
+//     "type": {
+//     "name": "poison",
+//     "url": "https://pokeapi.co/api/v2/type/4/"
+//     }
+//     }
+//     ],

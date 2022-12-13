@@ -3,7 +3,7 @@
     public class CommunityRanking
     {
         public string name { get; set; }
-        public float rank { get; set; }
+        public double rank { get; set; }
            
     }
 

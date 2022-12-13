@@ -34,10 +34,11 @@ export class DeleteRankComponent implements OnInit {
     });
   }
 
-  RemovePokemonRanking(userId:number, userRank:number, name:string):void
+  RemovePokemonRanking(userId:number, userRank:number, name:string, pokemonApiid:number, types:string,originalGame:string, sprite:string):void
   {
     this.FindPokeInfo(name);
-    this.pokemonRankingsService.RemovePokemonRanking(userId, userRank, this.pokeID, name, this.user.id);
+    let removedPoke:PokemonRanking = {id: 0, userId:userId, userRank:userRank, name:name, pokemonApiid:pokemonApiid, types:types, originalGame:originalGame, sprite:sprite};
+    this.pokemonRankingsService.RemovePokemonRanking(removedPoke, this.user.id);
   }
 
   FindPokeInfo(name:string):void
