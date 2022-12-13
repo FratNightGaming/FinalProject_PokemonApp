@@ -87,6 +87,21 @@ export class LoginComponent implements OnInit
 
   Register():void
   {
+    this.userService.AddNewUser(this.username, this.currentUser.id).subscribe((result:User)=>
+    {
+      for (let i = 0; i < this.users.length; i++)
+      
+      console.log(result);
+
+    }
+    );
+  }
+
+
+
+
+  Register2():void
+  {
     //username MUST be at least 3 characters long and MUST contain letters only
     if (this.registerUsername.length < 3 || !this.OnlyLetters(this.registerUsername))
     {

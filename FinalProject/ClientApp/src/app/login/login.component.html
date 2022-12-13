@@ -1,6 +1,24 @@
 <h1>PokeRanking App</h1>
 
-<h4 *ngIf="loggedIn">Currently Logged on as: {{currentUser.name}} - {{currentUser.email}}</h4>
+<h1>Login</h1>
+<br><br>
+
+<input type="text" [(ngModel)]="username">
+<!--<button (click)="Login(username)">Login</button>-->
+
+<div>
+    <p>Currently Logged on as: {{currentUser.firstName}}</p>
+    <!--<p>{{currentUser.id}}</p>-->
+    <p>Google ID : {{currentUser.id}}</p>
+</div>
+
+
+<button (click)="Register()">Register</button>
+
+
+
+
+<!-- <h4 *ngIf="loggedIn">Currently Logged on as: {{currentUser.name}} - {{currentUser.email}}</h4>
 <br>
 
 <div *ngIf="!loggedIn">
@@ -46,6 +64,6 @@
         <span *ngIf="invalidUsername">Invalid username: Usernames must contain letters only and be >= 3 characters</span>
         <span *ngIf="usernameTaken">{{registerUsername}} is already taken</span>
     </p>
-</div>
+</div> -->
 
 

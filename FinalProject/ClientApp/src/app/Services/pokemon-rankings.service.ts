@@ -48,4 +48,10 @@ export class PokemonRankingsService
     return this.http.post<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/${googleID}`, newPokemonRanking);
   }
 
+  // DeleteRanking(userID:number, userRank:number, pokemonApiid:number, googleID:string):Observable<PokemonRanking[]>
+  // {
+  //   let newPokemonRanking:PokemonRanking = {id: 0, userId:userID, userRank:userRank, pokemonApiid:pokemonApiid};
+  //   return this.http.delete<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/${googleID}`, newPokemonRanking);
+  // }
+
 }
