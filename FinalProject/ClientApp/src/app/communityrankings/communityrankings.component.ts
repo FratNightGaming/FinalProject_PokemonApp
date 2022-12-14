@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { PokemonRankingsService } from '../Services/pokemon-rankings.service';
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { CommunityRanking } from '../Models/CommunityRanking';
@@ -12,19 +12,24 @@ import { PokemonDetails } from '../Models/PokemonDetails';
 })
 export class CommunityRankingsComponent implements OnInit {
 
-  constructor(private pokemonRankingsService:PokemonRankingsService, private authService:SocialAuthService, private pokeDetailsService:PokemonDetailsService) { }
+  constructor(private authService:SocialAuthService, private pokemonRankingsService:PokemonRankingsService, private pokeDetailsService:PokemonDetailsService) { }
+
+  @Input() allPokemonDetailsList: PokemonDetails[] = []; 
+
   
+
   commRankDetails:PokemonDetails = {} as PokemonDetails;
   commRankDetailsList:PokemonDetails[] = [];
   communityRankings:CommunityRanking[] = [];
-  user: SocialUser = {} as SocialUser;
+  
+  currentUser: SocialUser = {} as SocialUser;
   loggedIn: boolean = false;
 
   ngOnInit(): void 
   {
-    this.authService.authState.subscribe((user) => {
-      this.user = user;
-      this.loggedIn = (user != null);
+    this.authService.authState.subscribe((currentUser) => {
+      this.currentUser = currentUser;
+      this.loggedIn = (currentUser != null);
     });
     this.GetCommunityRankings();
   }

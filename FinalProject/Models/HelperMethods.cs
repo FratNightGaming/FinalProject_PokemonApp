@@ -165,7 +165,8 @@ namespace FinalProject.Models
                 }
             }
 
-            return commRanks.OrderBy(cr => cr.rank).ToList();
+            commRanks = commRanks.OrderBy(cr => cr.rank).ToList();
+            return commRanks;
         }
     }
 }
