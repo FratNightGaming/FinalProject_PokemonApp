@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Console } from 'console';
 import { PokemonRanking } from '../Models/PokemonRanking';
 import { PokemonRankingsService } from '../Services/pokemon-rankings.service';
-import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+
 
 
 @Component({

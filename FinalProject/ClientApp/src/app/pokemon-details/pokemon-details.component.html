@@ -1,22 +1,25 @@
 <h1>Pokemon Details</h1>
 <input type="text" [(ngModel)]="pokemonID">
-<br><br>
+
 <button (click)="GetPokemonDetails(pokemonID); GetPokemonGenerationID(pokemonID)">Click for Pokemon Details</button>
-<div *ngIf="currentPokemon.name">
-    <p>Name: {{currentPokemon.name}}</p>
-    <!-- <p>Pokemon Name (getting through array): {{currentPokemon.forms[0].name}}</p> -->
-    <br>
-    <p>Pokedex ID: {{currentPokemon.id}}</p>
-    <!-- for loop for types -->
-    <p>Type(s): </p>
-    <p>{{currentPokemon.types[0].type.name}}</p>
-    <p *ngIf="currentPokemon.types.length === 2">{{currentPokemon.types[1].type.name}}</p>
-    <br>
-    <div *ngIf="currentPokemon.game_indices.length > 0 ">
-        <p >Original Game: {{currentPokemon.game_indices[0].version.name}}</p>
-    </div>
-    <p>Generation: {{pokemonGenerationID}}</p>
+
+<head>
     
-        <img src={{currentPokemon.sprites.front_default}} alt="">
+</head>
+<body>
+    <div *ngIf="currentPokemon.name">
+    <div class="row">
+        <div class="col">
+            <p>Name: {{currentPokemon.name}}</p>
+            <p>Pokedex ID: {{currentPokemon.id}}</p>
+            <p>Type(s): </p>
+            <p>{{currentPokemon.types[0].type.name}}</p>
+            <p *ngIf="currentPokemon.types.length === 2">{{currentPokemon.types[1].type.name}}</p>
+            <div *ngIf="currentPokemon.game_indices.length > 0 ">
+                <p >Original Game: {{currentPokemon.game_indices[0].version.name}}</p>
+            </div>
+            <p>Generation: {{pokemonGenerationID}}</p>
+            <img src={{currentPokemon.sprites.front_default}} alt="">
     
 </div>
+

@@ -1,11 +1,25 @@
 <h1>Pokemon Rankings</h1>
 
-<div *ngFor="let ranking of pokemonRankings">
-    <p>Ranking: {{ranking.userRank}}</p>
-    <p>Pokemon Name: {{ranking.name}}</p>
-    <p>PokemonID: {{ranking.pokemonApiid}}</p>
-</div>
-
+<head>
+    
+</head>
+<body>
+    <div *ngFor="let ranking of pokemonRankings">
+    <div class="row">
+        <div class="col" style="border: 1px solid white;">
+            <p class="text-danger">Ranking: {{ranking.userRank}}</p>
+        </div>
+        <div class="col" style="border: 1px solid white;">
+            <p class="text-warning">Pokemon Name: {{ranking.name}}</p>
+        </div>
+        <div class="col" style="border: 1px solid white;">
+            <p class="text-primary">PokemonID: {{ranking.pokemonApiid}}</p>
+        </div>
+    </div>
+    </div>
+</body>
+        
+        
 <hr>
 
 <div>
@@ -16,11 +30,24 @@
 
 <br><br>
 
-<div *ngFor="let ranking of pokemonRankingsByCurrentUser">
-    <p>Ranking: {{ranking.userRank}}</p>
-    <p>PokemonID: {{ranking.pokemonApiid}}</p>
-    <p>Pokemon Name: {{ranking.name}}</p>
-</div>
+<head>
+    
+</head>
+<body>
+    <div *ngFor="let ranking of pokemonRankingsByCurrentUser">
+    <div class="row">
+        <div class="col" style="border: 1px solid yellow;">
+            <p>Ranking: {{ranking.userRank}}</p>
+        </div>
+        <div class="col" style="border: 1px solid yellow;">
+            <p>PokemonID: {{ranking.pokemonApiid}}</p>
+        </div>
+        <div class="col" style="border: 1px solid yellow;">
+            <p>Pokemon Name: {{ranking.name}}</p>
+        </div>
+    </div>
+    </div>
+</body>
 
 <hr>
 
@@ -49,17 +76,34 @@
     <button (click)="GetPokemonRankingsByType(typeFilter)">Filter By Type</button>
 </div>
 
-<h3>Current User: {{currentUser}}</h3>
-<h3>Pokemon rankings filterd by Type: {{typeFilter}}</h3>
+<div class="row">
+    <div class="col">
+        <h3>Current User: {{currentUser}}</h3>
+        <h3>Pokemon rankings filtered by Type: {{typeFilter}}</h3>
+    </div>
+<head>
+    
+</head>
+<body>
+    <div *ngFor="let ranking of pokemonRankingsByType; index as i;">
+    <div class="row">
+        <div class="col" style="border: 1px solid yellow;">
+            <p>Rank: {{i + 1}}</p>
+        </div>
+        <div class="col" style="border: 1px solid yellow;">
+            <p>Overall Ranking: {{ranking.userRank}}</p>
+        </div>
+        <div class="col" style="border: 1px solid yellow;">
+            <p>PokemonID: {{ranking.pokemonApiid}}</p>
+        </div>
+        <div class="col" style="border: 1px solid yellow;">
+            <p>Pokemon Name: {{ranking.name}}</p>
+        </div>
+    </div>
+    </div>
+</body>
 
-<div *ngFor="let ranking of pokemonRankingsByType; index as i;">
-    <p>Rank: {{i + 1}}</p>
-    <p>Overall Ranking: {{ranking.userRank}}</p>
-    <p>PokemonID: {{ranking.pokemonApiid}}</p>
-    <p>Pokemon Name: {{ranking.name}}</p>
-</div>
 
-<hr>
 <!--what does selected="selected mean?
     what does id="#" mean?-->
 <div>
@@ -80,22 +124,50 @@
 
     <h3>Pokemon Rankings Filtered By Generation {{generationFilter}}</h3><br><br>
 
-    <div *ngFor="let pokemon of pokemonRankingsByGeneration; index as i;">
-        <p>Ranking: {{i + 1}}</p>
-        <p>Overall Rank: {{pokemon.userRank}}</p>
-        <p>Pokemon ID: {{pokemon.pokemonApiid}}</p>
-        <p>Pokemon Name: {{pokemon.name}}</p>
-    </div>
-</div>
+    <head>
+    
+    </head>
+    <body>
+        <div *ngFor="let ranking of pokemonRankingsByType; index as i;">
+        <div class="row">
+            <div class="col" style="border: 1px solid yellow;">
+                <p>Rank: {{i + 1}}</p>
+            </div>
+            <div class="col" style="border: 1px solid yellow;">
+                <p>Overall Ranking: {{ranking.userRank}}</p>
+            </div>
+            <div class="col" style="border: 1px solid yellow;">
+                <p>PokemonID: {{ranking.pokemonApiid}}</p>
+            </div>
+            <div class="col" style="border: 1px solid yellow;">
+                <p>Pokemon Name: {{ranking.name}}</p>
+            </div>
+        </div>
+        </div>
+    </body>
 
 <button (click)="GetPokemonRankingsByBoth(typeFilter, generationFilter)">Click to filter by both Generation and Type</button>
 
 <h3>Pokemon Rankings Filtered By Gen {{generationFilter}} and by {{typeFilter}} Type</h3>
 
-<div *ngFor="let pokemon of pokemonRankingsByBoth; index as i;">
-    <p>Ranking: {{i + 1}}</p>
-    <p>Overall Rank: {{pokemon.userRank}}</p>
-    <p>PokeDex ID: {{pokemon.pokemonApiid}}</p>
-    <p>Pokemon Name: {{pokemon.name}}</p>
-</div>
-
+<head>
+    
+</head>
+<body>
+    <div *ngFor="let ranking of pokemonRankingsByType; index as i;">
+    <div class="row">
+        <div class="col" style="border: 1px solid yellow;">
+            <p class="Danger link">Rank: {{i + 1}}</p>
+        </div>
+        <div class="col" style="border: 1px solid yellow;">
+            <p>Overall Ranking: {{ranking.userRank}}</p>
+        </div>
+        <div class="col" style="border: 1px solid yellow;">
+            <p>PokemonID: {{ranking.pokemonApiid}}</p>
+        </div>
+        <div class="col" style="border: 1px solid yellow;">
+            <p>Pokemon Name: {{ranking.name}}</p>
+        </div>
+    </div>
+    </div>
+</body>
