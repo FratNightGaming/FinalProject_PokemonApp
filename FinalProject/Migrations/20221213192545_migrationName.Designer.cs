@@ -4,6 +4,7 @@ using FinalProject.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalProject.Migrations
 {
     [DbContext(typeof(FinalProjectContext))]
-    partial class FinalProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20221213192545_migrationName")]
+    partial class migrationName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,8 +100,6 @@ namespace FinalProject.Migrations
                     b.HasOne("FinalProject.Models.User", "User")
                         .WithMany("PokemonRankings")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("FK__PokemonRa__UserI__5EBF139D");
 
                     b.Navigation("User");

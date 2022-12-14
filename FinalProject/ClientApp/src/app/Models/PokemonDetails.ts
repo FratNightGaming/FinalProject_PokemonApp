@@ -99,5 +99,10 @@ export interface Stat {
 
 export interface Type {
     slot: number;
-    type: Species;
+    type: TypeInfo;
+}
+
+export interface TypeInfo {
+    name: string;
+    url:  string;
 }

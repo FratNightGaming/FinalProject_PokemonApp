@@ -1,24 +1,15 @@
 <h2>Add New Pokemon to Ranks</h2>
-<div>
-    <label>UserName</label><br>
-    <select [(ngModel)]="userId">
-        <option value="1">Jake</option>
-        <option value="2">Sean</option>
-        <option value="3">Wail</option>
-    </select>
-</div>
+
 <div>
     <label>Rank</label><br>
     <input type="number" [(ngModel)]="userRank">
 </div>
 <br>
-<div>
-    <label>PokeDex ID</label><br>
-    <input type="number" [(ngModel)]="pokemonApiid" max="905">
-</div>
-<br>
+
 <div>
     <label>Name</label><br>
     <input type="text" [(ngModel)]="name">
 </div>
-<button (click)="AddRanking(userId,userRank,pokemonApiid,name)">Submit</button>
+
+<br>
+<button (click)="AddRanking(userId,userRank, name)">Submit</button>
