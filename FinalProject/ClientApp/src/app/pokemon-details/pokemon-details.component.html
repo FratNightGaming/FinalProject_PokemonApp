@@ -1,13 +1,19 @@
-<h1>Pokemon Details</h1>
-<input type="text" [(ngModel)]="pokemonID">
+<td *ngIf="currentPokemonDetails.types.length == 1">{{currentPokemonDetails.types[0].type.name}}</td>
+<td *ngIf="currentPokemonDetails.types.length > 1">{{currentPokemonDetails.types[0].type.name}} {{currentPokemonDetails.types[1].type.name}}</td>
+<td *ngIf="currentPokemonDetails.game_indices.length > 0 ">{{currentPokemonDetails.game_indices[0].version.name}}</td>
+<td *ngIf="currentPokemonDetails.game_indices.length === 0 ">N/A</td>
+<td>{{GetPokemonGenerationID(currentPokemonDetails.id)}}</td>
+
+
+<!-- <input type="text" [(ngModel)]="pokemonID">
 <br><br>
-<button (click)="GetPokemonDetails(pokemonID); GetPokemonGenerationID(pokemonID)">Click for Pokemon Details</button>
+<button (click)="GetPokemonDetailsByID(pokemonID); GetPokemonGenerationID(pokemonID)">Click for Pokemon Details</button>
 <div *ngIf="currentPokemon.name">
     <p>Name: {{currentPokemon.name}}</p>
-    <!-- <p>Pokemon Name (getting through array): {{currentPokemon.forms[0].name}}</p> -->
+    <p>Pokemon Name (getting through array): {{currentPokemon.forms[0].name}}</p>
     <br>
     <p>Pokedex ID: {{currentPokemon.id}}</p>
-    <!-- for loop for types -->
+    for loop for types
     <p>Type(s): </p>
     <p>{{currentPokemon.types[0].type.name}}</p>
     <p *ngIf="currentPokemon.types.length === 2">{{currentPokemon.types[1].type.name}}</p>
@@ -19,4 +25,4 @@
     
         <img src={{currentPokemon.sprites.front_default}} alt="">
     
-</div>
+</div> -->

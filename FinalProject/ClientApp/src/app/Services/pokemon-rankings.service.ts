@@ -44,16 +44,13 @@ export class PokemonRankingsService
   }
   
   AddRanking(newPokemonRanking:PokemonRanking, googleID:string):Observable<PokemonRanking[]>
-  {
-    
-    
+  { 
     return this.http.post<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/${googleID}`, newPokemonRanking);
   }
 
   RemovePokemonRanking(removedPoke:PokemonRanking, googleID:string):void
   {
     console.log(removedPoke.name);
-    
     this.http.delete<PokemonRanking>(this.baseURL + `api/PokemonRankings/${removedPoke.userRank}/${googleID}`).subscribe(data => {});
   }
 
@@ -61,5 +58,4 @@ export class PokemonRankingsService
   {
     return this.http.get<CommunityRanking[]>(this.baseURL + `api/PokemonRankings/CommunityRankings`);
   }
-
 }
