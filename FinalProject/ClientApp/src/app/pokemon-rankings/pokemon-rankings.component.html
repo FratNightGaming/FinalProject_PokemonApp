@@ -2,7 +2,15 @@
     <!-- I want to call 6 images (6 poke in party). Should I create a poke image component instead of adding pkedetails function in rankings component? Problem with current poke details component is that it has 4/5 elements displayed in html page so i cant just call pokedetails component to extract just the image
     Also, its not displayng the correct sprites... its like off one -->
     <div *ngIf="currentPokemonRankings.length > 0">
-        <h1 class="d-flex justify-content-center" *ngIf="loggedIn"><img [src]="currentPokemonRankings[0].sprite" alt=""><img [src]="currentPokemonRankings[1].sprite" alt=""><img [src]="currentPokemonRankings[2].sprite" alt="">{{currentUser.firstName}}'s Pokemon Rankings</h1>
+        <h1 class="d-flex justify-content-center" *ngIf="loggedIn">
+            <img [src]="currentPokemonRankings[0].sprite" alt="">
+            <img [src]="currentPokemonRankings[1].sprite" alt="">
+            <img [src]="currentPokemonRankings[2].sprite" alt="">
+            {{currentUser.firstName}}'s Pokemon Rankings 
+            <img [src]="currentPokemonRankings[3].sprite" alt="">
+            <img [src]="currentPokemonRankings[4].sprite" alt="">
+            <img [src]="currentPokemonRankings[5].sprite" alt="">
+        </h1>
     </div>
     <!-- <img [src]="allPokemonDetailsList[3].sprites.front_default" alt=""><img [src]="allPokemonDetailsList[4].sprites.front_default" alt=""><img [src]="allPokemonDetailsList[5].sprites.front_default" alt=""> -->
 
@@ -35,6 +43,7 @@
             <!-- <td>
                 <button type="button" class="btn btn-light mr-1" (click)="ToggleFullDetails()">See Full Details</button>
             </td> -->
+            <td></td>
         </tr>
     </tbody>
 </table>
@@ -59,7 +68,7 @@
     </thead>
 
     <tbody>
-        <tr *ngFor="let unrankedPokemon of unrankedPokemonDetails; index as i;">
+        <tr *ngFor="let unrankedPokemon of filteredPokemonDetails; index as i;">
             <td>{{i + 1}} {{unrankedPokemon.name}}</td>
             <td>{{unrankedPokemon.id}}</td>
             <td> <img [src]="unrankedPokemon.sprites.front_default" alt=""></td>

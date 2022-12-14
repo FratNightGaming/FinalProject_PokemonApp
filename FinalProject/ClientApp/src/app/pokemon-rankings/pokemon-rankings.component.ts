@@ -1,6 +1,8 @@
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { match } from 'assert';
+import { filter } from 'rxjs';
 import { Pokemon } from '../Models/pokemon';
 import { PokemonDetails } from '../Models/PokemonDetails';
 import { PokemonRanking } from '../Models/PokemonRanking';
@@ -38,7 +40,7 @@ export class PokemonRankingsComponent implements OnInit {
   
   //filteredPokemonDetails changes after each filter
   filteredPokemonDetails: PokemonDetails[] = [];
-  unrankedPokemonDetails: PokemonDetails[] = [];
+  //unrankedPokemonDetails: PokemonDetails[] = [];
   
   currentUser: SocialUser = {} as SocialUser;
   loggedIn: boolean = false;
@@ -103,25 +105,59 @@ export class PokemonRankingsComponent implements OnInit {
 
   GetUnrankedPokemonDetails(): void
   {
-
-    for (let i = 1; i <= 151; i++)
+    if (PokemonRankingsService.allPokemonDetailsList.length === 0)
     {
-      this.pokemonDetailsService.GetPokemonDetailsByID(i).subscribe((result : PokemonDetails) => 
+      for (let i = 1; i <= 151; i++)
+      {
+        this.pokemonDetailsService.GetPokemonDetailsByID(i).subscribe((result : PokemonDetails) => 
+          {
+            this.totalPokemonDetailsList.push(result);
+            this.unrankedPokemonDetailsList.push(result);
+            if (i === 151)
+            {
+              setTimeout(()=>{this.CalculateUnrankedPokemon()}, 3000);
+            }
+          }
+          );
+      }
+    }
+
+    else
+    {
+      this.totalPokemonDetailsList = PokemonRankingsService.allPokemonDetailsList;
+      this.unrankedPokemonDetailsList = PokemonRankingsService.allPokemonDetailsList;
+
+      for (let i = 0; i <= this.pokemonRankingsByCurrentUser.length; i++)
         {
-          this.totalPokemonDetailsList.push(result);
-          this.unrankedPokemonDetailsList.push(result);
+          this.unrankedPokemonDetailsList.splice(this.pokemonRankingsByCurrentUser[i].pokemonApiid - 1, 1);
         }
-        );
     }
-
-    for (let i = 0; i <= this.pokemonRankingsByCurrentUser.length; i++)
-    {
-      this.unrankedPokemonDetailsList.splice(this.pokemonRankingsByCurrentUser[i].pokemonApiid, 1);
-    }
-
-    console.log("Unranked Pokemon Details List: ");
-    console.log(this.unrankedPokemonDetailsList);
   }
+
+  CalculateUnrankedPokemon():void
+  {
+    PokemonRankingsService.allPokemonDetailsList = this.totalPokemonDetailsList;
+
+    this.unrankedPokemonDetailsList.sort((a, b) => (a.id > b.id) ? 1 : -1);
+    
+    let matchingPokemon:PokemonDetails[] = [];
+
+
+    for (let j = 0; j < this.pokemonRankingsByCurrentUser.length; j++)
+    {
+      matchingPokemon.push(this.unrankedPokemonDetailsList[this.pokemonRankingsByCurrentUser[j].pokemonApiid - 1]);
+      // this.unrankedPokemonDetailsList.splice(this.pokemonRankingsByCurrentUser[j].pokemonApiid - 1, 1);
+    }
+    
+    for (let j = 0; j < matchingPokemon.length; j++)
+    {
+      let index: number = this.unrankedPokemonDetailsList.indexOf(matchingPokemon[j]);
+      this.unrankedPokemonDetailsList.splice(index, 1);
+    }
+    
+    this.filteredPokemonDetails = this.unrankedPokemonDetailsList;
+  }
+
 
   GetPokemonRankingsByType(type:string):void
   {
