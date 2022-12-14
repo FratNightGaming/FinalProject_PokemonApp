@@ -51,9 +51,9 @@ import { CommunityRankingsComponent } from './communityrankings/communityranking
       { path: 'Register', component: RegisterComponent},
       { path: 'Home', component: HomeComponent},
       { path: 'Login', component: LoginComponent },
-      { path: '**', component: PageNotFoundComponent },
       { path: 'DeleteRank', component: DeleteRankComponent},
-      { path: 'CommunityRankings', component: CommunityRankingsComponent}
+      { path: 'CommunityRankings', component: CommunityRankingsComponent},
+      { path: '**', component: PageNotFoundComponent }
     ])
   ],
   providers: 

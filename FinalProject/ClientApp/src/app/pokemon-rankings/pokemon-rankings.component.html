@@ -24,7 +24,7 @@
     </thead>
 
     <tbody>
-        <tr *ngFor="let ranking of currentPokemonRankings; index as i;">
+        <tr *ngFor="let ranking of pokemonRankingsByCurrentUser; index as i;">
             <td>{{i + 1}} ({{ranking.userRank}})</td>
             <td>{{ranking.name}}</td>
             <td> <img [src]="ranking.sprite" alt=""></td>

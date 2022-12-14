@@ -47,7 +47,7 @@ namespace FinalProject.Controllers
 
             List<PokemonRanking> pokemonRankingsByUser = AllPokemonRankingsList.Where(ranking => ranking.UserId == id).ToList();
 
-            pokemonRankingsByUser.OrderBy(rank => rank.UserRank);
+            pokemonRankingsByUser = pokemonRankingsByUser.OrderBy(rank => rank.UserRank).ToList();
             return pokemonRankingsByUser;
             //return helperMethods.FilteredByRank(pokemonRankingsByUser);
         }
