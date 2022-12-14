@@ -53,7 +53,7 @@ import { CommunityRankingsComponent } from './communityrankings/communityranking
       { path: 'Login', component: LoginComponent },
       { path: 'DeleteRank', component: DeleteRankComponent},
       { path: 'CommunityRankings', component: CommunityRankingsComponent},
-      { path: '**', component: PageNotFoundComponent }
+      { path: '**', component: PageNotFoundComponent },
     ])
   ],
   providers: 

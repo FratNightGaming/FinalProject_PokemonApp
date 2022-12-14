@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CommunityRanking } from '../Models/CommunityRanking';
+import { PokemonDetails } from '../Models/PokemonDetails';
 
 import { PokemonRanking } from '../Models/PokemonRanking';
 
@@ -10,6 +11,7 @@ import { PokemonRanking } from '../Models/PokemonRanking';
 })
 export class PokemonRankingsService 
 {
+  static allPokemonDetailsList : PokemonDetails [] = [];
 
   constructor(private http: HttpClient, @Inject ("BASE_URL") private baseURL:string) 
   { 
