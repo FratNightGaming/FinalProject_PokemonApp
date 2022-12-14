@@ -52,7 +52,6 @@ import { CommunityRankingsComponent } from './communityrankings/communityranking
       { path: 'Home', component: HomeComponent},
       { path: 'Login', component: LoginComponent },
       { path: '**', component: PageNotFoundComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
       { path: 'DeleteRank', component: DeleteRankComponent},
       { path: 'CommunityRankings', component: CommunityRankingsComponent}
     ])
