@@ -134,13 +134,13 @@ namespace FinalProject.Models
             //return pokemonRankings;
         }
 
-        public List<CommunityRanking> FindCommunityRanks(List<PokemonRanking> allRanks, List<PokemonDetails> gen1s)
+        public List<CommunityRanking> FindCommunityRanks(List<PokemonRanking> allRanks, List<int> gen1IDs)
         {
             List<CommunityRanking> commRanks = new List<CommunityRanking>();
 
-            foreach (PokemonDetails p in gen1s)
+            foreach (int num in gen1IDs)
             {
-                List<PokemonRanking> preAdd = allRanks.Where(r => r.PokemonApiid == p.id).ToList();
+                List<PokemonRanking> preAdd = allRanks.Where(r => r.PokemonApiid == num).ToList();
 
                 double commRank = 0;
 
@@ -149,7 +149,7 @@ namespace FinalProject.Models
                     commRank += (double)preAdd[i].UserRank;
                 }
 
-                //commRank /= pokeContext.Users.ToList().Count;
+                
                 if(preAdd.Count != 0)
                 {
                 commRank /= preAdd.Count;
@@ -161,7 +161,7 @@ namespace FinalProject.Models
 
                 if (commRank != 0)
                 {
-                    commRanks.Add(new CommunityRanking { name = p.name, rank = commRank });
+                    commRanks.Add(new CommunityRanking { name = preAdd[0].Name, rank = commRank });
                 }
             }
 
