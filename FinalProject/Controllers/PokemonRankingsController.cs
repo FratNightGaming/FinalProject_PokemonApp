@@ -235,16 +235,21 @@ namespace FinalProject.Controllers
         public List<CommunityRanking> GetCommunityRankings()
         {
             List<CommunityRanking> communityRankingsList = new List<CommunityRanking>();
-            List<PokemonDetails> pokemonDetailsList = new List<PokemonDetails>();
-
-            for (int i = 0; i < allPokemonList.Count; i++)
+            List<int> gen1IDs = new List<int>();
+            for(int i = 1; i <=151; i++)
             {
-                PokemonDetails pokemonDetails = pokeDAL.GetPokemonDetailsByName(allPokemonList[i].name);
-                pokemonDetailsList.Add(pokemonDetails);
+                gen1IDs.Add(i);
             }
 
-            return helperMethods.FindCommunityRanks(AllPokemonRankingsList, pokemonDetailsList);
+
+            return helperMethods.FindCommunityRanks(AllPokemonRankingsList, gen1IDs);
         }
     }
 
 }
+
+            /*for (int i = 0; i < allPokemonList.Count; i++)
+            {
+                PokemonDetails pokemonDetails = pokeDAL.GetPokemonDetailsByName(allPokemonList[i].name);
+                pokemonDetailsList.Add(pokemonDetails);
+            }*/

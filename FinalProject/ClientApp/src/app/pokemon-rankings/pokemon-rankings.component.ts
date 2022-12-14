@@ -97,6 +97,7 @@ export class PokemonRankingsComponent implements OnInit {
       console.log(this.pokemonRankingsByCurrentUser);
       console.log(this.currentPokemonRankings);
 
+
       this.GetUnrankedPokemonDetails();
     }
     ); 
