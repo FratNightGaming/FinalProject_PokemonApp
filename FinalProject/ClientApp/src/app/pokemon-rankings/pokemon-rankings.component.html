@@ -1,19 +1,10 @@
 <div>
     <!-- I want to call 6 images (6 poke in party). Should I create a poke image component instead of adding pkedetails function in rankings component? Problem with current poke details component is that it has 4/5 elements displayed in html page so i cant just call pokedetails component to extract just the image
     Also, its not displayng the correct sprites... its like off one -->
-    <div *ngIf="allPokemonDetailsList.length > 0">
-        <h1 class="d-flex justify-content-center" *ngIf="loggedIn"><img [src]="allPokemonDetailsList[0].sprites.front_default" alt=""><img [src]="allPokemonDetailsList[1].sprites.front_default" alt=""><img [src]="allPokemonDetailsList[2].sprites.front_default" alt="">{{currentUser.firstName}}'s Pokemon Rankings</h1>
+    <div *ngIf="currentPokemonRankings.length > 0">
+        <h1 class="d-flex justify-content-center" *ngIf="loggedIn"><img [src]="currentPokemonRankings[0].sprite" alt=""><img [src]="currentPokemonRankings[1].sprite" alt=""><img [src]="currentPokemonRankings[2].sprite" alt="">{{currentUser.firstName}}'s Pokemon Rankings</h1>
     </div>
-    
-    
     <!-- <img [src]="allPokemonDetailsList[3].sprites.front_default" alt=""><img [src]="allPokemonDetailsList[4].sprites.front_default" alt=""><img [src]="allPokemonDetailsList[5].sprites.front_default" alt=""> -->
-    
-<div *ngFor="let ranking of pokemonRankings">
-    <p>Ranking: {{ranking.userRank}}</p>
-    <p>Pokemon Name: {{ranking.name}}</p>
-    <p>PokemonID: {{ranking.pokemonApiid}}</p>
-    <br>
-</div>
 
 <!-- Table for user's rankings -->
 <table class="table table-striped" *ngIf="loggedIn">
@@ -26,7 +17,8 @@
             <th *ngIf="displayDetails">Original Game</th>
             <th *ngIf="displayDetails">Generation</th>
             <th>Edit Pokemon:</th>
-            <th>Toggle Details:</th>
+            <th><button (click)="ToggleFullDetails()">Toggle Details</button></th>
+            <!-- Make this a button -->
 
         </tr>
     </thead>
@@ -34,27 +26,21 @@
     <tbody>
         <tr *ngFor="let ranking of currentPokemonRankings; index as i;">
             <td>{{i + 1}} ({{ranking.userRank}})</td>
-            <td>{{allPokemonNames[ranking.pokemonApiid].name}}</td>
-            <td> <img [src]="filteredPokemonDetails[i].sprites.front_default" alt=""></td>
-            <td *ngIf="filteredPokemonDetails[i].types.length == 1 && displayDetails">{{filteredPokemonDetails[i].types[0].type.name}}</td>
-            <td *ngIf="filteredPokemonDetails[i].types.length > 1 && displayDetails">{{filteredPokemonDetails[i].types[0].type.name}}/{{filteredPokemonDetails[i].types[1].type.name}}</td>
-            <td *ngIf="filteredPokemonDetails[i].game_indices.length > 0 && displayDetails">{{filteredPokemonDetails[i].game_indices[0].version.name}}</td>
-            <td *ngIf="filteredPokemonDetails[i].game_indices.length === 0 && displayDetails">N/A</td>
-            <td *ngIf="displayDetails">{{GetPokemonGenerationID(filteredPokemonDetails[i].id)}}</td>
-
-            <!-- <td *ngIf="displayDetails"><app-pokemon-details [currentPokemonDetails]="usersPokemonDetails[i]"></app-pokemon-details></td>
-            <td *ngIf="displayDetails"><app-pokemon-details [currentPokemonDetails]="usersPokemonDetails[i]"></app-pokemon-details></td> -->
-            <td><button>Edit Ranking</button></td>
-            <td>
+            <td>{{ranking.name}}</td>
+            <td> <img [src]="ranking.sprite" alt=""></td>
+            <td *ngIf="displayDetails">{{ranking.types}}</td>
+            <td *ngIf="displayDetails">{{ranking.originalGame}}</td>
+            <td *ngIf="displayDetails">{{GetPokemonGenerationID(ranking.pokemonApiid)}}</td>
+            <td><button type="button" class="btn btn-light mr-1">Edit Ranking</button></td>
+            <!-- <td>
                 <button type="button" class="btn btn-light mr-1" (click)="ToggleFullDetails()">See Full Details</button>
-            </td>
-
+            </td> -->
         </tr>
     </tbody>
 </table>
 
 <hr>
-<!-- Table for UNRANKED Pokemon -->
+
 <h1 class="d-flex justify-content-center">Unranked Pokemon</h1>
 
 <table class="table table-striped" *ngIf="loggedIn">
@@ -66,32 +52,21 @@
             <th>Type/s</th>
             <th>Original Game</th>
             <th>Generation</th>
-            <th>Add to List - we need button</th>
-
+            <th><button>Add To Rankings List</button></th>
+            <!-- add modal which has option select of 1-151; this option corresponds to userRank; click add to execute add rank function -->
+            <th><button (click)="ToggleFullDetails()" type="button" class="btn btn-light mr-1">Toggle Details</button></th>
         </tr>
     </thead>
 
     <tbody>
-        <tr *ngFor="let pokemon of unrankedPokemonDetails; index as i;">
-            <td>{{i + 1}} {{pokemon.name}}</td>
-            <td>{{pokemon.id}}</td>
-            <td> <img [src]="pokemon.sprites.front_default" alt=""></td>
-            <td>
-                <button type="button" class="btn btn-light mr-1">See Full Details</button>
-            </td>
-            <td *ngIf="pokemon.types.length == 1">{{pokemon.types[0].type.name}}</td>
-            <td *ngIf="pokemon.types.length > 1">{{pokemon.types[0].type.name}} {{pokemon.types[1].type.name}}</td>
-            <td *ngIf="pokemon.game_indices.length > 0 ">{{pokemon.game_indices[0].version.name}}</td>
-            <td>{{pokemon}}</td>
-
-            
-            <div *ngIf="filteredPokemonDetails[i].game_indices.length > 0 ">
-                <p >Original Game: {{filteredPokemonDetails[i].game_indices[0].version.name}}</p>
-            </div>
-            <!-- <p>Generation: {{pokemonGenerationID}}</p> -->
-            <p>Pokemon Generation: {{filteredPokemonDetails[i].name}}</p>
-
-
+        <tr *ngFor="let unrankedPokemon of unrankedPokemonDetails; index as i;">
+            <td>{{i + 1}} {{unrankedPokemon.name}}</td>
+            <td>{{unrankedPokemon.id}}</td>
+            <td> <img [src]="unrankedPokemon.sprites.front_default" alt=""></td>
+            <td *ngIf="unrankedPokemon.types.length === 1 && displayDetails">{{unrankedPokemon.types[0].type.name}}</td>
+            <td *ngIf="unrankedPokemon.types.length > 1 && displayDetails">{{unrankedPokemon.types[0].type.name}}/{{unrankedPokemon.types[1].type.name}}</td>
+            <td *ngIf="unrankedPokemon.game_indices.length > 0 && displayDetails">{{unrankedPokemon.game_indices[0].version.name}}</td>
+            <td *ngIf="displayDetails">{{GetPokemonGenerationID(unrankedPokemon.id)}}</td>
         </tr>
     </tbody>
 </table>
@@ -110,17 +85,6 @@
 
 
 <hr>
-
-<br><br>
-
-<!-- <div>
-    <div *ngFor="let ranking of pokemonRankingsByCurrentUser; index as i;">
-        <p>Ranking: {{i + 1}} ({{ranking.userRank}})</p>
-        <p>Pokemon Name: {{usersPokemonDetails[i].name}}</p>
-        <p>Pokemon Image: {{usersPokemonDetails[i].name}}</p>
-        <p>Pokemon Generation: {{usersPokemonDetails[i].name}}</p>
-    </div>
-</div> -->
 
 
 <hr>

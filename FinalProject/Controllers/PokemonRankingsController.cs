@@ -47,7 +47,9 @@ namespace FinalProject.Controllers
 
             List<PokemonRanking> pokemonRankingsByUser = AllPokemonRankingsList.Where(ranking => ranking.UserId == id).ToList();
 
-            return helperMethods.FilteredByRank(pokemonRankingsByUser);
+            pokemonRankingsByUser.OrderBy(rank => rank.UserRank);
+            return pokemonRankingsByUser;
+            //return helperMethods.FilteredByRank(pokemonRankingsByUser);
         }
 
         [HttpGet("User/{googleID}/Type/{type}")]
