@@ -39,11 +39,12 @@ export class CommunityRankingsComponent implements OnInit {
     })
   }
 
-  GetCommDetails(name:string):void{
+  GetCommDetails(name:string):PokemonDetails{
     this.pokeDetailsService.GetPokemonDetailsByName(name).subscribe((result) =>
     {
       this.commRankDetails = result;
     })
+    return this.commRankDetails;
   }
 
   // GetAllCommDetails(commRankDetails:CommunityRanking[]):PokemonDetails[]
