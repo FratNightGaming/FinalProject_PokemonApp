@@ -6,6 +6,7 @@ import { User } from '../Models/user';
 import { PokemonDetailsService } from '../Services/pokemon-details.service';
 import { PokemonRankingsService } from '../Services/pokemon-rankings.service';
 
+
 @Component({
   selector: 'app-pokemon-rankings',
   templateUrl: './pokemon-rankings.component.html',
@@ -31,6 +32,7 @@ export class PokemonRankingsComponent implements OnInit {
   userID : number = 0;
 
   currentUser : User = {} as User;
+  currentPokemon!: PokemonDetails;
 
   constructor(private pokemonRankingsService:PokemonRankingsService, private pokemonService:PokemonDetailsService, private authService: SocialAuthService) { }
 
@@ -41,6 +43,16 @@ export class PokemonRankingsComponent implements OnInit {
       this.loggedIn = (user != null);
     });
     this.GetPokemonRankings();
+  }
+
+  GetPokemonDetails(index: number) : void
+  {
+    this.pokemonService.GetPokemonDetails(index).subscribe((result: PokemonDetails) =>
+    {
+      this.currentPokemon = result;
+      console.log(result);
+      console.log(this.currentPokemon.sprites.front_default);
+    });
   }
 
   GetPokemonRankings():void
