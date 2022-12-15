@@ -184,7 +184,7 @@ namespace FinalProject.Controllers
             {
                 if (ranksByUser[i].UserRank == pokemonRanking.UserRank)
                 {
-                    for (int j = (int)pokemonRanking.UserRank; i < ranksByUser.Count; i++)
+                    for (int j = (int)pokemonRanking.UserRank; j < ranksByUser.Count; j++)
                     {
                             //AllPokemonRankingsList[i].UserRank += 1;
                             _context.PokemonRankings.Find(ranksByUser[j].Id).UserRank += 1;
@@ -217,7 +217,7 @@ namespace FinalProject.Controllers
             for (int i = 0; i < ranksByUser.Count; i++)
             {
 
-                    if (ranksByUser[i].UserRank >= pokemonRanking.UserRank)
+                    if (ranksByUser[i].UserRank > pokemonRanking.UserRank)
                     {
                         //AllPokemonRankingsList[i].UserRank += 1;
                         _context.PokemonRankings.Find(ranksByUser[i].Id).UserRank -= 1;
