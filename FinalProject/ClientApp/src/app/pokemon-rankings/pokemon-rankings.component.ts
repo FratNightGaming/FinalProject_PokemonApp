@@ -47,6 +47,8 @@ export class PokemonRankingsComponent implements OnInit {
   
   typeFilter: string = "";
   generationFilter: number = 0;
+
+  editRank: number = 0;
   
   // pokemonName:string ="";
   // pokeSprite:string = "";
@@ -237,22 +239,12 @@ export class PokemonRankingsComponent implements OnInit {
 
   DeletePokemonRanking(name:string): void
   {
-    // let deletedPoke:PokemonRanking = 
-    // {
-    //   id: 0, userId: 0, userRank: userRank, name: name, pokemonApiid: pokemonApiid, types: types, originalGame: originalGame, sprite: sprite
-    // };
-    
-    // this.pokemonDetailsService.GetPokemonDetailsByName(deletedPoke.name).subscribe((result : PokemonDetails) =>
-    // {
-    //   this.unrankedPokemonDetailsList.push(result);
-    //   console.log("DELETED Pokemon: ");
-    //   console.log(result);
-    //   console.log("Updated Pokemon Details List: ");
-    //   console.log(this.unrankedPokemonDetailsList);
-    // }
-    // );
-    
     this.pokemonRankingsService.RemovePokemonRanking(name, this.currentUser.id);
+  }
+
+  EditPokemonRanking(name:string, editRank:number)
+  {
+
   }
 
   ToggleFullDetails():void
