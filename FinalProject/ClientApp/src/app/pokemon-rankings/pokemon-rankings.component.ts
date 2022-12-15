@@ -20,7 +20,7 @@ export class PokemonRankingsComponent implements OnInit {
   // allPokemonRankings: PokemonRanking[] = [];
 
 
-  currentPokemonRankingsList: PokemonRanking[] = [];//this list will be displayed on html; it changes with each filter
+  // currentPokemonRankingsList: PokemonRanking[] = [];//this list will be displayed on html; it changes with each filter
   pokemonRankingsByCurrentUser: PokemonRanking[] = [];
   pokemonRankingsByType: PokemonRanking[] = [];
   pokemonRankingsByGeneration: PokemonRanking[] = [];
@@ -28,7 +28,7 @@ export class PokemonRankingsComponent implements OnInit {
 
 
   //list of 151 pokemon details
-  totalPokemonDetailsList: PokemonDetails [] = [];
+  static totalPokemonDetailsList: PokemonDetails [] = [];
   unrankedPokemonDetailsList: PokemonDetails [] = [];
   currentPokeDetails: PokemonDetails = {} as PokemonDetails;
 
@@ -111,7 +111,7 @@ export class PokemonRankingsComponent implements OnInit {
       {
         this.pokemonDetailsService.GetPokemonDetailsByID(i).subscribe((result : PokemonDetails) => 
           {
-            this.totalPokemonDetailsList.push(result);
+            PokemonRankingsComponent.totalPokemonDetailsList.push(result);
             this.unrankedPokemonDetailsList.push(result);
             if (i === 151)
             {
@@ -124,7 +124,7 @@ export class PokemonRankingsComponent implements OnInit {
 
     else
     {
-      this.totalPokemonDetailsList = PokemonRankingsService.allPokemonDetailsList;
+      PokemonRankingsComponent.totalPokemonDetailsList = PokemonRankingsService.allPokemonDetailsList;
       this.unrankedPokemonDetailsList = PokemonRankingsService.allPokemonDetailsList;
 
       for (let i = 0; i <= this.pokemonRankingsByCurrentUser.length; i++)
@@ -136,7 +136,7 @@ export class PokemonRankingsComponent implements OnInit {
 
   CalculateUnrankedPokemon():void
   {
-    PokemonRankingsService.allPokemonDetailsList = this.totalPokemonDetailsList;
+    PokemonRankingsService.allPokemonDetailsList = PokemonRankingsComponent.totalPokemonDetailsList;
 
     this.unrankedPokemonDetailsList.sort((a, b) => (a.id > b.id) ? 1 : -1);
     
@@ -154,7 +154,7 @@ export class PokemonRankingsComponent implements OnInit {
       let index: number = this.unrankedPokemonDetailsList.indexOf(matchingPokemon[j]);
       this.unrankedPokemonDetailsList.splice(index, 1);
     }
-    
+
     this.filteredPokemonDetails = this.unrankedPokemonDetailsList;
   }
 
@@ -203,6 +203,16 @@ export class PokemonRankingsComponent implements OnInit {
 
   AddPokemonRanking(userRank:number, name:string):void
   {
+    // checks to make sure pokemon isn't already in user's rankings, though this shouldn't be necessary since unrankedpokmemonlist will never have already ranked pokemon
+    for(let i = 0; i < this.pokemonRankingsByCurrentUser.length; i++)
+    {
+      if (name === this.pokemonRankingsByCurrentUser[i].name)
+      {
+        console.log(`${name} already exists in the user's rankings: `);
+        return;
+      }
+    }
+    
     this.pokemonDetailsService.GetPokemonDetailsByName(name).subscribe((result) =>
 
     {
@@ -248,6 +258,16 @@ export class PokemonRankingsComponent implements OnInit {
   ToggleFullDetails():void
   {
     this.displayDetails = !this.displayDetails;
+  }
+
+  SortByAscending():void
+  {
+    this.currentPokemonRankings = this.currentPokemonRankings.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  SortByDescending():void
+  {
+    
   }
 
   GetPokemonGenerationID(id: number): number
