@@ -48,7 +48,10 @@ export class PokemonRankingsComponent implements OnInit {
   typeFilter: string = "";
   generationFilter: number = 0;
 
+  editRankArray: number [] = [];
   editRank: number = 0;
+  addRankArray: number [] = [];
+  addRank: number = 0;
   
   // pokemonName:string ="";
   // pokeSprite:string = "";
@@ -239,7 +242,11 @@ export class PokemonRankingsComponent implements OnInit {
 
   DeletePokemonRanking(name:string): void
   {
-    this.pokemonRankingsService.RemovePokemonRanking(name, this.currentUser.id);
+    this.pokemonRankingsService.RemovePokemonRanking(name, this.currentUser.id).subscribe((results:PokemonRanking[])=>
+    {
+      this.pokemonRankingsByCurrentUser = results;
+    }
+    );
   }
 
   EditPokemonRanking(name:string, editRank:number)
