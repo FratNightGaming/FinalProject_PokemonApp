@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CommunityRanking } from '../Models/CommunityRanking';
+import { PokemonDetails } from '../Models/PokemonDetails';
 
 import { PokemonRanking } from '../Models/PokemonRanking';
 
@@ -10,6 +11,7 @@ import { PokemonRanking } from '../Models/PokemonRanking';
 })
 export class PokemonRankingsService 
 {
+  static allPokemonDetailsList : PokemonDetails [] = [];
 
   constructor(private http: HttpClient, @Inject ("BASE_URL") private baseURL:string) 
   { 
@@ -48,10 +50,21 @@ export class PokemonRankingsService
     return this.http.post<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/${googleID}`, newPokemonRanking);
   }
 
-  RemovePokemonRanking(removedPoke:PokemonRanking, googleID:string):void
+  EditRanking(newPokemonRanking:PokemonRanking, googleID:string):Observable<PokemonRanking[]>
   {
-    console.log(removedPoke.name);
-    this.http.delete<PokemonRanking>(this.baseURL + `api/PokemonRankings/${removedPoke.userRank}/${googleID}`).subscribe(data => {});
+    return this.http.put<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/${googleID}`, newPokemonRanking);
+  }
+
+  // SortByNameAscending(): Observable<PokemonRanking[]>
+  // {
+  //   return this.http.get<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/`);
+  // }
+
+  RemovePokemonRanking(name:string, googleID:string):void
+  {
+    console.log(name);
+    // should we be subscribing here?
+    this.http.delete<PokemonRanking>(this.baseURL + `api/PokemonRankings/${name}/${googleID}`).subscribe(data => {});
   }
 
   GetCommunityRankings():Observable<CommunityRanking[]>

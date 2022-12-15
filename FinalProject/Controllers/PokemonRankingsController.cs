@@ -47,7 +47,7 @@ namespace FinalProject.Controllers
 
             List<PokemonRanking> pokemonRankingsByUser = AllPokemonRankingsList.Where(ranking => ranking.UserId == id).ToList();
 
-            pokemonRankingsByUser.OrderBy(rank => rank.UserRank);
+            pokemonRankingsByUser = pokemonRankingsByUser.OrderBy(rank => rank.UserRank).ToList();
             return pokemonRankingsByUser;
             //return helperMethods.FilteredByRank(pokemonRankingsByUser);
         }
@@ -195,8 +195,8 @@ namespace FinalProject.Controllers
         }
 
         // DELETE: api/PokemonRankings/5
-        [HttpDelete("{userRank}/{googleID}")]
-        public List<PokemonRanking> DeletePokemonRanking(int userRank, string googleID)
+        [HttpDelete("{name}/{googleID}")]
+        public List<PokemonRanking> DeletePokemonRanking(string name, string googleID)
         {
             //List<PokemonRanking> newPokemonRankings = AllPokemonRankingsList;
             int id1 = (int)AllUsersList.FirstOrDefault(user => user.GoogleId == googleID).Id;
@@ -205,7 +205,7 @@ namespace FinalProject.Controllers
 
             PokemonRanking pokemonRanking = new PokemonRanking();
 
-            pokemonRanking = (PokemonRanking)ranksByUser.FirstOrDefault(rank => rank.UserRank == userRank);
+            pokemonRanking = (PokemonRanking)ranksByUser.FirstOrDefault(rank => rank.Name == name);
 
             for (int i = 0; i < AllPokemonRankingsList.Count; i++)
             {
@@ -233,18 +233,18 @@ namespace FinalProject.Controllers
 
         [HttpGet("CommunityRankings")]
         public List<CommunityRanking> GetCommunityRankings()
-        {
-            List<CommunityRanking> communityRankingsList = new List<CommunityRanking>();
-            List<PokemonDetails> pokemonDetailsList = new List<PokemonDetails>();
+        {           
+            List<int> gen1IDs = new List<int>();
 
-            for (int i = 0; i < allPokemonList.Count; i++)
+            for(int i = 1; i <=151; i++)
             {
-                PokemonDetails pokemonDetails = pokeDAL.GetPokemonDetailsByName(allPokemonList[i].name);
-                pokemonDetailsList.Add(pokemonDetails);
+                gen1IDs.Add(i);
             }
 
-            return helperMethods.FindCommunityRanks(AllPokemonRankingsList, pokemonDetailsList);
+            return helperMethods.FindCommunityRanks(AllPokemonRankingsList, gen1IDs);
         }
     }
 
 }
+
+            

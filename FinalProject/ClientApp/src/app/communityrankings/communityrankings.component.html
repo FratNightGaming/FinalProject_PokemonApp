@@ -1,24 +1,82 @@
-<h1>Community Pokemon Rankings List:</h1>
-<table class="table table-striped" *ngIf="loggedIn">
+<h1 class="d-flex justify-content-center">Community Pokemon Rankings List:</h1>
+
+<div class="container">
+    <nav class="navbar navbar-expand-sm bg-light navbar-dark">
+      <ul class="navbar-nav">
+        
+
+        <!-- Filter By Type -->
+        <li class="nav-item">
+            <select [(ngModel)]="typeFilter">
+                <option selected="selected" value="Normal">Normal</option>
+                <option value="Fire">Fire</option>
+                <option value="Water">Water</option>
+                <option value="Grass">Grass</option>
+                <option value="Electric">Electric</option>
+                <option value="Ice">Ice</option>
+                <option value="Fighting">Fighting</option>
+                <option value="Poison">Poison</option>
+                <option value="Ground">Ground</option>
+                <option value="Flying">Flying</option>
+                <option value="Psychic">Psychic</option>
+                <option value="Bug">Bug</option>
+                <option value="Rock">Rock</option>
+                <option value="Ghost">Ghost</option>
+                <option value="Dark">Dark</option>
+                <option value="Dragon">Dragon</option>
+                <option value="Steel">Steel</option>
+                <option value="Fairy">Fairy</option>
+            </select>
+
+            <button (click)="GetPokemonRankingsByType(typeFilter)">Filter By Type</button>
+
+        </li>
+
+        <!-- Filter by Generation -->
+        <li class="nav-item">
+            <select [(ngModel)]="generationFilter">
+                <option selected="selected" value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+            </select>
+    
+            <button (click)="GetPokemonRankingsByGeneration(generationFilter)">Filter By Generation</button>
+
+        </li>
+    </ul>
+    </nav>
+  </div> 
+
+        
+
+        
+<table class="table table-striped">
     <thead>
         <tr>
-            <th>Rank:</th>
+            <th>Rank: (Score)</th>
             <th>Pokemon Name:</th>
             <th>Pokemon Image:</th>
-            <th>Options (Filter???)</th>
+            <th>Types</th>
+            <th>Original Game</th>
+            <th>Generation</th>
         </tr>
     </thead>
 
     <tbody>
         <tr *ngFor="let ranking of communityRankings; index as i;">
-            <td>{{i + 1}} </td>
-            <td>{{communityRankings[i].name}}</td>
-            <!-- <td> <img [src]="this.commRankDetails.sprites.front_default" alt=""></td>
-            <td> -->
-                <!-- <button type="button" class="btn btn-light mr-1">See Full Details</button>
-            </td> -->
-            <td *ngIf=""><app-pokemon-details></app-pokemon-details></td>
+            <td>{{i + 1}} ({{ranking.rank}})</td>
+            <td>{{ranking.name}}</td>
+            <td><img [src]="ranking.sprite" alt=""></td>
+            <td>{{ranking.types}}</td>
+            <td>{{ranking.originalGame}}</td>
+            <td>{{GetPokemonGenerationID(ranking.pokemonApiid)}}</td>
+            <td></td>
         </tr>
     </tbody>
 </table>
-

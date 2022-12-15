@@ -1,6 +1,8 @@
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { match } from 'assert';
+import { filter } from 'rxjs';
 import { Pokemon } from '../Models/pokemon';
 import { PokemonDetails } from '../Models/PokemonDetails';
 import { PokemonRanking } from '../Models/PokemonRanking';
@@ -18,7 +20,7 @@ export class PokemonRankingsComponent implements OnInit {
   // allPokemonRankings: PokemonRanking[] = [];
 
 
-  currentPokemonRankingsList: PokemonRanking[] = [];//this list will be displayed on html; it changes with each filter
+  // currentPokemonRankingsList: PokemonRanking[] = [];//this list will be displayed on html; it changes with each filter
   pokemonRankingsByCurrentUser: PokemonRanking[] = [];
   pokemonRankingsByType: PokemonRanking[] = [];
   pokemonRankingsByGeneration: PokemonRanking[] = [];
@@ -26,7 +28,7 @@ export class PokemonRankingsComponent implements OnInit {
 
 
   //list of 151 pokemon details
-  totalPokemonDetailsList: PokemonDetails [] = [];
+  static totalPokemonDetailsList: PokemonDetails [] = [];
   unrankedPokemonDetailsList: PokemonDetails [] = [];
   currentPokeDetails: PokemonDetails = {} as PokemonDetails;
 
@@ -38,13 +40,15 @@ export class PokemonRankingsComponent implements OnInit {
   
   //filteredPokemonDetails changes after each filter
   filteredPokemonDetails: PokemonDetails[] = [];
-  unrankedPokemonDetails: PokemonDetails[] = [];
+  //unrankedPokemonDetails: PokemonDetails[] = [];
   
   currentUser: SocialUser = {} as SocialUser;
   loggedIn: boolean = false;
   
   typeFilter: string = "";
   generationFilter: number = 0;
+
+  editRank: number = 0;
   
   // pokemonName:string ="";
   // pokeSprite:string = "";
@@ -91,7 +95,10 @@ export class PokemonRankingsComponent implements OnInit {
       this.currentPokemonRankings = this.pokemonRankingsByCurrentUser;
 
       console.log("Pokemon Rankings By User: ");
+      console.log(results);
+      console.log(this.pokemonRankingsByCurrentUser);
       console.log(this.currentPokemonRankings);
+
 
       this.GetUnrankedPokemonDetails();
     }
@@ -100,25 +107,59 @@ export class PokemonRankingsComponent implements OnInit {
 
   GetUnrankedPokemonDetails(): void
   {
-
-    for (let i = 1; i <= 151; i++)
+    if (PokemonRankingsService.allPokemonDetailsList.length === 0)
     {
-      this.pokemonDetailsService.GetPokemonDetailsByID(i).subscribe((result : PokemonDetails) => 
+      for (let i = 1; i <= 151; i++)
+      {
+        this.pokemonDetailsService.GetPokemonDetailsByID(i).subscribe((result : PokemonDetails) => 
+          {
+            PokemonRankingsComponent.totalPokemonDetailsList.push(result);
+            this.unrankedPokemonDetailsList.push(result);
+            if (i === 151)
+            {
+              setTimeout(()=>{this.CalculateUnrankedPokemon()}, 3000);
+            }
+          }
+          );
+      }
+    }
+
+    else
+    {
+      PokemonRankingsComponent.totalPokemonDetailsList = PokemonRankingsService.allPokemonDetailsList;
+      this.unrankedPokemonDetailsList = PokemonRankingsService.allPokemonDetailsList;
+
+      for (let i = 0; i <= this.pokemonRankingsByCurrentUser.length; i++)
         {
-          this.totalPokemonDetailsList.push(result);
-          this.unrankedPokemonDetailsList.push(result);
+          this.unrankedPokemonDetailsList.splice(this.pokemonRankingsByCurrentUser[i].pokemonApiid - 1, 1);
         }
-        );
     }
-
-    for (let i = 0; i <= this.pokemonRankingsByCurrentUser.length; i++)
-    {
-      this.unrankedPokemonDetailsList.splice(this.pokemonRankingsByCurrentUser[i].pokemonApiid, 1);
-    }
-
-    console.log("Unranked Pokemon Details List: ");
-    console.log(this.unrankedPokemonDetailsList);
   }
+
+  CalculateUnrankedPokemon():void
+  {
+    PokemonRankingsService.allPokemonDetailsList = PokemonRankingsComponent.totalPokemonDetailsList;
+
+    this.unrankedPokemonDetailsList.sort((a, b) => (a.id > b.id) ? 1 : -1);
+    
+    let matchingPokemon:PokemonDetails[] = [];
+
+
+    for (let j = 0; j < this.pokemonRankingsByCurrentUser.length; j++)
+    {
+      matchingPokemon.push(this.unrankedPokemonDetailsList[this.pokemonRankingsByCurrentUser[j].pokemonApiid - 1]);
+      // this.unrankedPokemonDetailsList.splice(this.pokemonRankingsByCurrentUser[j].pokemonApiid - 1, 1);
+    }
+    
+    for (let j = 0; j < matchingPokemon.length; j++)
+    {
+      let index: number = this.unrankedPokemonDetailsList.indexOf(matchingPokemon[j]);
+      this.unrankedPokemonDetailsList.splice(index, 1);
+    }
+
+    this.filteredPokemonDetails = this.unrankedPokemonDetailsList;
+  }
+
 
   GetPokemonRankingsByType(type:string):void
   {
@@ -164,6 +205,16 @@ export class PokemonRankingsComponent implements OnInit {
 
   AddPokemonRanking(userRank:number, name:string):void
   {
+    // checks to make sure pokemon isn't already in user's rankings, though this shouldn't be necessary since unrankedpokmemonlist will never have already ranked pokemon
+    for(let i = 0; i < this.pokemonRankingsByCurrentUser.length; i++)
+    {
+      if (name === this.pokemonRankingsByCurrentUser[i].name)
+      {
+        console.log(`${name} already exists in the user's rankings: `);
+        return;
+      }
+    }
+    
     this.pokemonDetailsService.GetPokemonDetailsByName(name).subscribe((result) =>
 
     {
@@ -186,29 +237,49 @@ export class PokemonRankingsComponent implements OnInit {
     })
   }
 
-  DeletePokemonRanking(userRank:number, name:string, pokemonApiid:number, types:string, originalGame:string, sprite:string): void
+  DeletePokemonRanking(name:string): void
   {
-    let deletedPoke:PokemonRanking = 
+    this.pokemonRankingsService.RemovePokemonRanking(name, this.currentUser.id);
+  }
+
+  EditPokemonRanking(name:string, editRank:number)
+  {
+    this.pokemonRankingsService.RemovePokemonRanking(name, this.currentUser.id);
+    this.pokemonDetailsService.GetPokemonDetailsByName(name).subscribe((result) =>
+
     {
-      id: 0, userId: 0, userRank: userRank, name: name, pokemonApiid: pokemonApiid, types: types, originalGame: originalGame, sprite: sprite
-    };
-    
-    this.pokemonDetailsService.GetPokemonDetailsByName(deletedPoke.name).subscribe((result : PokemonDetails) =>
-    {
-      this.unrankedPokemonDetailsList.push(result);
-      console.log("DELETED Pokemon: ");
-      console.log(result);
-      console.log("Updated Pokemon Details List: ");
-      console.log(this.unrankedPokemonDetailsList);
-    }
-    );
-    
-    this.pokemonRankingsService.RemovePokemonRanking(deletedPoke, this.currentUser.id);
+      this.currentPokeDetails = result;
+
+      let types:string = this.currentPokeDetails.types.length > 1?  `${this.currentPokeDetails.types[0].type.name}, ${this.currentPokeDetails.types[1].type.name}`:this.currentPokeDetails.types[0].type.name;
+      
+      let newPokeRank : PokemonRanking = 
+      {
+        id: 0, userId: 0, userRank:editRank, sprite:this.currentPokeDetails.sprites.front_default, 
+        name: this.currentPokeDetails.name, types: types, 
+        originalGame:this.currentPokeDetails.game_indices[0].version.name,pokemonApiid:this.currentPokeDetails.id
+      }
+
+      this.pokemonRankingsService.AddRanking(newPokeRank, this.currentUser.id).subscribe((results:PokemonRanking[])=>
+      {
+        console.log("New Rankings with Added Pokemon: ");
+        console.log(results);
+      });
+    })
   }
 
   ToggleFullDetails():void
   {
     this.displayDetails = !this.displayDetails;
+  }
+
+  SortByAscending():void
+  {
+    this.currentPokemonRankings = this.currentPokemonRankings.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  SortByDescending():void
+  {
+    
   }
 
   GetPokemonGenerationID(id: number): number

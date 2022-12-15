@@ -27,6 +27,8 @@ namespace FinalProject.Models
 
         public PokemonDetails GetPokemonDetailsByName(string name)
         {
+            name = name.ToLower().Trim();
+            
             RestClient client = new RestClient($"https://pokeapi.co/api/v2/pokemon/{name}");
             RestRequest request = new RestRequest();
             var response = client.GetAsync<PokemonDetails>(request);

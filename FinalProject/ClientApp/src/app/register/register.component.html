@@ -1,1 +1,22 @@
-<p>register works!</p>
+<div class="d-flex justify-content-center" >
+    <h3 *ngIf="!loggedIn">You must log in to your Google account to proceed</h3>
+        <div *ngIf="loggedIn">
+            <h1>Register</h1>
+            <br><br>
+
+            <label for="name">Enter Name</label>
+            <input class="d-flex justify-content-center" type="text" [(ngModel)]="username" id="name" placeholder="ex. Jake">
+
+            <!-- <div *ngIf="loggedIn">
+                <p>Currently Logged on as: {{currentUser.firstName}}</p>
+                <p>Google ID : {{currentUser.id}}</p>
+            </div> -->
+            
+            <button (click)="Register()">Register</button>
+            <br>
+
+            <p *ngIf="invalidUsername">Invalid Username</p>
+            <p *ngIf="usernameTaken">{{username}} not available </p>
+            <p *ngIf="accountAlreadyExists">You've already created a username</p>
+        </div>
+</div>

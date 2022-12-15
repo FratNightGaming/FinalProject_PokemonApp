@@ -134,22 +134,22 @@ namespace FinalProject.Models
             //return pokemonRankings;
         }
 
-        public List<CommunityRanking> FindCommunityRanks(List<PokemonRanking> allRanks, List<PokemonDetails> gen1s)
+        public List<CommunityRanking> FindCommunityRanks(List<PokemonRanking> allRanks, List<int> gen1IDs)
         {
             List<CommunityRanking> commRanks = new List<CommunityRanking>();
 
-            foreach (PokemonDetails p in gen1s)
+            foreach (int num in gen1IDs)
             {
-                List<PokemonRanking> preAdd = allRanks.Where(r => r.PokemonApiid == p.id).ToList();
+                List<PokemonRanking> preAdd = allRanks.Where(r => r.PokemonApiid == num).ToList();
 
-                double commRank = 0;
+                float commRank = 0;
 
                 for (int i = 0; i < preAdd.Count; i++)
                 {
-                    commRank += (double)preAdd[i].UserRank;
+                    commRank += (float)preAdd[i].UserRank;
                 }
 
-                //commRank /= pokeContext.Users.ToList().Count;
+                
                 if(preAdd.Count != 0)
                 {
                 commRank /= preAdd.Count;
@@ -161,11 +161,12 @@ namespace FinalProject.Models
 
                 if (commRank != 0)
                 {
-                    commRanks.Add(new CommunityRanking { name = p.name, rank = commRank });
+                    commRanks.Add(new CommunityRanking { name = preAdd[0].Name, rank = Math.Round((float)commRank, 2), pokemonApiid = (int)preAdd[0].PokemonApiid, sprite = preAdd[0].Sprite, originalGame = preAdd[0].OriginalGame, types = preAdd[0].Types });
                 }
             }
 
-            return commRanks.OrderBy(cr => cr.rank).ToList();
+            commRanks = commRanks.OrderBy(cr => cr.rank).ToList();
+            return commRanks;
         }
     }
 }
