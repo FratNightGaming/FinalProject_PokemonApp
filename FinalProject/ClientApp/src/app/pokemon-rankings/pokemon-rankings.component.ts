@@ -245,13 +245,17 @@ export class PokemonRankingsComponent implements OnInit {
     this.pokemonRankingsService.RemovePokemonRanking(name, this.currentUser.id).subscribe((results:PokemonRanking[])=>
     {
       this.pokemonRankingsByCurrentUser = results;
-    }
-    );
+
+    })
+    alert(`Successfully deleted ${name} from your list`);
   }
 
   EditPokemonRanking(name:string, editRank:number)
   {
-    this.pokemonRankingsService.RemovePokemonRanking(name, this.currentUser.id);
+    console.log(name);
+    console.log(editRank);
+    this.pokemonRankingsService.RemovePokemonRanking(name, this.currentUser.id).subscribe((results: PokemonRanking[])=>
+    {
     this.pokemonDetailsService.GetPokemonDetailsByName(name).subscribe((result) =>
 
     {
@@ -270,9 +274,15 @@ export class PokemonRankingsComponent implements OnInit {
       {
         console.log("New Rankings with Added Pokemon: ");
         console.log(results);
+        this.currentPokemonRankings = results;
+        this.pokemonRankingsService.GetPokemonRankingsByUser(this.currentUser.id).subscribe((results:PokemonRanking[])=>
+        {
+          this.pokemonRankingsByCurrentUser = results;
+        })
       });
     })
   }
+)}
 
   ToggleFullDetails():void
   {

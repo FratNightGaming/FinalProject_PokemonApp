@@ -177,15 +177,22 @@ namespace FinalProject.Controllers
 
             pokemonRanking.UserId = id;
 
-            for (int i = 0; i < AllPokemonRankingsList.Count; i++)
+            List<PokemonRanking> ranksByUser = (List<PokemonRanking>)AllPokemonRankingsList.Where(rank => rank.UserId == id).ToList();
+
+
+            for (int i = 0; i < ranksByUser.Count; i++)
             {
-                if (AllPokemonRankingsList[i].UserId == id)
+                if (ranksByUser[i].UserRank == pokemonRanking.UserRank)
                 {
-                    if (AllPokemonRankingsList[i].UserRank >= pokemonRanking.UserRank)
+                    for (int j = (int)pokemonRanking.UserRank; j < ranksByUser.Count; j++)
                     {
-                        //AllPokemonRankingsList[i].UserRank += 1;
-                        _context.PokemonRankings.Find(AllPokemonRankingsList[i].Id).UserRank += 1;
+                            //AllPokemonRankingsList[i].UserRank += 1;
+                            _context.PokemonRankings.Find(ranksByUser[j].Id).UserRank += 1;
                     }
+                }
+                else
+                {
+                    continue;
                 }
             }
 
@@ -205,25 +212,24 @@ namespace FinalProject.Controllers
 
             PokemonRanking pokemonRanking = new PokemonRanking();
 
-            pokemonRanking = (PokemonRanking)ranksByUser.FirstOrDefault(rank => rank.Name == name);
+            pokemonRanking = ranksByUser.FirstOrDefault(rank => rank.Name == name);
 
-            for (int i = 0; i < AllPokemonRankingsList.Count; i++)
+            for (int i = 0; i < ranksByUser.Count; i++)
             {
-                int id = (int)AllUsersList.FirstOrDefault(user => user.GoogleId == googleID).Id;
 
-                if (AllPokemonRankingsList[i].UserId == id)
-                {
-                    if (AllPokemonRankingsList[i].UserRank >= pokemonRanking.UserRank)
+                    if (ranksByUser[i].UserRank > pokemonRanking.UserRank)
                     {
                         //AllPokemonRankingsList[i].UserRank += 1;
-                        _context.PokemonRankings.Find(AllPokemonRankingsList[i].Id).UserRank -= 1;
+                        _context.PokemonRankings.Find(ranksByUser[i].Id).UserRank -= 1;
                     }
-                }
+                
             }
 
             _context.PokemonRankings.Remove(pokemonRanking);
             _context.SaveChanges();
-            return _context.PokemonRankings.ToList();
+            List<PokemonRanking> pokemonRankingsByUser = _context.PokemonRankings.Where(ranking => ranking.UserId == id1).ToList();
+            pokemonRankingsByUser = helperMethods.FilteredByRank(pokemonRankingsByUser);
+            return pokemonRankingsByUser;
         }
 
         private bool PokemonRankingExists(int id)

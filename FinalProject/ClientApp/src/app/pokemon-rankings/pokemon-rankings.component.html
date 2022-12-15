@@ -64,15 +64,15 @@
 <hr>
 
 <div *ngIf="loggedIn">
-    <div *ngIf="currentPokemonRankings.length > 5">
+    <div *ngIf="pokemonRankingsByCurrentUser.length > 5">
         <h1 class="d-flex justify-content-center" *ngIf="loggedIn">
-            <img [src]="currentPokemonRankings[0].sprite" alt="">
-            <img [src]="currentPokemonRankings[1].sprite" alt="">
-            <img [src]="currentPokemonRankings[2].sprite" alt="">
+            <img [src]="pokemonRankingsByCurrentUser[0].sprite" alt="">
+            <img [src]="pokemonRankingsByCurrentUser[1].sprite" alt="">
+            <img [src]="pokemonRankingsByCurrentUser[2].sprite" alt="">
             {{currentUser.firstName}}'s Pokemon Rankings 
-            <img [src]="currentPokemonRankings[3].sprite" alt="">
-            <img [src]="currentPokemonRankings[4].sprite" alt="">
-            <img [src]="currentPokemonRankings[5].sprite" alt="">
+            <img [src]="pokemonRankingsByCurrentUser[3].sprite" alt="">
+            <img [src]="pokemonRankingsByCurrentUser[4].sprite" alt="">
+            <img [src]="pokemonRankingsByCurrentUser[5].sprite" alt="">
         </h1>
     </div>
 
@@ -111,16 +111,16 @@
             <td>
                 <!-- Button trigger modal -->
                 <!-- data backdrop and data keyboard make it where user can't click outside window to close modal -->
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-backdrop="static" data-keyboard="false">
-                  Edit
-                </button>
+                <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal" data-backdrop="static" data-keyboard="false"> -->
+                  <input type="number" max="151" min="1" [(ngModel)]="editRankArray[i]"><button (click)="EditPokemonRanking(ranking.name, editRankArray[i])">Edit Rank</button>
+                
                 
                 <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <!-- <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Edit Pokemon Ranking</h5>
+                        <h5 class="modal-title" id="editModalLabel">Edit Pokemon Ranking</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
@@ -135,22 +135,22 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> -->
             </td>
 
             <td>
                 <!-- Button trigger modal -->
                 <!-- data backdrop and data keyboard make it where user can't click outside window to close modal -->
-                <button type="button" class="btn btn-primary" float-right m-2 data-toggle="modal" data-target="#exampleModal">
-                    Remove
+                <!-- <button type="button" class="btn btn-primary" float-right m-2 data-toggle="modal" data-target="#removeModal"> -->
+                    <button (click)="DeletePokemonRanking(ranking.name)">Remove
                 </button>
                 
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <!-- Modal
+                <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="removeModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Remove Pokemon</h5>
+                        <h5 class="modal-title" id="removeModalLabel">Remove Pokemon</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
@@ -164,7 +164,7 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> -->
             </td>
         </tr>
     </tbody>
