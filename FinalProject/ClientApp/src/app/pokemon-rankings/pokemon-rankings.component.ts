@@ -203,6 +203,16 @@ export class PokemonRankingsComponent implements OnInit {
 
   AddPokemonRanking(userRank:number, name:string):void
   {
+    // checks to make sure pokemon isn't already in user's rankings, though this shouldn't be necessary since unrankedpokmemonlist will never have already ranked pokemon
+    for(let i = 0; i < this.pokemonRankingsByCurrentUser.length; i++)
+    {
+      if (name === this.pokemonRankingsByCurrentUser[i].name)
+      {
+        console.log(`${name} already exists in the user's rankings: `);
+        return;
+      }
+    }
+    
     this.pokemonDetailsService.GetPokemonDetailsByName(name).subscribe((result) =>
 
     {
