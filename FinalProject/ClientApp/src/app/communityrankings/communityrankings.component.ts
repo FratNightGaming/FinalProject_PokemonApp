@@ -18,11 +18,12 @@ export class CommunityRankingsComponent implements OnInit {
 
   @Input() allPokemonDetailsList: PokemonDetails[] = []; 
 
-
+  typeFilter:string = "";
 
   commRankDetails:PokemonDetails = {} as PokemonDetails;
   commRankDetailsList:PokemonDetails[] = [];
   communityRankings:CommunityRanking[] = [];
+  currentPokeDetails: PokemonDetails = {} as PokemonDetails;
   
   currentCommunityPokemonRankings: PokemonRanking[] = [];
   pokemonRankingsByType: PokemonRanking[] = [];
@@ -33,6 +34,7 @@ export class CommunityRankingsComponent implements OnInit {
 
   ModalTitle:string = "";
   userRank:number = 0;
+  newRank:number = 0;
 
   typeFilter: string = "";
   generationFilter: number = 0;
@@ -107,9 +109,34 @@ export class CommunityRankingsComponent implements OnInit {
 
   }
 
-  EditRankings():void
+  EditRanking(newRank:number, name:string):void
   {
+    this.pokemonRankingsService.RemovePokemonRanking(name, this.currentUser.id);
+    this.pokeDetailsService.GetPokemonDetailsByName(name).subscribe((result) =>
 
+    {
+      this.currentPokeDetails = result;
+
+      let types:string = this.currentPokeDetails.types.length > 1?  `${this.currentPokeDetails.types[0].type.name}, ${this.currentPokeDetails.types[1].type.name}`:this.currentPokeDetails.types[0].type.name;
+      
+      let newPokeRank : PokemonRanking = 
+      {
+        id: 0, userId: 0, userRank:newRank, sprite:this.currentPokeDetails.sprites.front_default, 
+        name: this.currentPokeDetails.name, types: types, 
+        originalGame:this.currentPokeDetails.game_indices[0].version.name,pokemonApiid:this.currentPokeDetails.id
+      }
+
+      this.pokemonRankingsService.AddRanking(newPokeRank, this.currentUser.id).subscribe((results:PokemonRanking[])=>
+      {
+        console.log("New Rankings with Added Pokemon: ");
+        console.log(results);
+      });
+    })
+  }
+
+  successAlert():void
+  {
+    alert("Successfully updated pokemon rank!");    
   }
   
   GetPokemonGenerationID(id: number): number
