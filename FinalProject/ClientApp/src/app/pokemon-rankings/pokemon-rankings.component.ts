@@ -47,6 +47,8 @@ export class PokemonRankingsComponent implements OnInit {
   
   typeFilter: string = "";
   generationFilter: number = 0;
+
+  editRank: number = 0;
   
   // pokemonName:string ="";
   // pokeSprite:string = "";
@@ -237,22 +239,32 @@ export class PokemonRankingsComponent implements OnInit {
 
   DeletePokemonRanking(name:string): void
   {
-    // let deletedPoke:PokemonRanking = 
-    // {
-    //   id: 0, userId: 0, userRank: userRank, name: name, pokemonApiid: pokemonApiid, types: types, originalGame: originalGame, sprite: sprite
-    // };
-    
-    // this.pokemonDetailsService.GetPokemonDetailsByName(deletedPoke.name).subscribe((result : PokemonDetails) =>
-    // {
-    //   this.unrankedPokemonDetailsList.push(result);
-    //   console.log("DELETED Pokemon: ");
-    //   console.log(result);
-    //   console.log("Updated Pokemon Details List: ");
-    //   console.log(this.unrankedPokemonDetailsList);
-    // }
-    // );
-    
     this.pokemonRankingsService.RemovePokemonRanking(name, this.currentUser.id);
+  }
+
+  EditPokemonRanking(name:string, editRank:number)
+  {
+    this.pokemonRankingsService.RemovePokemonRanking(name, this.currentUser.id);
+    this.pokemonDetailsService.GetPokemonDetailsByName(name).subscribe((result) =>
+
+    {
+      this.currentPokeDetails = result;
+
+      let types:string = this.currentPokeDetails.types.length > 1?  `${this.currentPokeDetails.types[0].type.name}, ${this.currentPokeDetails.types[1].type.name}`:this.currentPokeDetails.types[0].type.name;
+      
+      let newPokeRank : PokemonRanking = 
+      {
+        id: 0, userId: 0, userRank:editRank, sprite:this.currentPokeDetails.sprites.front_default, 
+        name: this.currentPokeDetails.name, types: types, 
+        originalGame:this.currentPokeDetails.game_indices[0].version.name,pokemonApiid:this.currentPokeDetails.id
+      }
+
+      this.pokemonRankingsService.AddRanking(newPokeRank, this.currentUser.id).subscribe((results:PokemonRanking[])=>
+      {
+        console.log("New Rankings with Added Pokemon: ");
+        console.log(results);
+      });
+    })
   }
 
   ToggleFullDetails():void

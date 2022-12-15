@@ -7,53 +7,62 @@
 <div class="container">
     <nav class="navbar navbar-expand-sm bg-light navbar-dark">
       <ul class="navbar-nav">
+        <!-- Filter By Type -->
         <li class="nav-item">
-          <button routerLink="Home" class="m-1 btn btn-light btn-outline-primary">Home</button>
-        </li>
-        <li class="nav-item">
-          <button routerLink="Users" class="m-1 btn btn-light btn-outline-primary">Users</button>
-        </li>
-        <li class="nav-item">
-          <button routerLink="PokemonRankings" class="m-1 btn btn-light btn-outline-primary">Pokemon Rankings</button>
-        </li>
-        <li class="nav-item">
-          <button routerLink="CommunityRankings" class="m-1 btn btn-light btn-outline-primary">Community Rankings</button>
-        </li>
-        <li class="nav-item">
-          <button routerLink="CommunityRankings" class="m-1 btn btn-light btn-outline-primary">Filter Type</button>
-        </li>
-        <li class="nav-item">
-          <button routerLink="CommunityRankings" class="m-1 btn btn-light btn-outline-primary">Generation</button>
-          <!-- <select [(ngModel)]="typeFilter" id="#"> -->
-          <select id="#">
-            <option selected="selected" value="Normal">Normal</option>
-            <option value="Fire">Fire</option>
-            <option value="Water">Water</option>
-            <option value="Grass">Grass</option>
-            <option value="Electric">Electric</option>
-            <option value="Ice">Ice</option>
-            <option value="Fighting">Fighting</option>
-            <option value="Poison">Poison</option>
-            <option value="Ground">Ground</option>
-            <option value="Flying">Flying</option>
-            <option value="Psychic">Psychic</option>
-            <option value="Bug">Bug</option>
-            <option value="Rock">Rock</option>
-            <option value="Ghost">Ghost</option>
-            <option value="Dark">Dark</option>
-            <option value="Dragon">Dragon</option>
-            <option value="Steel">Steel</option>
-            <option value="Fairy">Fairy</option>
-        </select>
+            <!-- <button routerLink="CommunityRankings" class="m-1 btn btn-light btn-outline-primary">Filter Type</button> -->
+            <select [(ngModel)]="typeFilter">
+                <option selected="selected" value="Normal">Normal</option>
+                <option value="Fire">Fire</option>
+                <option value="Water">Water</option>
+                <option value="Grass">Grass</option>
+                <option value="Electric">Electric</option>
+                <option value="Ice">Ice</option>
+                <option value="Fighting">Fighting</option>
+                <option value="Poison">Poison</option>
+                <option value="Ground">Ground</option>
+                <option value="Flying">Flying</option>
+                <option value="Psychic">Psychic</option>
+                <option value="Bug">Bug</option>
+                <option value="Rock">Rock</option>
+                <option value="Ghost">Ghost</option>
+                <option value="Dark">Dark</option>
+                <option value="Dragon">Dragon</option>
+                <option value="Steel">Steel</option>
+                <option value="Fairy">Fairy</option>
+            </select>
     
-        <!-- <button (click)="GetPokemonRankingsByType(typeFilter)">Filter By Type</button> -->
-        <button>Filter By Type</button>
+            <button (click)="GetPokemonRankingsByType(typeFilter)">Filter By Type</button>
 
         </li>
-      </ul>
-    </nav>
-  </div>
+
+        <!-- Filter by Generation -->
+        <li class="nav-item">
+            <!-- <button routerLink="CommunityRankings" class="m-1 btn btn-light btn-outline-primary">Generation</button> -->
+            <select [(ngModel)]="generationFilter">
+                <option selected="selected" value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+            </select>
     
+            <button (click)="GetPokemonRankingsByGeneration(generationFilter)">Filter By Generation</button>
+
+        </li>
+
+        <li class="nav-item">
+            <button routerLink="CommunityRankings" class="m-1 btn btn-light btn-outline-primary">Community Rankings</button>
+          </li>
+    </ul>
+    </nav>
+</div>
+    
+<hr>
+
 <div *ngIf="loggedIn">
     <div *ngIf="currentPokemonRankings.length > 5">
         <h1 class="d-flex justify-content-center" *ngIf="loggedIn">
@@ -78,6 +87,7 @@
             <th *ngIf="displayDetails">Original Game</th>
             <th *ngIf="displayDetails">Generation</th>
             <th>Edit Pokemon:</th>
+            <th>Remove Pokemon:</th>
             <th><button (click)="ToggleFullDetails()">Toggle Details</button></th>
             <!-- Make this a button -->
 
@@ -92,11 +102,74 @@
             <td *ngIf="displayDetails">{{ranking.types}}</td>
             <td *ngIf="displayDetails">{{ranking.originalGame}}</td>
             <td *ngIf="displayDetails">{{GetPokemonGenerationID(ranking.pokemonApiid)}}</td>
-            <td><button type="button" class="btn btn-light mr-1">Edit</button><button type="button" class="btn btn-light mr-1">Remove</button></td>
+            <!-- <td><button type="button" class="btn btn-light mr-1">Edit</button></td> -->
             <!-- <td>
                 <button type="button" class="btn btn-light mr-1" (click)="ToggleFullDetails()">See Full Details</button>
             </td> -->
-            <td></td>
+            <!-- <td><button type="button" class="btn btn-light mr-1">Remove</button></td> -->
+            
+            <td>
+                <!-- Button trigger modal -->
+                <!-- data backdrop and data keyboard make it where user can't click outside window to close modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-backdrop="static" data-keyboard="false">
+                  Edit
+                </button>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Pokemon Ranking</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <label for="newRank">Enter New Ranking: </label> <br>
+                        <input type="number" min="1" max="151" value="1" placeholder="enter number 1 - 151" [(ngModel)]="editRank" id="newRank"/>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" (click)="EditPokemonRanking(ranking.name, editRank)">Save changes</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </td>
+
+            <td>
+                <!-- Button trigger modal -->
+                <!-- data backdrop and data keyboard make it where user can't click outside window to close modal -->
+                <button type="button" class="btn btn-primary" float-right m-2 data-toggle="modal" data-target="#exampleModal">
+                    Remove
+                </button>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Remove Pokemon</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <h3 class="d-flex justify-content-center">Are you sure you want to remove {{ranking.name}}?</h3>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" (click)="DeletePokemonRanking(ranking.name)">Save changes</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </td>
+
+            <td>testing</td>
+
+
         </tr>
     </tbody>
 </table>
@@ -114,9 +187,9 @@
             <th>Type/s</th>
             <th>Original Game</th>
             <th>Generation</th>
-            <th><button>Add To Rankings List</button></th>
+            <th>Add To Rankings</th>
             <!-- add modal which has option select of 1-151; this option corresponds to userRank; click add to execute add rank function -->
-            <th><button (click)="ToggleFullDetails()" type="button" class="btn btn-light mr-1">Toggle Details</button></th>
+            <!-- <th><button (click)="ToggleFullDetails()" type="button" class="btn btn-light mr-1">Toggle Details</button></th> -->
         </tr>
     </thead>
 
@@ -129,105 +202,7 @@
             <td *ngIf="unrankedPokemon.types.length > 1 && displayDetails">{{unrankedPokemon.types[0].type.name}}/{{unrankedPokemon.types[1].type.name}}</td>
             <td *ngIf="unrankedPokemon.game_indices.length > 0 && displayDetails">{{unrankedPokemon.game_indices[0].version.name}}</td>
             <td *ngIf="displayDetails">{{GetPokemonGenerationID(unrankedPokemon.id)}}</td>
+            <td><button (click)="AddPokemonRanking(userRank, unrankedPokemon.name)">Add {{unrankedPokemon.name}}</button></td>
         </tr>
     </tbody>
 </table>
-
-
-<!-- Why was the line below included? what did this do? -->
-<!-- <div *ngIf="pokemonRankings.length === pokemonDetails.length">
-    <div *ngFor="let ranking of pokemonRankings; index as i;">
-        <p>Ranking: {{i}}({{ranking.userRank}})</p>
-        <p>Pokemon Name: {{pokemonDetails[i].name}}</p>
-        <p>Pokemon Image: {{pokemonDetails[i].name}}</p>
-        <p>Pokemon Generation: {{pokemonDetails[i].name}}</p>
-        <p>PokemonID: {{ranking.pokemonApiid}}</p>
-    </div>
-</div> -->
-
-<!-- 
-<hr>
-
-
-<hr>
-
-<div>
-    <select [(ngModel)]="typeFilter" id="#">
-        <option selected="selected" value="Normal">Normal</option>
-        <option value="Fire">Fire</option>
-        <option value="Water">Water</option>
-        <option value="Grass">Grass</option>
-        <option value="Electric">Electric</option>
-        <option value="Ice">Ice</option>
-        <option value="Fighting">Fighting</option>
-        <option value="Poison">Poison</option>
-        <option value="Ground">Ground</option>
-        <option value="Flying">Flying</option>
-        <option value="Psychic">Psychic</option>
-        <option value="Bug">Bug</option>
-        <option value="Rock">Rock</option>
-        <option value="Ghost">Ghost</option>
-        <option value="Dark">Dark</option>
-        <option value="Dragon">Dragon</option>
-        <option value="Steel">Steel</option>
-        <option value="Fairy">Fairy</option>
-    </select>
-
-    <button (click)="GetPokemonRankingsByType(typeFilter)">Filter By Type</button>
-</div>
-
-<h3>Pokemon rankings filterd by Type: {{typeFilter}}</h3>
-
-<div>
-    <div *ngFor="let ranking of pokemonRankingsByType; index as i;">
-        <p>Ranking: {{i+1}} ({{ranking.userRank}})</p>
-        <p>PokemonID: {{ranking.pokemonApiid}}</p>
-        <p>Pokemon Name: {{filteredPokemonDetails[i].name}}</p>
-        <p>Pokemon Types: {{filteredPokemonDetails[i].types[0].type.name}}   <span *ngIf="filteredPokemonDetails[i].types.length > 1">{{filteredPokemonDetails[i].types[1].type.name}}</span></p>
-        <div *ngIf="filteredPokemonDetails[i].game_indices.length > 0 ">
-            <p >Original Game: {{filteredPokemonDetails[i].game_indices[0].version.name}}</p>
-        </div>
-         <p>Generation: {{pokemonGenerationID}}</p> -->
-        <!-- <p>Pokemon Generation: {{filteredPokemonDetails[i].name}}</p>
-    </div>
-</div> -->
-
-
-<hr>
-<!--what does selected="selected mean?
-    what does id="#" mean?-->
-<div>
-    <h3>{{currentUser.firstName}}: Filter by Generation</h3>
-    <select [(ngModel)]="generationFilter" id="#">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-    </select>
-
-    <button (click)="GetPokemonRankingsByGeneration(generationFilter)">Click to Filter By Generation</button>
-
-    <h3>Pokemon Rankings Filtered By Generation {{generationFilter}}</h3><br><br>
-
-    <div *ngFor="let ranking of pokemonRankingsByGeneration; index as i;">
-        <p>Ranking: {{i + 1}} ({{ranking.userRank}})</p>
-        <p>Overall Rank: {{ranking.userRank}}</p>
-        <p>Pokemon ID: {{ranking.pokemonApiid}}</p>
-    </div>
-</div>
-
-<button (click)="GetPokemonRankingsByBoth(typeFilter, generationFilter)">Click to filter by both Generation and Type</button>
-
-<h3>Pokemon Rankings Filtered By Gen {{generationFilter}} and by {{typeFilter}} Type</h3>
-
-<div *ngFor="let ranking of pokemonRankingsByBoth; index as i;">
-    <p>Ranking: {{i + 1}} ({{ranking.userRank}})</p>
-    <p>Overall Rank: {{ranking.userRank}}</p>
-    <p>PokeDex ID: {{ranking.pokemonApiid}}</p>
-</div> -->
-
