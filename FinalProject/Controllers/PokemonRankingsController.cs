@@ -198,7 +198,9 @@ namespace FinalProject.Controllers
 
             _context.PokemonRankings.Add(pokemonRanking);
             _context.SaveChanges();
-            return _context.PokemonRankings.ToList();
+            List<PokemonRanking> pokemonRankingsByUser = _context.PokemonRankings.Where(ranking => ranking.UserId == id).ToList();
+            pokemonRankingsByUser = helperMethods.FilteredByRank(pokemonRankingsByUser);
+            return pokemonRankingsByUser;
         }
 
         // DELETE: api/PokemonRankings/5
