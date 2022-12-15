@@ -142,11 +142,11 @@ namespace FinalProject.Models
             {
                 List<PokemonRanking> preAdd = allRanks.Where(r => r.PokemonApiid == num).ToList();
 
-                double commRank = 0;
+                float commRank = 0;
 
                 for (int i = 0; i < preAdd.Count; i++)
                 {
-                    commRank += (double)preAdd[i].UserRank;
+                    commRank += (float)preAdd[i].UserRank;
                 }
 
                 
@@ -161,7 +161,7 @@ namespace FinalProject.Models
 
                 if (commRank != 0)
                 {
-                    commRanks.Add(new CommunityRanking { name = preAdd[0].Name, rank = commRank });
+                    commRanks.Add(new CommunityRanking { name = preAdd[0].Name, rank = Math.Round((float)commRank, 2), pokemonApiid = (int)preAdd[0].PokemonApiid, sprite = preAdd[0].Sprite, originalGame = preAdd[0].OriginalGame, types = preAdd[0].Types });
                 }
             }
 

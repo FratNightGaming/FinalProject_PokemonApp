@@ -241,7 +241,6 @@ namespace FinalProject.Controllers
                 gen1IDs.Add(i);
             }
 
-
             return helperMethods.FindCommunityRanks(AllPokemonRankingsList, gen1IDs);
         }
     }

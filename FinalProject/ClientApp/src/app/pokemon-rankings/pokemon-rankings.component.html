@@ -1,7 +1,11 @@
 <div>
-    <!-- I want to call 6 images (6 poke in party). Should I create a poke image component instead of adding pkedetails function in rankings component? Problem with current poke details component is that it has 4/5 elements displayed in html page so i cant just call pokedetails component to extract just the image
-    Also, its not displayng the correct sprites... its like off one -->
-    <div *ngIf="currentPokemonRankings.length > 0">
+    <h3 class="d-flex justify-content-center">PokeRank App</h3>
+    <h5 class="d-flex justify-content-center" *ngIf="loggedIn">{{currentUser.firstName}}'s Pokedex</h5>
+    <h5 class="d-flex justify-content-center" *ngIf="!loggedIn">Please login to your account to view your rankings</h5>
+</div>
+    
+<div *ngIf="loggedIn">
+    <div *ngIf="currentPokemonRankings.length > 5">
         <h1 class="d-flex justify-content-center" *ngIf="loggedIn">
             <img [src]="currentPokemonRankings[0].sprite" alt="">
             <img [src]="currentPokemonRankings[1].sprite" alt="">
@@ -12,7 +16,6 @@
             <img [src]="currentPokemonRankings[5].sprite" alt="">
         </h1>
     </div>
-    <!-- <img [src]="allPokemonDetailsList[3].sprites.front_default" alt=""><img [src]="allPokemonDetailsList[4].sprites.front_default" alt=""><img [src]="allPokemonDetailsList[5].sprites.front_default" alt=""> -->
 
 <!-- Table for user's rankings -->
 <table class="table table-striped" *ngIf="loggedIn">
@@ -39,7 +42,7 @@
             <td *ngIf="displayDetails">{{ranking.types}}</td>
             <td *ngIf="displayDetails">{{ranking.originalGame}}</td>
             <td *ngIf="displayDetails">{{GetPokemonGenerationID(ranking.pokemonApiid)}}</td>
-            <td><button type="button" class="btn btn-light mr-1">Edit Ranking</button></td>
+            <td><button type="button" class="btn btn-light mr-1">Edit</button><button type="button" class="btn btn-light mr-1">Remove</button></td>
             <!-- <td>
                 <button type="button" class="btn btn-light mr-1" (click)="ToggleFullDetails()">See Full Details</button>
             </td> -->
