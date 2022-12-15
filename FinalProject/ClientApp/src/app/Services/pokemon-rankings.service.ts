@@ -63,6 +63,7 @@ export class PokemonRankingsService
   RemovePokemonRanking(name:string, googleID:string):void
   {
     console.log(name);
+    // should we be subscribing here?
     this.http.delete<PokemonRanking>(this.baseURL + `api/PokemonRankings/${name}/${googleID}`).subscribe(data => {});
   }
 

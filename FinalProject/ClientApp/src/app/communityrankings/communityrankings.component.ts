@@ -25,12 +25,19 @@ export class CommunityRankingsComponent implements OnInit {
   communityRankings:CommunityRanking[] = [];
   currentPokeDetails: PokemonDetails = {} as PokemonDetails;
   
+  currentCommunityPokemonRankings: PokemonRanking[] = [];
+  pokemonRankingsByType: PokemonRanking[] = [];
+  pokemonRankingsByGeneration: PokemonRanking[] = [];
+  
   currentUser: SocialUser = {} as SocialUser;
   loggedIn: boolean = false;
 
   ModalTitle:string = "";
   userRank:number = 0;
   newRank:number = 0;
+
+  typeFilter: string = "";
+  generationFilter: number = 0;
 
   ngOnInit(): void 
   {
@@ -51,13 +58,42 @@ export class CommunityRankingsComponent implements OnInit {
     })
   }
 
-  GetCommunityRankinDetails(name:string):PokemonDetails
+  GetCommunityRankingDetails(name:string):PokemonDetails
   {
     this.pokeDetailsService.GetPokemonDetailsByName(name).subscribe((result) =>
     {
       this.commRankDetails = result;
     })
     return this.commRankDetails;
+  }
+
+  GetPokemonRankingsByType(type:string):void
+  {
+    if (this.loggedIn && type !== null)
+    {
+      this.pokemonRankingsService.GetPokemonRankingsByType(this.currentUser.id, type).subscribe((results : PokemonRanking[]) =>
+      {
+        this.pokemonRankingsByType = results;
+        this.currentCommunityPokemonRankings = this.pokemonRankingsByType;
+        console.log("Pokemon Rankings by Type:");
+        console.log(this.currentCommunityPokemonRankings);
+      })
+    }
+  }
+
+  GetPokemonRankingsByGeneration(generationID: number):void
+  {
+    if (this.loggedIn && generationID !== null)
+    {
+      this.pokemonRankingsService.GetPokemonRankingsByGeneration(this.currentUser.id, generationID).subscribe((results : PokemonRanking[]) =>
+      {
+        this.pokemonRankingsByGeneration = results;
+        this.currentCommunityPokemonRankings = this.pokemonRankingsByGeneration;
+        console.log("Pokemon Rankings by Generation: ");
+        console.log(this.currentCommunityPokemonRankings);
+      }
+      )
+    }
   }
 
   // GetAllCommDetails(commRankDetails:CommunityRanking[]):PokemonDetails[]

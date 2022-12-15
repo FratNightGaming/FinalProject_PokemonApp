@@ -64,6 +64,7 @@ export class RegisterComponent implements OnInit {
       }
     }
 
+    //if you already have a username with your account, you can not create another one
     for (let i = 0; i < this.users.length; i++)
     {
       if (this.users[i].googleID === this.currentUser.id)
