@@ -42,11 +42,12 @@
             <option value="Fairy">Fairy</option>
         </select>
     
+    
         <button (click)="GetPokemonRankingsByType(typeFilter)">Filter By Type</button>
         <button>Filter By Type</button>
 
-        </li>
-      </ul>
+        </select>
+    </ul>
     </nav>
   </div> -->
 
@@ -95,11 +96,11 @@
                       </div>
                       <div class="modal-body">
                         <label for="newRank">Enter New Ranking: </label> <br>
-                        <input type="text" min="1" max="151" value="1" placeholder="enter number 1 - 151" [(ngModel)]="userRank" id="newRank"/>
+                        <input type="text" min="1" max="151" value="1" placeholder="enter number 1 - 151" [(ngModel)]="newRank" id="newRank"/>
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" (click)="EditRankings()">Save changes</button>
+                        <button type="button" class="btn btn-primary" (click)="EditRanking(newRank, ranking.name)" (click)="successAlert()">Save changes</button>
                       </div>
                     </div>
                   </div>
