@@ -54,7 +54,7 @@
 
         </li>
 
-        <li class="nav-item">
+        <li class="nav-item float-right">
             <button routerLink="CommunityRankings" class="m-1 btn btn-light btn-outline-primary">Community Rankings</button>
           </li>
     </ul>
@@ -95,7 +95,7 @@
     </thead>
 
     <tbody>
-        <tr *ngFor="let ranking of pokemonRankingsByCurrentUser; index as i;">
+        <tr *ngFor="let ranking of currentPokemonRankings; index as i;">
             <td>{{i + 1}} ({{ranking.userRank}})</td>
             <td>{{ranking.name}}</td>
             <td> <img [src]="ranking.sprite" alt=""></td>
@@ -142,7 +142,7 @@
                 <!-- Button trigger modal -->
                 <!-- data backdrop and data keyboard make it where user can't click outside window to close modal -->
                 <!-- <button type="button" class="btn btn-primary" float-right m-2 data-toggle="modal" data-target="#removeModal"> -->
-                    <button (click)="DeletePokemonRanking(ranking.name)">Remove
+                    <button (click)="DeletePokemonRanking(ranking)">Remove
                 </button>
                 
                 <!-- Modal
@@ -166,10 +166,6 @@
                   </div>
                 </div> -->
             </td>
-
-            
-
-
         </tr>
     </tbody>
 </table>
@@ -202,7 +198,7 @@
             <td *ngIf="unrankedPokemon.types.length > 1 && displayDetails">{{unrankedPokemon.types[0].type.name}}/{{unrankedPokemon.types[1].type.name}}</td>
             <td *ngIf="unrankedPokemon.game_indices.length > 0 && displayDetails">{{unrankedPokemon.game_indices[0].version.name}}</td>
             <td *ngIf="displayDetails">{{GetPokemonGenerationID(unrankedPokemon.id)}}</td>
-            <td><button (click)="AddPokemonRanking(userRank, unrankedPokemon.name)">Add {{unrankedPokemon.name}}</button></td>
+            <td><input type="number" min="1" max="151" [(ngModel)]="addRankArray[i]"><button (click)="AddPokemonRanking(addRankArray[i], unrankedPokemon.name)">Add {{unrankedPokemon.name}}</button></td>
         </tr>
     </tbody>
 </table>

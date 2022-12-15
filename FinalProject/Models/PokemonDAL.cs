@@ -19,10 +19,22 @@ namespace FinalProject.Models
         {
             RestClient client = new RestClient($"https://pokeapi.co/api/v2/pokemon/{id}");
             RestRequest request = new RestRequest();
-            var response = client.GetAsync<PokemonDetails>(request);
-            PokemonDetails pokemon = response.Result;
+            
+            try
+            {
+                var response = client.GetAsync<PokemonDetails>(request);
+                PokemonDetails pokemon = response.Result;
+                return pokemon; 
+            }
+            catch (Exception)
+            {
+                Thread.Sleep(500);
+                var response = client.GetAsync<PokemonDetails>(request);
+                PokemonDetails pokemon = response.Result;
+                return pokemon;
+            }
+            
 
-            return pokemon;
         }
 
         public PokemonDetails GetPokemonDetailsByName(string name)
