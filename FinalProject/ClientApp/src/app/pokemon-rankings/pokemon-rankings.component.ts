@@ -235,24 +235,24 @@ export class PokemonRankingsComponent implements OnInit {
     })
   }
 
-  DeletePokemonRanking(userRank:number, name:string, pokemonApiid:number, types:string, originalGame:string, sprite:string): void
+  DeletePokemonRanking(name:string): void
   {
-    let deletedPoke:PokemonRanking = 
-    {
-      id: 0, userId: 0, userRank: userRank, name: name, pokemonApiid: pokemonApiid, types: types, originalGame: originalGame, sprite: sprite
-    };
+    // let deletedPoke:PokemonRanking = 
+    // {
+    //   id: 0, userId: 0, userRank: userRank, name: name, pokemonApiid: pokemonApiid, types: types, originalGame: originalGame, sprite: sprite
+    // };
     
-    this.pokemonDetailsService.GetPokemonDetailsByName(deletedPoke.name).subscribe((result : PokemonDetails) =>
-    {
-      this.unrankedPokemonDetailsList.push(result);
-      console.log("DELETED Pokemon: ");
-      console.log(result);
-      console.log("Updated Pokemon Details List: ");
-      console.log(this.unrankedPokemonDetailsList);
-    }
-    );
+    // this.pokemonDetailsService.GetPokemonDetailsByName(deletedPoke.name).subscribe((result : PokemonDetails) =>
+    // {
+    //   this.unrankedPokemonDetailsList.push(result);
+    //   console.log("DELETED Pokemon: ");
+    //   console.log(result);
+    //   console.log("Updated Pokemon Details List: ");
+    //   console.log(this.unrankedPokemonDetailsList);
+    // }
+    // );
     
-    this.pokemonRankingsService.RemovePokemonRanking(deletedPoke, this.currentUser.id);
+    this.pokemonRankingsService.RemovePokemonRanking(name, this.currentUser.id);
   }
 
   ToggleFullDetails():void

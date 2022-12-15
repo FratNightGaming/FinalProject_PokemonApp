@@ -195,8 +195,8 @@ namespace FinalProject.Controllers
         }
 
         // DELETE: api/PokemonRankings/5
-        [HttpDelete("{userRank}/{googleID}")]
-        public List<PokemonRanking> DeletePokemonRanking(int userRank, string googleID)
+        [HttpDelete("{name}/{googleID}")]
+        public List<PokemonRanking> DeletePokemonRanking(string name, string googleID)
         {
             //List<PokemonRanking> newPokemonRankings = AllPokemonRankingsList;
             int id1 = (int)AllUsersList.FirstOrDefault(user => user.GoogleId == googleID).Id;
@@ -205,7 +205,7 @@ namespace FinalProject.Controllers
 
             PokemonRanking pokemonRanking = new PokemonRanking();
 
-            pokemonRanking = (PokemonRanking)ranksByUser.FirstOrDefault(rank => rank.UserRank == userRank);
+            pokemonRanking = (PokemonRanking)ranksByUser.FirstOrDefault(rank => rank.Name == name);
 
             for (int i = 0; i < AllPokemonRankingsList.Count; i++)
             {
@@ -233,9 +233,9 @@ namespace FinalProject.Controllers
 
         [HttpGet("CommunityRankings")]
         public List<CommunityRanking> GetCommunityRankings()
-        {
-            List<CommunityRanking> communityRankingsList = new List<CommunityRanking>();
+        {           
             List<int> gen1IDs = new List<int>();
+
             for(int i = 1; i <=151; i++)
             {
                 gen1IDs.Add(i);
@@ -247,8 +247,4 @@ namespace FinalProject.Controllers
 
 }
 
-            /*for (int i = 0; i < allPokemonList.Count; i++)
-            {
-                PokemonDetails pokemonDetails = pokeDAL.GetPokemonDetailsByName(allPokemonList[i].name);
-                pokemonDetailsList.Add(pokemonDetails);
-            }*/
+            

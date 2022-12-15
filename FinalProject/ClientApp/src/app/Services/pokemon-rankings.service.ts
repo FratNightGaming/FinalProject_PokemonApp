@@ -60,10 +60,10 @@ export class PokemonRankingsService
   //   return this.http.get<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/`);
   // }
 
-  RemovePokemonRanking(removedPoke:PokemonRanking, googleID:string):void
+  RemovePokemonRanking(name:string, googleID:string):void
   {
-    console.log(removedPoke.name);
-    this.http.delete<PokemonRanking>(this.baseURL + `api/PokemonRankings/${removedPoke.userRank}/${googleID}`).subscribe(data => {});
+    console.log(name);
+    this.http.delete<PokemonRanking>(this.baseURL + `api/PokemonRankings/${name}/${googleID}`).subscribe(data => {});
   }
 
   GetCommunityRankings():Observable<CommunityRanking[]>
