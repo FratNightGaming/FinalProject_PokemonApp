@@ -64,7 +64,7 @@ export class PokemonRankingsService
   {
     console.log(name);
     // should we be subscribing here?
-     return this.http.delete<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/${name}/${googleID}`);
+    return this.http.delete<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/${name}/${googleID}`);
   }
 
   GetCommunityRankings():Observable<CommunityRanking[]>

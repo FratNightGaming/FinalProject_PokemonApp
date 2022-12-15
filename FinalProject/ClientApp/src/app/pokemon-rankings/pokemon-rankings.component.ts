@@ -48,8 +48,10 @@ export class PokemonRankingsComponent implements OnInit {
   typeFilter: string = "";
   generationFilter: number = 0;
 
-  editRankArray:number[] = [];
+  editRankArray: number [] = [];
   editRank: number = 0;
+  addRankArray: number [] = [];
+  addRank: number = 0;
   
   // pokemonName:string ="";
   // pokeSprite:string = "";
@@ -243,6 +245,7 @@ export class PokemonRankingsComponent implements OnInit {
     this.pokemonRankingsService.RemovePokemonRanking(name, this.currentUser.id).subscribe((results:PokemonRanking[])=>
     {
       this.pokemonRankingsByCurrentUser = results;
+
     })
     alert(`Successfully deleted ${name} from your list`);
   }

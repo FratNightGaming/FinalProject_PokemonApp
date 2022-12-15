@@ -166,10 +166,6 @@
                   </div>
                 </div> -->
             </td>
-
-            
-
-
         </tr>
     </tbody>
 </table>
@@ -202,7 +198,7 @@
             <td *ngIf="unrankedPokemon.types.length > 1 && displayDetails">{{unrankedPokemon.types[0].type.name}}/{{unrankedPokemon.types[1].type.name}}</td>
             <td *ngIf="unrankedPokemon.game_indices.length > 0 && displayDetails">{{unrankedPokemon.game_indices[0].version.name}}</td>
             <td *ngIf="displayDetails">{{GetPokemonGenerationID(unrankedPokemon.id)}}</td>
-            <td><button (click)="AddPokemonRanking(userRank, unrankedPokemon.name)">Add {{unrankedPokemon.name}}</button></td>
+            <td><input type="number" min="1" max="151" [(ngModel)]="addRankArray[i]"><button (click)="AddPokemonRanking(addRankArray[i], unrankedPokemon.name)">Add {{unrankedPokemon.name}}</button></td>
         </tr>
     </tbody>
 </table>
