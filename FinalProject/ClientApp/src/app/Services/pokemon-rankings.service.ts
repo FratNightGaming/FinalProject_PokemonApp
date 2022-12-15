@@ -50,6 +50,16 @@ export class PokemonRankingsService
     return this.http.post<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/${googleID}`, newPokemonRanking);
   }
 
+  EditRanking(newPokemonRanking:PokemonRanking, googleID:string):Observable<PokemonRanking[]>
+  {
+    return this.http.put<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/${googleID}`, newPokemonRanking);
+  }
+
+  // SortByNameAscending(): Observable<PokemonRanking[]>
+  // {
+  //   return this.http.get<PokemonRanking[]>(this.baseURL + `api/PokemonRankings/`);
+  // }
+
   RemovePokemonRanking(name:string, googleID:string):void
   {
     console.log(name);
