@@ -18,8 +18,6 @@ export class CommunityRankingsComponent implements OnInit {
 
   @Input() allPokemonDetailsList: PokemonDetails[] = []; 
 
-  typeFilter:string = "";
-
   commRankDetails:PokemonDetails = {} as PokemonDetails;
   commRankDetailsList:PokemonDetails[] = [];
   communityRankings:CommunityRanking[] = [];
